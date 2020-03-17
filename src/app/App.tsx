@@ -8,19 +8,18 @@ import theme from '../styles/theme'
 
 const App = () => {
   return (
-    <AppProvider>
-      <Router>
-        {/* Material UI Reset */}
-        <CssBaseline />
-
+    <>
+      <CssBaseline />
+      <AppProvider>
         <ThemeProvider theme={theme}>
-          {/* Material UI Theme */}
-          <Navigation />
+          <Router>
+            <Navigation />
 
-          <AppRoutes />
+            <AppRoutes />
+          </Router>
         </ThemeProvider>
-      </Router>
-    </AppProvider>
+      </AppProvider>
+    </>
   )
 }
 
