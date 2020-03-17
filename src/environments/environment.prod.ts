@@ -1,5 +1,6 @@
-export const environment = {
+export const prodEnvironment = {
   production: true,
+  firebaseConfig: {},
 }
 
-export default environment
+export default prodEnvironment
