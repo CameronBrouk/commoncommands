@@ -1,22 +1,14 @@
 import React from 'react'
+import { BrowserRouter as Router } from 'react-router-dom'
+import Navigation from './main/components/Navigation'
+import AppRoutes from './App.routes'
 
-function App() {
+export default function App() {
   return (
-    <div className='App'>
-      <header className='App-header'>
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className='App-link'
-          href='https://reactjs.org'
-          target='_blank'
-          rel='noopener noreferrer'>
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Navigation />
+
+      <AppRoutes />
+    </Router>
   )
 }
-
-export default App
