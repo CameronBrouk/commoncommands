@@ -1,19 +1,43 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import styled from 'styled-components'
+import { Link as RouterLink } from 'react-router-dom'
+import {
+  Button as MatButton,
+  AppBar,
+  Link as MaterialLink,
+} from '@material-ui/core'
 
-const Navigation = () => {
+const Button = styled(MatButton)``
+
+const Navigation = ({ ...props }) => {
   return (
-    <nav>
-      <ul>
-        <li>
-          <Link to='/'>Home</Link>
-        </li>
-        <li>
-          <Link to='/user'>User</Link>
-        </li>
-      </ul>
-    </nav>
+    <AppBar className={props.className}>
+      <nav>
+        <ul>
+          <li>
+            <RouterLink to='/'>
+              <Button>Home</Button>
+            </RouterLink>
+          </li>
+          <li>
+            <RouterLink to='/user'>
+              <Button>User</Button>
+            </RouterLink>
+          </li>
+        </ul>
+      </nav>
+    </AppBar>
   )
 }
 
-export default Navigation
+export default styled(Navigation)`
+  ul {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  ${Button} {
+    color: white;
+  }
+`
