@@ -1,36 +1,38 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
-import { Link as RouterLink } from 'react-router-dom'
-import {
-  Button as MatButton,
-  AppBar,
-  Link as MaterialLink,
-} from '@material-ui/core'
+import { AppContext } from '../../App.context'
+import { useCheckPermission } from '../../user/hooks/permissions.hooks'
+import { useHistory } from 'react-router-dom'
+import { Button as MatButton } from '@material-ui/core'
 
 const Button = styled(MatButton)``
 
 const Navigation = ({ ...props }) => {
+  const history = useHistory()
+  const { permissions } = useContext(AppContext)
+  const { hasRole, hasClearance, hasKey } = useCheckPermission()
+
+  const handleClick = (route: string) => history.push(route)
+
   return (
-    <AppBar className={props.className}>
+    <div className={props.className}>
       <nav>
-        <ul>
-          <li>
-            <RouterLink to='/'>
-              <Button>Home</Button>
-            </RouterLink>
-          </li>
-          <li>
-            <RouterLink to='/user'>
-              <Button>User</Button>
-            </RouterLink>
-          </li>
-        </ul>
+        <Button onClick={() => handleClick('/home')}>Home</Button>
+        <Button onClick={() => handleClick('/users')}>User</Button>
       </nav>
-    </AppBar>
+    </div>
   )
 }
 
 export default styled(Navigation)`
+  height: 10vh;
+  width: 100vw;
+  max-width: 100%;
+  background: darkblue;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+
   ul {
     display: flex;
     align-items: center;

@@ -6,7 +6,7 @@ import { Home } from './main/routes'
 export default function AppRoutes() {
   return (
     <Switch>
-      <Route path='/user'>
+      <Route path='/users'>
         <User />
       </Route>
       <Route path='/'>

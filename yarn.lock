@@ -1843,6 +1843,13 @@
   dependencies:
     "@types/react" "*"
 
+"@types/react-helmet@^5.0.15":
+  version "5.0.15"
+  resolved "https://registry.yarnpkg.com/@types/react-helmet/-/react-helmet-5.0.15.tgz#af0370617307e9f062c6aee0f1f5588224ce646e"
+  integrity sha512-CCjqvecDJTXRrHG8aTc2YECcQCl26za/q+NaBRvy/wtm0Uh38koM2dpv2bG1xJV4ckz3t1lm2/5KU6nt2s9BWg==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-native@*":
   version "0.61.22"
   resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.61.22.tgz#c624cce728f7d3f57c0f0c53bf4d95a8903f5b16"
@@ -10185,6 +10192,13 @@ run-queue@^1.0.0, run-queue@^1.0.3:
   integrity sha1-6Eg5bwV9Ij8kOGkkYY4laUFh7Ec=
   dependencies:
     aproba "^1.1.1"
+
+rxfire@^3.10.1:
+  version "3.10.1"
+  resolved "https://registry.yarnpkg.com/rxfire/-/rxfire-3.10.1.tgz#63bd0317b1d46d4164fe94bfe0b02c06ae412454"
+  integrity sha512-BgOz7gThMJc71rIFB5QvwJqXNlDj+VTW3C8f/7eb8a0pJRXghGwkVZkW3qzsvu6NYYFtAJMu19kqlXM92UYmTQ==
+  dependencies:
+    tslib "1.11.1"
 
 rxjs-hooks@^0.6.2:
   version "0.6.2"

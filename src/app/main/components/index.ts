@@ -1,3 +1,4 @@
 import Navigation from './Navigation'
+import MobileNav from './MobileNav'
 
-export { Navigation }
+export { Navigation, MobileNav }
