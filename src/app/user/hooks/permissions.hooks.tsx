@@ -5,15 +5,17 @@ import { AppContext } from '../../App.context'
 
 export const usePermissions = () => {
   const {
+    getCollection$: getPermissionsList$,
     getDocument: getPermissions,
     getDocument$: getPermissions$,
-    createDocument: createPermissions,
     updateDocument: updatePermissions,
+    createDocumentWithId: createPermissions,
   } = useFirestore('permissions')
 
   return {
     getPermissions,
     getPermissions$,
+    getPermissionsList$,
     createPermissions,
     updatePermissions,
   }
@@ -55,6 +57,7 @@ export const useCheckPermission = () => {
   const hasClearance = (requiredClearance: number) =>
     clearance >= requiredClearance
   const hasKey = (keyRequired: string) => keys.includes(keyRequired)
+  const isLoggedIn = () => permissions.role !== 'visitor'
 
-  return { hasRole, hasClearance, hasKey }
+  return { hasRole, hasClearance, hasKey, isLoggedIn }
 }

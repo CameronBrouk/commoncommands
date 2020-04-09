@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const Home = () => <div></div>
+const Profile = () => <div></div>
 
-export default styled(Home)``
+export default styled(Profile)``

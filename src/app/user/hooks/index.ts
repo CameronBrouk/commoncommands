@@ -1,2 +1,3 @@
 export * from './permissions.hooks'
-export * from './user.hooks'
+export * from './profile.hooks'
+export * from './auth.hooks'

@@ -1,16 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useObservable } from 'rxjs-hooks'
-import { fromEvent } from 'rxjs'
-import { map, filter, mapTo } from 'rxjs/operators'
 import { useUI } from './shared/hooks/ui.hooks'
 import { BrowserRouter as Router } from 'react-router-dom'
-// import Navigation from './main/components/Navigation'
-import { Navigation, MobileNav } from './main/components'
+import { DesktopNav, MobileNav } from './main/components'
 import AppRoutes from './App.routes'
 import AppProvider from './App.context'
 import { CssBaseline, ThemeProvider } from '@material-ui/core'
 import theme from '../styles/theme'
+import { SnackbarProvider } from 'notistack'
 
 const App = () => {
   const { isMobile } = useUI()
@@ -21,19 +18,24 @@ const App = () => {
       <CssBaseline />
       <AppProvider>
         <ThemeProvider theme={theme}>
-          <Router>
-            <main>
-              {!isMobile && <Navigation />}
+          <SnackbarProvider maxSnack={3}>
+            <Router>
+              <nav>
+                {!isMobile && <DesktopNav />}
+                {isMobile && <MobileNav />}
+              </nav>
               <AppRoutes />
-              {isMobile && <MobileNav />}
-            </main>
-          </Router>
+            </Router>
+          </SnackbarProvider>
         </ThemeProvider>
       </AppProvider>
     </>
   )
 }
 
-// export default App
-
-export default styled(App)``
+export default styled(App)`
+  nav {
+    position: absolute;
+    top: 0;
+  }
+`

@@ -8,6 +8,7 @@ import HomeIcon from '@material-ui/icons/Home'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import PeopleIcon from '@material-ui/icons/People'
 import ListIcon from '@material-ui/icons/List'
+import { useCheckPermission } from '../../user/hooks'
 
 const useStyles = makeStyles({
   root: {
@@ -20,12 +21,10 @@ const useStyles = makeStyles({
 const MobileNav = () => {
   const history = useHistory()
   const classes = useStyles()
-  const [value, setValue] = React.useState('Home')
+  const { hasClearance } = useCheckPermission()
+  const [value, setValue] = React.useState('/home')
 
-  const handleChange = (event: any, newValue: any) => {
-    setValue(newValue)
-    history.push(`/${newValue}`)
-  }
+  const handleChange = (event: any, newValue: any) => setValue(newValue)
 
   return (
     <BottomNavigation
@@ -46,9 +45,9 @@ const MobileNav = () => {
         icon={<FavoriteIcon />}
       />
       <BottomNavigationAction
-        label='users'
+        label={hasClearance(1) ? 'users' : 'login'}
         value='users'
-        onClick={() => history.push('/users')}
+        onClick={() => history.push(`/${hasClearance(1) ? 'users' : 'login'}`)}
         icon={<PeopleIcon />}
       />
       <BottomNavigationAction
@@ -62,5 +61,3 @@ const MobileNav = () => {
 }
 
 export default MobileNav
-
-// export default styled(MobileNav)``
