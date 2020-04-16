@@ -1,31 +1,22 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
-import { AppContext } from '../../../App.context'
+
 import { useCheckPermission } from '../../../user/hooks/permissions.hooks'
 import { useHistory } from 'react-router-dom'
-import { Button as MatButton } from '@material-ui/core'
-import firebase from 'firebase'
 
-const Button = styled(MatButton)``
+import * as Constant from './constants'
+import * as Helper from './nav.helper'
 
 const DesktopNav = ({ ...props }) => {
   const history = useHistory()
-  const auth = firebase.auth()
   const { hasClearance } = useCheckPermission()
 
   const handleClick = (route: string) => history.push(route)
-  const logout = () => {
-    auth.signOut()
-    window.location.reload()
-  }
 
   const linkClass = (path: string) =>
     path === history.location.pathname ? 'current-link' : 'link'
 
-  const routes = [
-    { path: '/home', label: 'Home' },
-    { path: '/login', label: 'Sign In' },
-  ]
+  const routes = Constant.routes
 
   return (
     <header className={props.className}>
@@ -39,7 +30,7 @@ const DesktopNav = ({ ...props }) => {
       ))}
 
       {hasClearance(1) && (
-        <button onClick={() => logout()} className='link'>
+        <button onClick={() => Helper.logout()} className='link'>
           Logout
         </button>
       )}
@@ -63,7 +54,7 @@ export default styled(DesktopNav)`
     margin: 10px;
 
     :hover {
-      border-bottom: 1px solid white;
+      border-bottom: 1px solid black;
       cursor: pointer;
     }
 
@@ -77,7 +68,7 @@ export default styled(DesktopNav)`
   }
 
   .current-link {
-    border-bottom: 1px solid white;
+    border-bottom: 1px solid black;
   }
 
   ul {
@@ -85,15 +76,4 @@ export default styled(DesktopNav)`
     align-items: center;
     justify-content: center;
   }
-
-  ${Button} {
-    /* color: white; */
-  }
-
-  /* .link {
-    :hover {
-      border-bottom: 2px white solid !important;
-      color: red;
-    }
-  } */
 `
