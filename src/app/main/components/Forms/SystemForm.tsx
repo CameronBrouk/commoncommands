@@ -4,26 +4,53 @@ import { Form } from 'react-final-form'
 import { TextField } from 'mui-rff'
 import { Button } from '@material-ui/core'
 import { useSystems } from '../../hooks/systems.hooks'
+import { useObservable } from 'rxjs-hooks'
+import { iif, of } from 'rxjs'
 
-const SystemForm = ({ ...props }: any) => {
-  const { createSystem } = useSystems()
+import * as Model from '../../models'
 
-  const handleSubmit = (formData: any) => createSystem({ name: formData.name })
+interface Props {
+  className?: any
+  systemId?: string
+}
+
+type FormData = { name: string }
+
+const SystemForm = ({ systemId, className }: Props) => {
+  const { createSystem, getSystem$, updateSystem } = useSystems()
+
+  const system: Model.System | null = useObservable(() =>
+    !!systemId ? getSystem$<Model.System>(systemId) : of(),
+  )
+
+  const defaultInputLabel = system ? system.name : 'System Name'
+  const defaultValue = system ? system.name : ''
+  const defaultButtonLabel = system ? 'Update' : 'Create'
+
+  const handleSubmit = (formData: FormData) => {
+    if (system) {
+      updateSystem(system.id, { name: formData.name })
+    } else {
+      createSystem({ name: formData.name })
+    }
+  }
 
   return (
-    <div className={props.className}>
+    <div className={className}>
       <Form
         onSubmit={handleSubmit}
+        initialValues={{ name: defaultValue }}
         render={({ handleSubmit, submitting, pristine, valid }) => (
           <form onSubmit={handleSubmit} className='create-system-form'>
-            <TextField label='System Name' name='name' required={true} />
+            <TextField label={defaultInputLabel} name='name' required={true} />
+
             <Button
               className='create-system-button'
               disabled={submitting || pristine || !valid}
               type='submit'
               color='primary'
               variant='contained'>
-              Create
+              {defaultButtonLabel}
             </Button>
           </form>
         )}
