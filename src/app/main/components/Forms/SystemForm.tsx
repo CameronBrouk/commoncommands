@@ -1,32 +1,24 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Form, Field } from 'react-final-form'
-import { MatTextField } from '../../../shared/components/final-form'
+import { Form } from 'react-final-form'
+import { TextField } from 'mui-rff'
 import { Button } from '@material-ui/core'
 import { useSystems } from '../../hooks/systems.hooks'
 
 const SystemForm = ({ ...props }: any) => {
   const { createSystem } = useSystems()
-  const handleSubmit = (formData: any) => {
-    createSystem({ name: formData.name })
-  }
+
+  const handleSubmit = (formData: any) => createSystem({ name: formData.name })
 
   return (
     <div className={props.className}>
-      <h1>Create System</h1>
       <Form
         onSubmit={handleSubmit}
         render={({ handleSubmit, submitting, pristine, valid }) => (
-          <form onSubmit={handleSubmit}>
-            <div className='fields'>
-              <Field
-                name='name'
-                label='name'
-                required
-                component={MatTextField}
-              />
-            </div>
+          <form onSubmit={handleSubmit} className='create-system-form'>
+            <TextField label='System Name' name='name' required={true} />
             <Button
+              className='create-system-button'
               disabled={submitting || pristine || !valid}
               type='submit'
               color='primary'
@@ -48,10 +40,13 @@ export default styled(SystemForm)`
   align-items: center;
   text-align: center;
 
-  .buttons {
+  .create-system-form {
+    display: flex;
+  }
+
+  .create-system-button {
     margin-top: 10px;
-    align-items: left;
-    justify-content: left;
-    text-align: left;
+    height: 90%;
+    margin-left: 5px;
   }
 `
