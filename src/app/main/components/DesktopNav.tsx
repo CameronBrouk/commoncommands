@@ -11,8 +11,7 @@ const Button = styled(MatButton)``
 const DesktopNav = ({ ...props }) => {
   const history = useHistory()
   const auth = firebase.auth()
-  const { permissions } = useContext(AppContext)
-  const { hasRole, hasClearance, hasKey, isLoggedIn } = useCheckPermission()
+  const { hasClearance } = useCheckPermission()
 
   const handleClick = (route: string) => history.push(route)
   const logout = () => {
@@ -20,16 +19,33 @@ const DesktopNav = ({ ...props }) => {
     window.location.reload()
   }
 
+  const linkClass = (path: string) =>
+    path === history.location.pathname ? 'current-link' : 'link'
+
+  const routes = [
+    { path: '/home', label: 'Home' },
+    { path: '/resources', label: 'Use Our Resources' },
+    { path: '/services', label: 'See Our Services' },
+    { path: '/team', label: 'Meet The Team' },
+  ]
+
   return (
-    <div className={props.className}>
-      <Button onClick={() => handleClick('/home')}>Home</Button>
-      <Button onClick={() => handleClick('/users')}>User</Button>
-      {hasClearance(1) ? (
-        <Button onClick={() => logout()}>Logout</Button>
-      ) : (
-        <Button onClick={() => handleClick('/login')}>Login</Button>
+    <header className={props.className}>
+      {routes.map((route, i) => (
+        <button
+          key={i}
+          onClick={() => handleClick(route.path)}
+          className={linkClass(route.path)}>
+          {route.label}
+        </button>
+      ))}
+
+      {hasClearance(1) && (
+        <button onClick={() => logout()} className='link'>
+          Logout
+        </button>
       )}
-    </div>
+    </header>
   )
 }
 
@@ -37,10 +53,35 @@ export default styled(DesktopNav)`
   height: 10vh;
   width: 100vw;
   max-width: 100%;
-  background: darkblue;
+  background: transparent;
   justify-content: center;
   align-items: center;
   display: flex;
+
+  .current-link,
+  .link {
+    background: transparent;
+    border: none;
+    color: white;
+    margin: 10px;
+
+    :hover {
+      border-bottom: 1px solid white;
+      cursor: pointer;
+    }
+
+    :focus {
+      outline: none;
+    }
+
+    :active {
+      border: none;
+    }
+  }
+
+  .current-link {
+    border-bottom: 1px solid white;
+  }
 
   ul {
     display: flex;
@@ -50,5 +91,43 @@ export default styled(DesktopNav)`
 
   ${Button} {
     color: white;
+  }
+
+  /* .link {
+    :hover {
+      border-bottom: 2px white solid !important;
+      color: red;
+    }
+  } */
+
+  button {
+    text-decoration: none;
+    color: white;
+    position: relative;
+  }
+
+  header > button:hover {
+    color: white;
+  }
+
+  header > button:before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: white;
+    visibility: hidden;
+    -webkit-transform: scaleX(0);
+    transform: scaleX(0);
+    -webkit-transition: all 0.3s ease-in-out 0s;
+    transition: all 0.3s ease-in-out 0s;
+  }
+
+  header > button:hover:before {
+    visibility: visible;
+    -webkit-transform: scaleX(1);
+    transform: scaleX(1);
   }
 `

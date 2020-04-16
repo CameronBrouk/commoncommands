@@ -39,21 +39,27 @@ const MobileNav = () => {
         onClick={() => history.push('/home')}
       />
       <BottomNavigationAction
-        label='favorites'
-        value='favorites'
+        label='resources'
+        value='resources'
         onClick={() => history.push('/favorites')}
         icon={<FavoriteIcon />}
       />
-      <BottomNavigationAction
+      {/* <BottomNavigationAction
         label={hasClearance(1) ? 'users' : 'login'}
         value='users'
         onClick={() => history.push(`/${hasClearance(1) ? 'users' : 'login'}`)}
         icon={<PeopleIcon />}
+      /> */}
+      <BottomNavigationAction
+        label='team'
+        value='team'
+        onClick={() => history.push('team')}
+        icon={<PeopleIcon />}
       />
       <BottomNavigationAction
-        label='navigation'
-        value='navigation'
-        onClick={() => history.push('navigation')}
+        label='services'
+        value='services'
+        onClick={() => history.push('services')}
         icon={<ListIcon />}
       />
     </BottomNavigation>
