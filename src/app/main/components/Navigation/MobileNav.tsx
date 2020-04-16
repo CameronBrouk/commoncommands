@@ -8,7 +8,7 @@ import HomeIcon from '@material-ui/icons/Home'
 import FavoriteIcon from '@material-ui/icons/Favorite'
 import PeopleIcon from '@material-ui/icons/People'
 import ListIcon from '@material-ui/icons/List'
-import { useCheckPermission } from '../../user/hooks'
+import { useCheckPermission } from '../../../user/hooks/permissions.hooks'
 
 const useStyles = makeStyles({
   root: {
@@ -38,30 +38,12 @@ const MobileNav = () => {
         icon={<HomeIcon />}
         onClick={() => history.push('/home')}
       />
-      <BottomNavigationAction
-        label='resources'
-        value='resources'
-        onClick={() => history.push('/favorites')}
-        icon={<FavoriteIcon />}
-      />
       {/* <BottomNavigationAction
         label={hasClearance(1) ? 'users' : 'login'}
         value='users'
         onClick={() => history.push(`/${hasClearance(1) ? 'users' : 'login'}`)}
         icon={<PeopleIcon />}
       /> */}
-      <BottomNavigationAction
-        label='team'
-        value='team'
-        onClick={() => history.push('team')}
-        icon={<PeopleIcon />}
-      />
-      <BottomNavigationAction
-        label='services'
-        value='services'
-        onClick={() => history.push('services')}
-        icon={<ListIcon />}
-      />
     </BottomNavigation>
   )
 }

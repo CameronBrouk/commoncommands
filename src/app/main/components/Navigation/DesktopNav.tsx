@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import styled from 'styled-components'
-import { AppContext } from '../../App.context'
-import { useCheckPermission } from '../../user/hooks/permissions.hooks'
+import { AppContext } from '../../../App.context'
+import { useCheckPermission } from '../../../user/hooks/permissions.hooks'
 import { useHistory } from 'react-router-dom'
 import { Button as MatButton } from '@material-ui/core'
 import firebase from 'firebase'
@@ -24,9 +24,7 @@ const DesktopNav = ({ ...props }) => {
 
   const routes = [
     { path: '/home', label: 'Home' },
-    { path: '/resources', label: 'Use Our Resources' },
-    { path: '/services', label: 'See Our Services' },
-    { path: '/team', label: 'Meet The Team' },
+    { path: '/login', label: 'Sign In' },
   ]
 
   return (
@@ -53,7 +51,7 @@ export default styled(DesktopNav)`
   height: 10vh;
   width: 100vw;
   max-width: 100%;
-  background: transparent;
+  background: #eee;
   justify-content: center;
   align-items: center;
   display: flex;
@@ -62,7 +60,6 @@ export default styled(DesktopNav)`
   .link {
     background: transparent;
     border: none;
-    color: white;
     margin: 10px;
 
     :hover {
@@ -90,7 +87,7 @@ export default styled(DesktopNav)`
   }
 
   ${Button} {
-    color: white;
+    /* color: white; */
   }
 
   /* .link {
@@ -99,35 +96,4 @@ export default styled(DesktopNav)`
       color: red;
     }
   } */
-
-  button {
-    text-decoration: none;
-    color: white;
-    position: relative;
-  }
-
-  header > button:hover {
-    color: white;
-  }
-
-  header > button:before {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 2px;
-    bottom: 0;
-    left: 0;
-    background-color: white;
-    visibility: hidden;
-    -webkit-transform: scaleX(0);
-    transform: scaleX(0);
-    -webkit-transition: all 0.3s ease-in-out 0s;
-    transition: all 0.3s ease-in-out 0s;
-  }
-
-  header > button:hover:before {
-    visibility: visible;
-    -webkit-transform: scaleX(1);
-    transform: scaleX(1);
-  }
 `

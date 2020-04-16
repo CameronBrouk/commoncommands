@@ -1,4 +1,4 @@
-import DesktopNav from './DesktopNav'
-import MobileNav from './MobileNav'
+import DesktopNav from './Navigation/DesktopNav'
+import MobileNav from './Navigation/MobileNav'
 
 export { DesktopNav, MobileNav }
