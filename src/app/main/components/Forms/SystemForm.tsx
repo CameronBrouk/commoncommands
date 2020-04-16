@@ -2,7 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import { Form } from 'react-final-form'
 import { TextField } from 'mui-rff'
-import { Button } from '@material-ui/core'
+import { Button, IconButton } from '@material-ui/core'
+import CloseOutlinedIcon from '@material-ui/icons/Close'
 import { useSystems } from '../../hooks/systems.hooks'
 import { useObservable } from 'rxjs-hooks'
 import { iif, of } from 'rxjs'
@@ -17,7 +18,7 @@ interface Props {
 type FormData = { name: string }
 
 const SystemForm = ({ systemId, className }: Props) => {
-  const { createSystem, getSystem$, updateSystem } = useSystems()
+  const { createSystem, getSystem$, updateSystem, deleteSystem } = useSystems()
 
   const system: Model.System | null = useObservable(() =>
     !!systemId ? getSystem$<Model.System>(systemId) : of(),
@@ -55,6 +56,15 @@ const SystemForm = ({ systemId, className }: Props) => {
           </form>
         )}
       />
+
+      {system && (
+        <IconButton
+          className='remove-system-button'
+          type='button'
+          onClick={() => deleteSystem(system.id)}>
+          <CloseOutlinedIcon />
+        </IconButton>
+      )}
     </div>
   )
 }
@@ -62,7 +72,6 @@ const SystemForm = ({ systemId, className }: Props) => {
 export default styled(SystemForm)`
   display: flex;
   height: 50%;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   text-align: center;
@@ -71,9 +80,17 @@ export default styled(SystemForm)`
     display: flex;
   }
 
+  .remove-system-button,
   .create-system-button {
     margin-top: 10px;
     height: 90%;
+  }
+
+  .remove-system-button {
+    color: red;
+  }
+
+  .create-system-button {
     margin-left: 5px;
   }
 `
