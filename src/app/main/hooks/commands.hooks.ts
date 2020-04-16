@@ -9,6 +9,7 @@ export const useCommands = () => {
     getCollection$: getCommands$,
     createDocument: createCommand,
     updateDocument: updateCommand,
+    deleteDocument: deleteCommand,
   } = useFirestore('commands')
 
   return {
@@ -19,5 +20,6 @@ export const useCommands = () => {
     updateCommand,
     getCommand$,
     getCommands$,
+    deleteCommand,
   }
 }

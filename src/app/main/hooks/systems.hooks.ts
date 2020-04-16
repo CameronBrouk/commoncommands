@@ -9,6 +9,7 @@ export const useSystems = () => {
     getCollection$: getSystems$,
     createDocument: createSystem,
     updateDocument: updateSystem,
+    deleteDocument: deleteSystem,
   } = useFirestore('systems')
 
   return {
@@ -19,5 +20,6 @@ export const useSystems = () => {
     updateSystem,
     getSystem$,
     getSystems$,
+    deleteSystem,
   }
 }
