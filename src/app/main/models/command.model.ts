@@ -1,6 +1,6 @@
 export interface Command {
   id: string
-  belongsToSystemId: string
+  systemRef: string
   name: string
   description: string
   category: string
