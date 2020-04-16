@@ -11,15 +11,6 @@ export default function AppRoutes() {
       <Route path='/users'>
         <User />
       </Route>
-      <Route path='/services'>
-        <Services />
-      </Route>
-      <Route path='/team'>
-        <Team />
-      </Route>
-      <Route path='/resources'>
-        <Resources />
-      </Route>
       <Route path='/login'>
         <Login />
       </Route>
