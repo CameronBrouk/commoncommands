@@ -34,6 +34,9 @@ export const useFirestore = (firestoreCollection: string) => {
   const updateDocument = <T>(id: string, data: T) =>
     collection.doc(id).update(data).then(handleSuccess).catch(handleError)
 
+  const deleteDocument = (id: string) =>
+    collection.doc(id).delete().then(handleSuccess).catch(handleError)
+
   return {
     collection,
     getCollection,
@@ -43,6 +46,7 @@ export const useFirestore = (firestoreCollection: string) => {
     createDocument,
     createDocumentWithId,
     updateDocument,
+    deleteDocument,
   }
 }
 
