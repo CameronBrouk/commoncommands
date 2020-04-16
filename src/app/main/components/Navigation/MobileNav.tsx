@@ -24,14 +24,10 @@ const MobileNav = () => {
   const history = useHistory()
   const classes = useStyles()
   const { hasClearance } = useCheckPermission()
-  const [value, setValue] = React.useState('/home')
-
-  const handleChange = (event: any, newValue: any) => setValue(newValue)
 
   return (
     <BottomNavigation
-      value={value}
-      onChange={handleChange}
+      value={history.location.pathname}
       showLabels
       className={classes.root}>
       {Constant.routes.map(route => (
