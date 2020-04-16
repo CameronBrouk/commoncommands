@@ -3,9 +3,13 @@ import styled from 'styled-components'
 import { Form, Field } from 'react-final-form'
 import { MatTextField } from '../../../shared/components/final-form'
 import { Button } from '@material-ui/core'
+import { useSystems } from '../../hooks/systems.hooks'
 
 const SystemForm = ({ ...props }: any) => {
-  const handleSubmit = (formData: any) => {}
+  const { createSystem } = useSystems()
+  const handleSubmit = (formData: any) => {
+    createSystem({ name: formData.name })
+  }
 
   return (
     <div className={props.className}>
@@ -16,8 +20,8 @@ const SystemForm = ({ ...props }: any) => {
           <form onSubmit={handleSubmit}>
             <div className='fields'>
               <Field
-                name='system'
-                label='system'
+                name='name'
+                label='name'
                 required
                 component={MatTextField}
               />
