@@ -5,9 +5,11 @@ import { useCommands } from '../../hooks'
 import * as Model from '../../models'
 import { useObservable } from 'rxjs-hooks'
 import { map } from 'rxjs/operators'
+import SystemForm from '../Forms/SystemForm'
 
 interface Props {
   commands: Model.Command[]
+  system: Model.System
 }
 
 const CommandsTable = (props: Props) => {
@@ -16,6 +18,7 @@ const CommandsTable = (props: Props) => {
   const columns: Array<Column<Model.Command>> = [
     { title: 'Name', field: 'name' },
     { title: 'Description', field: 'description' },
+    { title: 'Category', field: 'category' },
   ]
 
   return (
@@ -28,6 +31,7 @@ const CommandsTable = (props: Props) => {
           createCommand({
             name: newData.name,
             description: newData.description,
+            systemRef: props.system.id,
           }),
         onRowUpdate: (newData, oldData) => updateCommand(newData.id, newData),
         onRowDelete: oldData => deleteCommand(oldData.id),
