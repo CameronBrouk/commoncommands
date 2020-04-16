@@ -1,7 +1,7 @@
 export interface Command {
   id: string
   belongsToSystemId: string
-  command: string
+  name: string
   description: string
   category: string
 }
