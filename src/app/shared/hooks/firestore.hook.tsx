@@ -6,7 +6,6 @@ import { useObservable } from 'rxjs-hooks'
 import { useParams } from 'react-router'
 import firebase from 'firebase'
 
-// const handleSuccess = (document: any) => console.log('document', document)
 const handleSuccess = (document: any) => document
 const handleError = (error: any) => console.log('error', error)
 
@@ -14,40 +13,29 @@ export const useFirestore = (firestoreCollection: string) => {
   const collection = firebase.firestore().collection(firestoreCollection)
 
   const getCollection = () =>
-    collection
-      .get()
-      .then(handleSuccess)
-      .catch(handleError)
+    collection.get().then(handleSuccess).catch(handleError)
   const getCollection$ = () => collectionData(collection)
 
   const getDocument = (id: string) =>
-    collection
-      .doc(id)
-      .get()
-      .then(handleSuccess)
-      .catch(handleError)
+    collection.doc(id).get().then(handleSuccess).catch(handleError)
 
   const getDocument$ = (id: string) => docData(collection.doc(id))
 
   const createDocument = (data: any) =>
     collection
       .add(data)
-      .then(handleSuccess)
+      .then(documentRef => {
+        const { id } = documentRef
+        updateDocument(id, { id: id })
+        return documentRef
+      })
       .catch(handleError)
 
   const createDocumentWithId = (id: string, data: any) =>
-    collection
-      .doc(id)
-      .set(data)
-      .then(handleSuccess)
-      .catch(handleError)
+    collection.doc(id).set(data).then(handleSuccess).catch(handleError)
 
   const updateDocument = (id: string, data: any) =>
-    collection
-      .doc(id)
-      .set(data)
-      .then(handleSuccess)
-      .catch(handleError)
+    collection.doc(id).update(data).then(handleSuccess).catch(handleError)
 
   return {
     collection,
