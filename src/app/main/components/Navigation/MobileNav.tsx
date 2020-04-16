@@ -6,9 +6,11 @@ import BottomNavigation from '@material-ui/core/BottomNavigation'
 import BottomNavigationAction from '@material-ui/core/BottomNavigationAction'
 import HomeIcon from '@material-ui/icons/Home'
 import FavoriteIcon from '@material-ui/icons/Favorite'
-import PeopleIcon from '@material-ui/icons/People'
 import ListIcon from '@material-ui/icons/List'
 import { useCheckPermission } from '../../../user/hooks/permissions.hooks'
+
+import * as Helper from './nav.helpers'
+import * as Constant from './nav.constants'
 
 const useStyles = makeStyles({
   root: {
@@ -32,12 +34,14 @@ const MobileNav = () => {
       onChange={handleChange}
       showLabels
       className={classes.root}>
-      <BottomNavigationAction
-        label='home'
-        value='home'
-        icon={<HomeIcon />}
-        onClick={() => history.push('/home')}
-      />
+      {Constant.routes.map(route => (
+        <BottomNavigationAction
+          label={route.label}
+          value={route.path}
+          icon={route.icon}
+          onClick={() => history.push(route.path)}
+        />
+      ))}
       {/* <BottomNavigationAction
         label={hasClearance(1) ? 'users' : 'login'}
         value='users'

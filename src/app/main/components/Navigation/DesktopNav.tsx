@@ -4,8 +4,8 @@ import styled from 'styled-components'
 import { useCheckPermission } from '../../../user/hooks/permissions.hooks'
 import { useHistory } from 'react-router-dom'
 
-import * as Constant from './constants'
-import * as Helper from './nav.helper'
+import * as Constant from './nav.constants'
+import * as Helper from './nav.helpers'
 
 const DesktopNav = ({ ...props }) => {
   const history = useHistory()
