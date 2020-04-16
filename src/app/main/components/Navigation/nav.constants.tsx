@@ -9,7 +9,7 @@ interface Route {
 }
 export const routes: Route[] = [
   { path: '/home', label: 'Home', icon: <HomeIcon /> },
-  { path: '/login', label: 'Sign In', icon: <PeopleIcon /> },
+  // { path: '/login', label: 'Sign In', icon: <PeopleIcon /> },
 ]
 
 const loggedInRoutes = []
