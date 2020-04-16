@@ -1,7 +1,4 @@
-// import { useState, useContext } from 'react'
-// import { AppContext } from '../../App.context'
 import { docData, collectionData } from 'rxfire/firestore'
-// import { from, Observable } from 'rxjs'
 import { useObservable } from 'rxjs-hooks'
 import { useParams } from 'react-router'
 import firebase from 'firebase'
@@ -14,14 +11,14 @@ export const useFirestore = (firestoreCollection: string) => {
 
   const getCollection = () =>
     collection.get().then(handleSuccess).catch(handleError)
-  const getCollection$ = () => collectionData(collection)
+  const getCollection$ = <T>() => collectionData<T>(collection)
 
   const getDocument = (id: string) =>
     collection.doc(id).get().then(handleSuccess).catch(handleError)
 
-  const getDocument$ = (id: string) => docData(collection.doc(id))
+  const getDocument$ = <T>(id: string) => docData<T>(collection.doc(id))
 
-  const createDocument = (data: any) =>
+  const createDocument = <T>(data: T) =>
     collection
       .add(data)
       .then(documentRef => {
@@ -31,10 +28,10 @@ export const useFirestore = (firestoreCollection: string) => {
       })
       .catch(handleError)
 
-  const createDocumentWithId = (id: string, data: any) =>
+  const createDocumentWithId = <T>(id: string, data: T) =>
     collection.doc(id).set(data).then(handleSuccess).catch(handleError)
 
-  const updateDocument = (id: string, data: any) =>
+  const updateDocument = <T>(id: string, data: T) =>
     collection.doc(id).update(data).then(handleSuccess).catch(handleError)
 
   return {

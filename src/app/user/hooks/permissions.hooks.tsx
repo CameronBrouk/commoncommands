@@ -1,5 +1,5 @@
 import { useContext } from 'react'
-import { useFirestore } from '../../shared/hooks/firestore.hook'
+import { useFirestore } from '../../shared/hooks/firestore.hooks'
 import { Permissions } from '../models'
 import { AppContext } from '../../App.context'
 
