@@ -42,15 +42,18 @@ export default styled(DesktopNav)`
   height: 10vh;
   width: 100vw;
   max-width: 100%;
-  background: #eee;
+  background: #2e1534;
+  color: white;
   justify-content: center;
   align-items: center;
   display: flex;
+  border-bottom: 1px solid #635ee7;
 
   .current-link,
   .link {
     background: transparent;
     border: none;
+    color: white;
     margin: 10px;
 
     :hover {
