@@ -11,7 +11,6 @@ import { SnackbarProvider } from 'notistack'
 
 const App = () => {
   const { isMobile } = useUI()
-  console.log('app', isMobile)
 
   return (
     <>
