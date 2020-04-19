@@ -1,7 +1,7 @@
 {
   "projects": {
-    "default": "react-seed-dev",
-    "dev": "react-seed-dev",
-    "prod": "react-seed-3b1b2"
+    "default": "common-commands",
+    "dev": "common-commands",
+    "prod": "common-commands"
   }
 }
