@@ -1,6 +1,6 @@
 import React, { useState, useMemo, createContext, useEffect } from 'react'
 import { useObservable } from 'rxjs-hooks'
-import { combineLatest } from 'rxjs'
+import { combineLatest, BehaviorSubject } from 'rxjs'
 import { tap, map, filter, pluck, switchMap } from 'rxjs/operators'
 import { Permissions, defaultUser, defaultPermissions } from './user/models'
 import { authState } from 'rxfire/auth'
@@ -17,6 +17,8 @@ export const AppContext = createContext<any>(defaultContext)
 
 export const AppProvider = ({ children }: any) => {
   const { getPermissions$ } = usePermissions()
+
+  const loading$ = new BehaviorSubject(false)
 
   const state = useObservable(() => {
     const loggedIn$ = authState(firebase.auth()).pipe(filter(user => !!user))
@@ -53,6 +55,7 @@ export const AppProvider = ({ children }: any) => {
         uid: state.uid,
         currentUser: state.currentUser,
         permissions: state.permissions,
+        loading$: loading$,
       }}>
       {children}
     </AppContext.Provider>
