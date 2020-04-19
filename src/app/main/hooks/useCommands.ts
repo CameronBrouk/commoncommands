@@ -1,6 +1,6 @@
 import { useFirestore } from '../../shared/hooks/firestore.hooks'
 
-export const useCommands = () => {
+const useCommands = () => {
   const {
     collection: commandCollection,
     getDocument: getCommand,
@@ -23,3 +23,5 @@ export const useCommands = () => {
     deleteCommand,
   }
 }
+
+export default useCommands

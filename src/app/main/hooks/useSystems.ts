@@ -1,6 +1,6 @@
 import { useFirestore } from '../../shared/hooks/firestore.hooks'
 
-export const useSystems = () => {
+const useSystems = () => {
   const {
     collection: systemCollection,
     getDocument: getSystem,
@@ -23,3 +23,5 @@ export const useSystems = () => {
     deleteSystem,
   }
 }
+
+export default useSystems
