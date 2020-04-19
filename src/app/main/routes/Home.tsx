@@ -4,7 +4,8 @@ import { combineLatest } from 'rxjs'
 
 import { useSystems, useCommands } from '../hooks'
 import { Tabs, Tab, TabPanel } from '../components'
-import { materialClasses } from '../main.styles'
+import { Styles } from '../../../styles/classes'
+// import { materialClasses } from '../main.styles'
 
 import * as Model from '../models'
 import * as Helper from '../helpers'
@@ -13,8 +14,6 @@ import Commands from '../components/Commands/Commands'
 import { useUI } from '../../shared/hooks/ui.hooks'
 
 const Home = () => {
-  const { tabs, home, desktopPanel } = materialClasses()
-
   const { isMobile } = useUI()
 
   const [currentTabIndex, setCurrentTabIndex] = useState(0)
@@ -32,6 +31,7 @@ const Home = () => {
     setCurrentTabIndex(newValue)
   }
 
+  const { tabs, home, desktopPanel, center } = Styles()
   return (
     <section className={home}>
       {systems && commands && (
@@ -46,7 +46,7 @@ const Home = () => {
           </Tabs>
 
           {systems.map((system, i) => (
-            <aside className={!isMobile ? desktopPanel : ''}>
+            <aside className={!isMobile ? desktopPanel : center}>
               <TabPanel value={currentTabIndex} index={i} key={i}>
                 <Commands
                   commands={Helper.filterCommandsBySystem(commands, system)}

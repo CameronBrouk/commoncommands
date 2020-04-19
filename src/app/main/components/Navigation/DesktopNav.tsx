@@ -20,14 +20,14 @@ const DesktopNav = ({ ...props }) => {
 
   return (
     <header className={props.className}>
-      {routes.map((route, i) => (
+      {/* {routes.map((route, i) => (
         <button
           key={i}
           onClick={() => handleClick(route.path)}
           className={linkClass(route.path)}>
           {route.label}
         </button>
-      ))}
+      ))} */}
 
       {hasClearance(1) && (
         <button onClick={() => Helper.logout()} className='link'>
@@ -39,19 +39,20 @@ const DesktopNav = ({ ...props }) => {
 }
 
 export default styled(DesktopNav)`
-  height: 10vh;
+  height: 1px;
   width: 100vw;
   max-width: 100%;
   background: #2e1534;
   color: white;
   justify-content: center;
-  align-items: center;
+  align-items: end;
   display: flex;
-  border-bottom: 1px solid #635ee7;
 
   .current-link,
   .link {
     background: transparent;
+    position: absolute;
+    right: 0;
     border: none;
     color: white;
     margin: 10px;

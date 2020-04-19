@@ -1,13 +1,13 @@
 import React from 'react'
 import styled from 'styled-components'
-import { useUI } from './shared/hooks/ui.hooks'
 import { BrowserRouter as Router } from 'react-router-dom'
-import { DesktopNav, MobileNav } from './main/components'
+import { CssBaseline, ThemeProvider } from '@material-ui/core'
+import { SnackbarProvider } from 'notistack'
+
+import { useUI } from './shared/hooks/ui.hooks'
 import AppRoutes from './App.routes'
 import AppProvider from './App.context'
-import { CssBaseline, ThemeProvider } from '@material-ui/core'
 import theme from '../styles/theme'
-import { SnackbarProvider } from 'notistack'
 
 const App = () => {
   const { isMobile } = useUI()
@@ -19,10 +19,10 @@ const App = () => {
         <ThemeProvider theme={theme}>
           <SnackbarProvider maxSnack={3}>
             <Router>
-              <nav>
+              {/* <nav>
                 {!isMobile && <DesktopNav />}
                 {isMobile && <MobileNav />}
-              </nav>
+              </nav> */}
               <AppRoutes />
             </Router>
           </SnackbarProvider>

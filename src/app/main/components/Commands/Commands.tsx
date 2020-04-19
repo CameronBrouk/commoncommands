@@ -1,43 +1,42 @@
-import React from 'react'
-import MaterialTable, { Column } from 'material-table'
-import { useCommands } from '../../hooks'
+import React, { useState } from 'react'
 
 import * as Model from '../../models'
-import { useObservable } from 'rxjs-hooks'
-import { map } from 'rxjs/operators'
-import SystemForm from '../Forms/SystemForm'
+
+import { Styles } from '../../../../styles/classes'
+
+import CommandsHeader from './CommandsHeader'
+import {
+  SearchableCommands,
+  EditableCommands,
+  CategorizedCommands,
+} from './CommandsListViews'
+import { Search } from '../Actions'
 
 interface Props {
   commands: Model.Command[]
   system: Model.System
+  className?: any
 }
 
-const CommandsTable = (props: Props) => {
-  const { updateCommand, deleteCommand, createCommand } = useCommands()
+const Commands = ({ commands, system }: Props) => {
+  const [view, setView] = useState<Model.views>('category')
 
-  const columns: Array<Column<Model.Command>> = [
-    { title: 'Name', field: 'name' },
-    { title: 'Description', field: 'description' },
-    { title: 'Category', field: 'category' },
-  ]
+  const { center, commandsTitle } = Styles()
 
   return (
-    <MaterialTable
-      title='Edit A Document'
-      columns={columns}
-      data={props.commands}
-      editable={{
-        onRowAdd: newData =>
-          createCommand({
-            name: newData.name,
-            description: newData.description,
-            systemRef: props.system.id,
-          }),
-        onRowUpdate: (newData, oldData) => updateCommand(newData.id, newData),
-        onRowDelete: oldData => deleteCommand(oldData.id),
-      }}
-    />
+    <section>
+      <h1 className={commandsTitle}>{system.name} Commands</h1>
+
+      <CommandsHeader setView={setView} />
+
+      {view === 'category' && <CategorizedCommands commands={commands} />}
+      {view === 'search' && <SearchableCommands commands={commands} />}
+      {view === 'edit' && (
+        <EditableCommands commands={commands} system={system} />
+      )}
+      <Search />
+    </section>
   )
 }
 
-export default CommandsTable
+export default Commands

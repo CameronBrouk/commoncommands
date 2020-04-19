@@ -1,11 +1,8 @@
 import React from 'react'
 import MaterialTable, { Column } from 'material-table'
-import { useCommands } from '../../hooks'
+import { useCommands } from '../../../hooks'
 
-import * as Model from '../../models'
-import { useObservable } from 'rxjs-hooks'
-import { map } from 'rxjs/operators'
-import SystemForm from '../Forms/SystemForm'
+import * as Model from '../../../models'
 
 interface Props {
   commands: Model.Command[]
