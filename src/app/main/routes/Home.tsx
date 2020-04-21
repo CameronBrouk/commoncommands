@@ -5,13 +5,13 @@ import { combineLatest } from 'rxjs'
 import { useSystems, useCommands } from '../hooks'
 import { Tabs, Tab, TabPanel } from '../components'
 import { Styles } from '../../../styles/classes'
-// import { materialClasses } from '../main.styles'
 
 import * as Model from '../models'
 import * as Helper from '../helpers'
 
 import Commands from '../components/Commands/Commands'
 import { useUI } from '../../shared/hooks/ui.hooks'
+import { useKeybind } from '../../shared/hooks'
 
 const Home = () => {
   const { isMobile } = useUI()
@@ -27,7 +27,7 @@ const Home = () => {
     return combineLatest(systems$, commands$)
   }, [[], []])
 
-  const handleChange = (event: any, newValue: number) => {
+  const handleTabChange = (event: any, newValue: number) => {
     setCurrentTabIndex(newValue)
   }
 
@@ -38,14 +38,13 @@ const Home = () => {
         <div className={tabs}>
           <Tabs
             value={currentTabIndex}
-            onChange={handleChange}
+            onChange={handleTabChange}
             aria-label='choose which systems commands to show'>
-            {systems.map(system => (
+            {systems.slice(0, 3).map(system => (
               <Tab key={system.id} label={system.name} />
             ))}
           </Tabs>
-
-          {systems.map((system, i) => (
+          {systems.slice(0, 3).map((system, i) => (
             <aside className={!isMobile ? desktopPanel : center}>
               <TabPanel value={currentTabIndex} index={i} key={i}>
                 <Commands
