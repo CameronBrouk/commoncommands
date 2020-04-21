@@ -6,12 +6,14 @@ export const StyledTabs = withStyles({
   indicator: {
     display: 'flex',
     justifyContent: 'center',
-    backgroundColor: 'transparent',
-    '& > div': {
-      maxWidth: 40,
-      width: '100%',
-      backgroundColor: '#635ee7',
-    },
+    // background: '#eee',
+    padding: 0,
+    // backgroundColor: 'transparent',
+    // '& > div': {
+    //   maxWidth: 40,
+    //   width: '100%',
+    //   backgroundColor: '#635ee7',
+    // },
   },
 })
 
@@ -21,5 +23,10 @@ interface Props {
 }
 
 export default StyledTabs((props: Props) => (
-  <MatTabs {...props} centered TabIndicatorProps={{ children: <div /> }} />
+  <MatTabs
+    {...props}
+    centered
+    variant='fullWidth'
+    TabIndicatorProps={{ children: <div /> }}
+  />
 ))

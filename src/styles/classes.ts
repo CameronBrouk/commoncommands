@@ -22,10 +22,10 @@ export const Styles = makeStyles({
   },
   background: {
     background: background,
-    color: 'white',
+    color: 'black',
   },
   radioButton: {
-    color: 'white',
+    color: 'black',
   },
   // Table
   table: {
@@ -46,20 +46,22 @@ export const Styles = makeStyles({
     flexGrow: 1,
   },
   tabs: {
-    backgroundColor: background,
+    // backgroundColor: '#eee',
     display: 'relative',
-    height: '100vh',
-    width: '100vw',
+    minHeight: '100vh',
+    // width: '80%',
+    // width: '100vw',
+    // maxWidth: '100%',
   },
   desktopPanel: {
     margin: '0 auto',
     width: '70%',
   },
   commandsTitle: {
-    color: 'white',
+    color: 'black',
     fontSize: '1em',
-    margin: '10px 0',
-    padding: '0',
+    padding: '10px 0',
+    // padding: '0',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

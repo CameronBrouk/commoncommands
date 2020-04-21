@@ -20,6 +20,7 @@ const DesktopNav = ({ ...props }) => {
 
   return (
     <header className={props.className}>
+      <h3 style={{ color: 'black' }}>Common Command</h3>
       {/* {routes.map((route, i) => (
         <button
           key={i}
@@ -39,10 +40,11 @@ const DesktopNav = ({ ...props }) => {
 }
 
 export default styled(DesktopNav)`
-  height: 1px;
+  height: 10vh;
   width: 100vw;
   max-width: 100%;
-  background: #2e1534;
+  /* background: #2e1534; */
+  background: white;
   color: white;
   justify-content: center;
   align-items: end;

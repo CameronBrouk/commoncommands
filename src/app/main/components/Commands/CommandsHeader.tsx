@@ -26,7 +26,7 @@ const CommandsHeader = ({ setView, className }: Props) => {
   }
 
   return (
-    <div className={center} style={{ color: 'white' }}>
+    <div className={center} style={{ color: 'black', margin: '10px' }}>
       <FormControl component='fieldset'>
         <FormLabel component='legend'></FormLabel>
         <RadioGroup

@@ -24,7 +24,7 @@ const Commands = ({ commands, system }: Props) => {
   const { center, commandsTitle } = Styles()
 
   return (
-    <section>
+    <section style={{ background: 'white' }}>
       <h1 className={commandsTitle}>{system.name} Commands</h1>
 
       <CommandsHeader setView={setView} />
