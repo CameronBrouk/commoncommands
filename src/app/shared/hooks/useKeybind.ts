@@ -7,11 +7,15 @@ import { filter, tap, pluck } from 'rxjs/operators'
 // prettier-ignore
 type keycode = 'Escape' | 'Enter' | 'Control' | 'Alt' | 'ArrowLeft' | 'ArrowRight' | 'ArrowDown' | 'ArrowUp' | 'Tab' | 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' | 'y' | 'z'
 
-export const useKeybind = (key: keycode, onPress: () => void) => {
+export const useKeybind = (
+  key: keycode,
+  onPress: () => any,
+  preventDefault?: boolean,
+) => {
   const keyPress$ = fromEvent<KeyboardEvent>(document, 'keydown').pipe(
-    tap(event => event.preventDefault()),
+    filter(event => event.key === key),
+    tap(event => preventDefault && event.preventDefault),
     pluck('key'),
-    filter(keyPressed => keyPressed === key),
     tap(onPress),
   )
 
