@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { animated } from 'react-spring'
 import { useObservable } from 'rxjs-hooks'
 import { combineLatest } from 'rxjs'
 
@@ -11,10 +12,13 @@ import * as Helper from '../helpers'
 
 import Commands from '../components/Commands/Commands'
 import { useUI } from '../../shared/hooks/ui.hooks'
-import { useKeybind } from '../../shared/hooks'
+import { useKeybind, useToggleAnimation } from '../../shared/hooks'
+import { TestOptionsComponent } from '../../shared/hooks/useOptionsList/mock/mockComponent'
 
 const Home = () => {
   const { isMobile } = useUI()
+  const [bool, setBool] = useState(false)
+  const { slideLeft, slideRight, grow, fade } = useToggleAnimation(bool)
 
   const [currentTabIndex, setCurrentTabIndex] = useState(0)
 
@@ -31,10 +35,23 @@ const Home = () => {
     setCurrentTabIndex(newValue)
   }
 
+  const toggle = () => setBool(bool => !bool)
+
   const { tabs, home, desktopPanel, center } = Styles()
   return (
     <section className={home}>
-      {systems && commands && (
+      <button onClick={toggle}>BUTTON</button>
+      {/* <animated.div style={fade}>dkfjadslfkksdf;jlakf</animated.div> */}
+      {/* {bool && (
+        <animated.div style={slideLeft}>dkfjadslfkksdf;jlakf</animated.div>
+      )} */}
+      {/* <animated.div style={slideLeft}>dkfjadslfkksdf;jlakf</animated.div> */}
+      <animated.div style={slideLeft}>
+        <div style={{ background: 'red', height: '10vh', width: '10vw' }}></div>
+      </animated.div>
+      <div>dkfjadslfkksdf;jlakf</div>
+      <TestOptionsComponent />
+      {/* {systems && commands && (
         <div className={tabs}>
           <Tabs
             value={currentTabIndex}
@@ -55,7 +72,7 @@ const Home = () => {
             </aside>
           ))}
         </div>
-      )}
+      )} */}
     </section>
   )
 }

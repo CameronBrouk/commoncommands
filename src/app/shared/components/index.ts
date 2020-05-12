@@ -1,4 +1,3 @@
-import Meta from './Meta'
-import Heading from './Heading'
+import Meta from './HTML/Meta/Meta'
 
-export { Meta, Heading }
+export { Meta }

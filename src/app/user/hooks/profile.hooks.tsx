@@ -1,5 +1,4 @@
-import { useFirestore } from '../../shared/hooks/firestore.hooks'
-import { usePermissions } from './permissions.hooks'
+import { useFirestore } from '../../shared/hooks/useFirestore'
 
 export const useProfile = () => {
   const {

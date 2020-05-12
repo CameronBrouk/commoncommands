@@ -1,4 +1,4 @@
-import { useFirestore } from '../../shared/hooks/firestore.hooks'
+import { useFirestore } from '../../shared/hooks/useFirestore'
 
 const useCommands = () => {
   const {
