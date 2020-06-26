@@ -1,7 +1,6 @@
 import React from 'react'
-import styled from 'styled-components'
-import { Tabs, Tab, TabPanel } from '..'
-import { Paper, Typography } from '@material-ui/core'
+import {Tabs, Tab, TabPanel} from '..'
+import {Paper, Typography} from '@material-ui/core'
 
 import * as Model from '../../models'
 import * as Style from '../Commands/temp/tabs.styles'
@@ -27,8 +26,8 @@ const QuickEditor = (props: Props) => {
   }
 
   const setColumns = (collectionData: CollectionData[]) => {
-    const fieldNames = collectionData.map(data => Object.keys(data))[0]
-    return fieldNames.map(fieldName => ({
+    const fieldNames = collectionData.map((data) => Object.keys(data))[0]
+    return fieldNames.map((fieldName) => ({
       title: fieldName.toUpperCase(),
       field: fieldName,
     }))
@@ -50,7 +49,7 @@ const QuickEditor = (props: Props) => {
         <Typography className={classes.paddingBottom} />
 
         {props.API &&
-          apiArray.map(values => console.log('values', values)) &&
+          apiArray.map((values) => console.log('values', values)) &&
           apiArray.map(([collectionName, collectionDataSet], i) => (
             <TabPanel value={i} index={i} key={i}>
               <QuickEditorTable
@@ -64,12 +63,3 @@ const QuickEditor = (props: Props) => {
     </section>
   )
 }
-
-export default styled(QuickEditor)`
-  .tab-content {
-    justify-content: center;
-    align-items: center;
-    width: 80%;
-    color: white;
-  }
-`

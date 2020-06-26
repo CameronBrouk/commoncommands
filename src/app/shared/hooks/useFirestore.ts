@@ -1,10 +1,11 @@
-import { docData, collectionData } from 'rxfire/firestore'
-import { useObservable } from 'rxjs-hooks'
-import { map } from 'rxjs/operators'
-import { useParams } from 'react-router'
+import {docData, collectionData} from 'rxfire/firestore'
+import {useObservable} from 'rxjs-hooks'
+import {map} from 'rxjs/operators'
+import {useParams} from 'react-router'
 import firebase from 'firebase'
 
-type CollectionNames = 'users' | 'permissions'
+type CollectionNames = 'users' | 'permissions' | 'profiles'
+
 interface Document {
   id: ID
   deleted?: boolean
@@ -31,7 +32,7 @@ export default function useFirestore<T extends Document>(
   const getCollection$ = () =>
     collectionData<T>(collection).pipe(
       // Only Show Collections that Haven't been 'deleted'
-      map(data => data.filter(data => !data.deleted)),
+      map((data) => data.filter((data) => !data.deleted)),
     )
 
   const getDocument = (id: string): Promise<T> =>
@@ -42,7 +43,7 @@ export default function useFirestore<T extends Document>(
   const createDocument = (data: T) =>
     collection
       .add(data)
-      .then(({ id }) => {
+      .then(({id}) => {
         // Add the ID and a CreatedAt to the documents data
         updateDocument(id, {
           id: id,
@@ -57,12 +58,12 @@ export default function useFirestore<T extends Document>(
   const updateDocument = (id: string, data: Partial<T>): Promise<T> =>
     collection
       .doc(id)
-      .update({ ...data, updatedAt: new Date() })
+      .update({...data, updatedAt: new Date()})
       .then(handleSuccess)
       .catch(handleError)
 
   const deleteDocument = (id: string) =>
-    collection.doc(id).update({ deleted: true, updatedAt: new Date() })
+    collection.doc(id).update({deleted: true, updatedAt: new Date()})
 
   return {
     collection,
@@ -79,8 +80,8 @@ export default function useFirestore<T extends Document>(
 
 /** Grab Document from the specified collection whos id is equal to the id in route params*/
 export const useDocumentFromRouteParams = (collection: CollectionNames) => {
-  const { getDocument$ } = useFirestore(collection)
-  const { id } = useParams<any>()
+  const {getDocument$} = useFirestore(collection)
+  const {id} = useParams<any>()
 
   const document = useObservable(() => getDocument$(id))
 

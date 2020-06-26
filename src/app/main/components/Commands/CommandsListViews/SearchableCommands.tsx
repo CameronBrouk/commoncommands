@@ -1,6 +1,5 @@
 import React from 'react'
-import styled from 'styled-components'
-import { Command } from '../../../models'
+import {Command} from '../../../models'
 
 interface Props {
   commands: Command[]
@@ -15,5 +14,3 @@ const SearchableCommands = (props: Props) => {
     </div>
   )
 }
-
-export default styled(SearchableCommands)``

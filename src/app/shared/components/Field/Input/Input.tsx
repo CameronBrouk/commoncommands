@@ -1,5 +1,4 @@
 import React from 'react'
-import styled from 'styled-components'
 
 type InputProps = {
   label: string
@@ -11,7 +10,7 @@ type InputProps = {
 
 type Props = InputProps & InputElement
 
-export const Input = ({ label, hint, error, type, ...rest }: Props) => {
+export const Input = ({label, hint, error, type, ...rest}: Props) => {
   return (
     <>
       <label htmlFor={label}>
@@ -32,17 +31,3 @@ export const Input = ({ label, hint, error, type, ...rest }: Props) => {
     </>
   )
 }
-
-export default styled(Input)``
-
-type InputTypes =
-  | 'text'
-  | 'search'
-  | 'email'
-  | 'password'
-  | 'reset'
-  | 'time'
-  | 'url'
-  | 'date'
-  | 'week'
-  | 'tel'

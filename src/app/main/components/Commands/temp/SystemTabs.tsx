@@ -1,5 +1,4 @@
 import React from 'react'
-// import styled from 'styled-components'
 // import { Tabs, Tab, TabPanel } from './Tabs'
 // import { Paper, Typography } from '@material-ui/core'
 
@@ -48,10 +47,3 @@ import React from 'react'
 //   )
 // }
 
-// export default styled(SystemTabs)`
-//   .tab-content {
-//     justify-content: center;
-//     align-items: center;
-//     width: 80%;
-//   }
-// `

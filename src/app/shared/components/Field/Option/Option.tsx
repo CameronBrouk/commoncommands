@@ -1,5 +1,4 @@
-import React, { useRef } from 'react'
-import styled from 'styled-components'
+import React, {useRef} from 'react'
 
 import useOption from './useOption'
 
@@ -11,9 +10,9 @@ export interface OptionProps extends ButtonElement {
   onSelect: (value: any) => void
 }
 
-const Option: FC<OptionProps> = props => {
+const Option: FC<OptionProps> = (props) => {
   const buttonRef = useRef<HTMLButtonElement>(null)
-  const { checkbox = false, onSelect = () => {} } = props
+  const {checkbox = false, onSelect = () => {}} = props
 
   useOption(buttonRef, () => handleSelect())
 
@@ -36,28 +35,3 @@ const Option: FC<OptionProps> = props => {
     </button>
   )
 }
-
-export default styled(Option)`
-  align-items: center;
-  background: white;
-  border-radius: 5px;
-  border: none;
-  display: flex;
-  flex-direction: row;
-  margin-bottom: 5px;
-  padding: 0.5em;
-  text-align: left;
-  width: 100%;
-
-  color: darkblue;
-  background: lightblue;
-
-  :focus,
-  :hover {
-    background: ${({ selected }) => (selected ? 'green' : ' blue')};
-  }
-  :disabled {
-    background: #eee;
-    color: darkgrey;
-  }
-`

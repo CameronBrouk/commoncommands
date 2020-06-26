@@ -1,5 +1,4 @@
 import React from 'react'
-import styled from 'styled-components'
 import {
   ExpansionPanel,
   ExpansionPanelSummary,
@@ -15,7 +14,7 @@ interface Props {
   commands: Model.Command[]
 }
 
-const CommandCategory = ({ commands }: Props) => {
+const CommandCategory = ({commands}: Props) => {
   const categories = Helper.getCategoriesFromCommands(commands)
   const commandsByCategory = Helper.sortCommandByCategory(commands)
   return (
@@ -30,7 +29,7 @@ const CommandCategory = ({ commands }: Props) => {
               <ExpansionPanelDetails>
                 <CommandsTable
                   commands={commandsByCategory[category]}
-                  system={{ id: '1', name: 'windows' }}
+                  system={{id: '1', name: 'windows'}}
                 />
               </ExpansionPanelDetails>
             </ExpansionPanel>
@@ -39,9 +38,3 @@ const CommandCategory = ({ commands }: Props) => {
     </>
   )
 }
-
-export default styled(CommandCategory)`
-  h1 {
-    color: white;
-  }
-`

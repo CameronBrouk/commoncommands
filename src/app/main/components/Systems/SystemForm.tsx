@@ -1,12 +1,11 @@
 import React from 'react'
-import styled from 'styled-components'
-import { Form } from 'react-final-form'
-import { TextField } from 'mui-rff'
-import { Button, IconButton } from '@material-ui/core'
+import {Form} from 'react-final-form'
+import {TextField} from 'mui-rff'
+import {Button, IconButton} from '@material-ui/core'
 import CloseOutlinedIcon from '@material-ui/icons/Close'
-import { useSystems } from '../../hooks'
-import { useObservable } from 'rxjs-hooks'
-import { of } from 'rxjs'
+import {useSystems} from '../../hooks'
+import {useObservable} from 'rxjs-hooks'
+import {of} from 'rxjs'
 
 import * as Model from '../../models'
 
@@ -15,10 +14,10 @@ interface Props {
   systemId?: string
 }
 
-type FormData = { name: string }
+type FormData = {name: string}
 
-const SystemForm = ({ systemId, className }: Props) => {
-  const { createSystem, getSystem$, updateSystem, deleteSystem } = useSystems()
+const SystemForm = ({systemId, className}: Props) => {
+  const {createSystem, getSystem$, updateSystem, deleteSystem} = useSystems()
 
   const system: Model.System | null = useObservable(() =>
     !!systemId ? getSystem$<Model.System>(systemId) : of(),
@@ -30,9 +29,9 @@ const SystemForm = ({ systemId, className }: Props) => {
 
   const handleSubmit = (formData: FormData) => {
     if (system) {
-      updateSystem(system.id, { name: formData.name })
+      updateSystem(system.id, {name: formData.name})
     } else {
-      createSystem({ name: formData.name })
+      createSystem({name: formData.name})
     }
   }
 
@@ -40,8 +39,8 @@ const SystemForm = ({ systemId, className }: Props) => {
     <div className={className}>
       <Form
         onSubmit={handleSubmit}
-        initialValues={{ name: defaultValue }}
-        render={({ handleSubmit, submitting, pristine, valid }) => (
+        initialValues={{name: defaultValue}}
+        render={({handleSubmit, submitting, pristine, valid}) => (
           <form onSubmit={handleSubmit} className='create-system-form'>
             <TextField label={defaultInputLabel} name='name' required={true} />
 
@@ -68,29 +67,3 @@ const SystemForm = ({ systemId, className }: Props) => {
     </div>
   )
 }
-
-export default styled(SystemForm)`
-  display: flex;
-  height: 50%;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-
-  .create-system-form {
-    display: flex;
-  }
-
-  .remove-system-button,
-  .create-system-button {
-    margin-top: 10px;
-    height: 90%;
-  }
-
-  .remove-system-button {
-    color: red;
-  }
-
-  .create-system-button {
-    margin-left: 5px;
-  }
-`
