@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './app/App'
-import './styles/global.scss'
+import 'tailwindcss'
 import * as serviceWorker from './serviceWorker'
 
 // Firebase

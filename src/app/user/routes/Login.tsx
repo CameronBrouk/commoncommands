@@ -2,19 +2,15 @@ import React from 'react'
 import firebase from 'firebase'
 import { useHistory } from 'react-router'
 import { email, min } from '../../shared/utils/form-validators'
-import { Button } from '@material-ui/core'
-import { withSnackbar, useSnackbar } from 'notistack'
 
 const Login = ({ ...props }: any) => {
   const history = useHistory()
-  const { enqueueSnackbar } = useSnackbar()
   const auth = firebase.auth()
 
   const handleSubmit = (formData: any) => {
-    auth
-      .signInWithEmailAndPassword(formData.email, formData.password)
-      .then(user => enqueueSnackbar('Logged In!', { variant: 'success' }))
-      .catch(error => enqueueSnackbar(error.message, { variant: 'error' }))
+    auth.signInWithEmailAndPassword(formData.email, formData.password)
+    // .then(user => enqueueSnackbar('Logged In!', { variant: 'success' }))
+    // .catch(error => enqueueSnackbar(error.message, { variant: 'error' }))
   }
 
   return (
@@ -22,12 +18,12 @@ const Login = ({ ...props }: any) => {
       <h1>Login</h1>
       <form onSubmit={handleSubmit}>
         <div className='buttons'>
-          <Button type='submit' color='primary' variant='contained'>
+          {/* <Button type='submit' color='primary' variant='contained'>
             Login
-          </Button>
-          <Button type='button' onClick={() => history.push('/register')}>
+          </Button> */}
+          {/* <Button type='button' onClick={() => history.push('/register')}>
             Register
-          </Button>
+          </Button> */}
         </div>
       </form>
     </div>

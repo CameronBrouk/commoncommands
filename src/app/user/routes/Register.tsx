@@ -2,12 +2,9 @@ import React from 'react'
 import firebase from 'firebase'
 import { Permissions } from '../models'
 import { useHistory } from 'react-router'
-import { Button } from '@material-ui/core'
-import { withSnackbar, useSnackbar } from 'notistack'
 import { useFirestore } from 'app/shared/hooks'
 
 const Register = ({ ...props }: any) => {
-  const { enqueueSnackbar } = useSnackbar()
   const { createWithId: createPermissions } = useFirestore<Permissions>(
     'permissions',
   )
@@ -24,11 +21,10 @@ const Register = ({ ...props }: any) => {
             role: 'customer',
             groups: ['user'],
           })
-          enqueueSnackbar('Account Created!', { variant: 'success' })
           history.push('/home')
         }
       })
-      .catch(error => enqueueSnackbar(error.message, { variant: 'error' }))
+      .catch(console.log)
   }
 
   return (
@@ -36,12 +32,12 @@ const Register = ({ ...props }: any) => {
       <h1>Register</h1>
       <form onSubmit={handleSubmit}>
         <div className='buttons'>
-          <Button type='submit' color='primary' variant='contained'>
+          {/* <Button type='submit' color='primary' variant='contained'>
             Register
-          </Button>
-          <Button type='button' onClick={() => history.push('/login')}>
+          </Button> */}
+          {/* <Button type='button' onClick={() => history.push('/login')}>
             Login
-          </Button>
+          </Button> */}
         </div>
       </form>
     </div>
