@@ -18,7 +18,7 @@ const Home = () => {
   console.log('commands', commands)
 
   return (
-    <div>
+    <div className='text-xl'>
       <h1>hello</h1>
     </div>
   )
