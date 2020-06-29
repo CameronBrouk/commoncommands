@@ -6,7 +6,7 @@ import * as Model from '../../models'
 import * as Style from '../Commands/temp/tabs.styles'
 import QuickEditorTable from './QuickEditorTable'
 
-type CollectionNames = 'systems' | 'commands'
+type CollectionNames = 'systems' | 'commands' | 'profiles'
 type CollectionData = Model.System[] | Model.Command[]
 interface Props {
   API: any
@@ -53,7 +53,7 @@ const QuickEditor = (props: Props) => {
           apiArray.map(([collectionName, collectionDataSet], i) => (
             <TabPanel value={i} index={i} key={i}>
               <QuickEditorTable
-                collectionName={collectionName}
+                collectionName={collectionName as any}
                 collection={collectionDataSet}
                 columns={setColumns(collectionDataSet)}
               />

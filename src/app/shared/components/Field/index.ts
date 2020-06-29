@@ -1,5 +1,2 @@
-import Input from './Input/Input'
-import Option from './Option/Option'
-import Select from './Select/Select'
-
-export { Input, Option }
+export * from './Input/Input'
+export * from './Option/Option'

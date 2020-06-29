@@ -1,29 +1,29 @@
-import React, { useState, useMemo, createContext, useEffect } from 'react'
+import React, { createContext } from 'react'
 import { useObservable } from 'rxjs-hooks'
-import { combineLatest, BehaviorSubject } from 'rxjs'
-import { tap, map, filter, pluck, switchMap } from 'rxjs/operators'
-import { Permissions, defaultUser, defaultPermissions } from './user/models'
+import { combineLatest } from 'rxjs'
+import { map, filter, switchMap, pluck } from 'rxjs/operators'
+import { Permissions, defaultPermissions } from './user/models'
 import { authState } from 'rxfire/auth'
-import { usePermissions } from './user/hooks'
 import firebase from 'firebase'
+import { useFirestore } from './shared/hooks'
 
 const defaultContext = {
   uid: '',
-  currentUser: defaultUser,
+  currentUser: {},
   permissions: defaultPermissions,
 }
 
-export const AppContext = createContext<any>(defaultContext)
+export const AppContext = createContext<typeof defaultContext>(defaultContext)
 
 export const AppProvider = ({ children }: any) => {
-  const { getPermissions$ } = usePermissions()
-
-  const loading$ = new BehaviorSubject(false)
+  const { getSingle$: getPermissions$ } = useFirestore<Permissions>(
+    'permissions',
+  )
 
   const state = useObservable(() => {
     const loggedIn$ = authState(firebase.auth()).pipe(filter(user => !!user))
 
-    const uid$ = loggedIn$.pipe(map(user => user.uid))
+    const uid$ = loggedIn$.pipe(pluck('uid'))
 
     const permissions$ = uid$.pipe(switchMap(getPermissions$))
 
@@ -47,7 +47,7 @@ export const AppProvider = ({ children }: any) => {
         }
       }),
     )
-  }, defaultContext as any)
+  }, defaultContext)
 
   return (
     <AppContext.Provider
@@ -55,7 +55,6 @@ export const AppProvider = ({ children }: any) => {
         uid: state.uid,
         currentUser: state.currentUser,
         permissions: state.permissions,
-        loading$: loading$,
       }}>
       {children}
     </AppContext.Provider>

@@ -1,6 +1,7 @@
 import React from 'react'
 import MaterialTable, { Column } from 'material-table'
-import { useSystems } from '../../hooks'
+
+import { useFirestore } from '../../../shared/hooks'
 
 import * as Model from '../../models'
 interface Props {
@@ -8,7 +9,11 @@ interface Props {
 }
 
 const SystemsQuickEdit = (props: Props) => {
-  const { updateSystem, deleteSystem, createSystem } = useSystems()
+  const {
+    update: updateSystem,
+    remove: deleteSystem,
+    create: createSystem,
+  } = useFirestore<Model.System>('systems')
 
   const columns: Array<Column<Model.System>> = [
     { title: 'Name', field: 'name' },

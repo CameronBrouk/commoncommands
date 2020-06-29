@@ -1,20 +1,16 @@
 import React from 'react'
 import MaterialTable, { Column } from 'material-table'
-import { useCommands } from '../../hooks'
 
 import * as Model from '../../models'
-import { useFirestore } from '../../../shared/hooks'
-
+import { CollectionNames, useFirestore } from '../../../shared/hooks'
 interface Props {
-  collectionName: string
+  collectionName: CollectionNames
   collection: Model.Command[] | Model.System[]
   columns: Array<Column<Model.Command | Model.System>>
 }
 
 const QuickEditorTable = ({ collection, collectionName, columns }: Props) => {
-  const { updateDocument, deleteDocument, createDocument } = useFirestore(
-    collectionName,
-  )
+  const { update, remove, create } = useFirestore(collectionName)
 
   const title = 'Edit ' + collectionName
 
@@ -24,9 +20,9 @@ const QuickEditorTable = ({ collection, collectionName, columns }: Props) => {
       columns={columns}
       data={collection}
       editable={{
-        onRowAdd: newData => createDocument(newData),
-        onRowUpdate: (newData, oldData) => updateDocument(newData.id, newData),
-        onRowDelete: oldData => deleteDocument(oldData.id),
+        onRowAdd: newData => create(newData),
+        onRowUpdate: (newData, oldData) => update(newData.id, newData),
+        onRowDelete: oldData => remove(oldData.id),
       }}
     />
   )

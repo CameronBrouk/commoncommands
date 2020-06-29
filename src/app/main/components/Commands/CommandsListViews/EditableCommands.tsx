@@ -1,6 +1,6 @@
 import React from 'react'
 import MaterialTable, { Column } from 'material-table'
-import { useCommands } from '../../../hooks'
+import { useFirestore } from '../../../../shared/hooks'
 
 import * as Model from '../../../models'
 
@@ -10,7 +10,11 @@ interface Props {
 }
 
 const EditableCommands = (props: Props) => {
-  const { updateCommand, deleteCommand, createCommand } = useCommands()
+  const {
+    update: updateCommand,
+    remove: deleteCommand,
+    create: createCommand,
+  } = useFirestore<Model.Command>('commands')
 
   const columns: Array<Column<Model.Command>> = [
     { title: 'Name', field: 'name' },

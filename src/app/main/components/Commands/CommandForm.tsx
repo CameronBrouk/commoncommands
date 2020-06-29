@@ -1,11 +1,12 @@
 import React from 'react'
-import {Button} from '@material-ui/core'
-import {useSystems} from '../../hooks'
-import {useObservable} from 'rxjs-hooks'
-import {pluck} from 'rxjs/operators'
+import { Button } from '@material-ui/core'
+import { useObservable } from 'rxjs-hooks'
+import { pluck } from 'rxjs/operators'
+import { useFirestore } from 'app/shared/hooks'
+import { System } from 'app/main/models'
 
-const CommandForm = ({...props}: any) => {
-  const {getSystems$} = useSystems()
+const CommandForm = ({ ...props }: any) => {
+  const { getList$: getSystems$ } = useFirestore<System>('systems')
   const systems = useObservable(() => getSystems$().pipe(pluck('name')))
   const handleSubmit = (formData: any) => {}
 
@@ -21,3 +22,4 @@ const CommandForm = ({...props}: any) => {
   )
 }
 
+export default CommandForm

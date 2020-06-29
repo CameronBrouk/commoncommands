@@ -1,14 +1,14 @@
-import React, {useContext} from 'react'
+import React, { useContext } from 'react'
 
-import {useCheckPermission} from '../../../user/hooks/permissions.hooks'
-import {useHistory} from 'react-router-dom'
+import { useCheckPermission } from '../../../user/hooks/'
+import { useHistory } from 'react-router-dom'
 
 import * as Constant from './nav.constants'
 import * as Helper from './nav.helpers'
 
-const DesktopNav = ({...props}) => {
+const DesktopNav = ({ ...props }) => {
   const history = useHistory()
-  const {hasClearance} = useCheckPermission()
+  const { hasClearance } = useCheckPermission()
 
   const handleClick = (route: string) => history.push(route)
 
@@ -19,7 +19,7 @@ const DesktopNav = ({...props}) => {
 
   return (
     <header className={props.className}>
-      <h3 style={{color: 'black'}}>Common Command</h3>
+      <h3 style={{ color: 'black' }}>Common Command</h3>
       {/* {routes.map((route, i) => (
         <button
           key={i}
@@ -37,3 +37,4 @@ const DesktopNav = ({...props}) => {
     </header>
   )
 }
+export default DesktopNav

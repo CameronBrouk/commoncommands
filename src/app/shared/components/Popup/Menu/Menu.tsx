@@ -1,17 +1,21 @@
-import React, {useEffect} from 'react'
-import {animated, useTransition} from 'react-spring'
+import React, { useEffect } from 'react'
+import { animated, useTransition } from 'react-spring'
 
-import useClickOutside from 'components/Popup/useClickOutside'
-import {setPosition} from 'utils/viewport'
+import useClickOutside from '../useClickOutside'
+import { setPosition } from '../../../utils/viewport'
 
-import {useKeybind} from 'hooks/useKeybind'
+import { useKeybind } from '../../../hooks/useKeybind'
 
 export interface MenuProps extends DivElement {
   isVisible: boolean
   onClose?: () => void
 }
 
-const Menu = ({isVisible, onClose = () => '', ...props}: MenuProps) => {
+export const Menu = ({
+  isVisible,
+  onClose = () => '',
+  ...props
+}: MenuProps) => {
   const menuRef = useClickOutside(isVisible, onClose)
 
   useEffect(() => {
@@ -19,7 +23,7 @@ const Menu = ({isVisible, onClose = () => '', ...props}: MenuProps) => {
     if (divElement) setPosition(divElement)
   })
 
-  useKeybind('Escape', onClose)
+  useKeybind(['Escape'], onClose)
 
   const transitions = useTransition(isVisible, null, slideDownTransition)
 
@@ -27,13 +31,13 @@ const Menu = ({isVisible, onClose = () => '', ...props}: MenuProps) => {
     <>
       {isVisible &&
         transitions.map(
-          ({item: showAnimation, props: animation, key}) =>
+          ({ item: showAnimation, props: animation, key }) =>
             showAnimation && (
               <animated.dialog
                 aria-expanded={isVisible}
                 className={props.className}
                 key={key}
-                style={{...animation, ...props.style}}
+                style={{ ...animation, ...props.style }}
                 ref={menuRef}>
                 {props.children}
               </animated.dialog>

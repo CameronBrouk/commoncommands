@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { tap, pluck } from 'rxjs/operators'
-import { fromRefEvent, onlyKeys } from 'utils/rxjs'
+import { fromRefEvent, onlyKeys } from '../../../utils/rxjs'
 /**
  *  This Hook Gives a button element the same functionality
  *  as the HTML Native <option> element

@@ -1,6 +1,5 @@
 import React, { useContext } from 'react'
 import { AppContext } from '../App.context'
-
 interface Props {
   currentUser: any
 }
@@ -8,10 +7,6 @@ interface Props {
 const User = () => {
   const pageName = 'User'
   const { currentUser, permissions, uid } = useContext(AppContext)
-
-  // console.log('user', currentUser)
-  // console.log('permissions', permissions)
-  // console.log('uid', uid)
 
   return (
     <div>

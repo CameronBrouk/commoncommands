@@ -14,3 +14,5 @@ const SearchableCommands = (props: Props) => {
     </div>
   )
 }
+
+export default SearchableCommands

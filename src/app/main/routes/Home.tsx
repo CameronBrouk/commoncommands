@@ -3,33 +3,25 @@ import { animated } from 'react-spring'
 import { useObservable } from 'rxjs-hooks'
 import { combineLatest } from 'rxjs'
 
-import { useSystems, useCommands } from '../hooks'
 import { Tabs, Tab, TabPanel } from '../components'
 import { Styles } from '../../../styles/classes'
 
-import * as Model from '../models'
-import * as Helper from '../helpers'
-
-import Commands from '../components/Commands/Commands'
-import { useUI } from '../../shared/hooks/ui.hooks'
-import { useKeybind, useToggleAnimation } from '../../shared/hooks'
-import { TestOptionsComponent } from '../../shared/hooks/useOptionsList/mock/mockComponent'
+import { useUI } from '../../shared/hooks/'
+import { useFirestore } from '../../shared/hooks'
+import { System, Command } from '../models'
 
 const Home = () => {
   const { isMobile } = useUI()
   const [bool, setBool] = useState(false)
-  const { slideLeft, slideRight, grow, fade } = useToggleAnimation(bool)
 
   const [currentTabIndex, setCurrentTabIndex] = useState(0)
+  const { getList$: getSystems$ } = useFirestore<System>('systems')
+  const { getList$: getCommands$ } = useFirestore<Command>('commands')
 
-  const { getSystems$ } = useSystems()
-  const { getCommands$ } = useCommands()
-
-  const [systems, commands] = useObservable(() => {
-    const systems$ = getSystems$<Model.System>()
-    const commands$ = getCommands$<Model.Command>()
-    return combineLatest(systems$, commands$)
-  }, [[], []])
+  const [systems, commands] = useObservable(
+    () => combineLatest(getSystems$(), getCommands$()),
+    [[], []],
+  )
 
   const handleTabChange = (event: any, newValue: number) => {
     setCurrentTabIndex(newValue)
@@ -41,16 +33,6 @@ const Home = () => {
   return (
     <section className={home}>
       <button onClick={toggle}>BUTTON</button>
-      {/* <animated.div style={fade}>dkfjadslfkksdf;jlakf</animated.div> */}
-      {/* {bool && (
-        <animated.div style={slideLeft}>dkfjadslfkksdf;jlakf</animated.div>
-      )} */}
-      {/* <animated.div style={slideLeft}>dkfjadslfkksdf;jlakf</animated.div> */}
-      <animated.div style={slideLeft}>
-        <div style={{ background: 'red', height: '10vh', width: '10vw' }}></div>
-      </animated.div>
-      <div>dkfjadslfkksdf;jlakf</div>
-      <TestOptionsComponent />
       {/* {systems && commands && (
         <div className={tabs}>
           <Tabs

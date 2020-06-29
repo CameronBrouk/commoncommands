@@ -2,7 +2,7 @@ import React from 'react'
 
 type InputProps = {
   label: string
-  type: InputTypes
+  type: any
   required: boolean
   error?: string
   hint?: string
@@ -10,7 +10,7 @@ type InputProps = {
 
 type Props = InputProps & InputElement
 
-export const Input = ({label, hint, error, type, ...rest}: Props) => {
+export const Input = ({ label, hint, error, type, ...rest }: Props) => {
   return (
     <>
       <label htmlFor={label}>

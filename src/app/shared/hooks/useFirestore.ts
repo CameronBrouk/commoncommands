@@ -1,16 +1,21 @@
-import {docData, collectionData} from 'rxfire/firestore'
-import {useObservable} from 'rxjs-hooks'
-import {map} from 'rxjs/operators'
-import {useParams} from 'react-router'
+import { docData, collectionData } from 'rxfire/firestore'
+import { useObservable } from 'rxjs-hooks'
+import { map } from 'rxjs/operators'
+import { useParams } from 'react-router'
 import firebase from 'firebase'
 
-type CollectionNames = 'users' | 'permissions' | 'profiles'
+export type CollectionNames =
+  | 'users'
+  | 'permissions'
+  | 'profiles'
+  | 'commands'
+  | 'systems'
 
-interface Document {
-  id: ID
+export interface DocumentDefaults {
+  id: string
   deleted?: boolean
-  createdAt?: Date
-  updatedAt?: Date
+  createdAt: Date
+  updatedAt: Date
 }
 
 /**
@@ -18,72 +23,47 @@ interface Document {
  * It is a shorthand way to get the base api functions for any new collection.  See 'users/hooks/usePermissions' for an example
  * @param firestoreCollection name of the collection in firebase firestore
  */
-export default function useFirestore<T extends Document>(
-  firestoreCollection: CollectionNames,
-) {
+export function useFirestore<T>(firestoreCollection: CollectionNames) {
+  type Doc = T & DocumentDefaults
   const collection = firebase.firestore().collection(firestoreCollection)
 
-  const handleSuccess = (docData: any) => docData
-  const handleError = (error: any) => console.log('error', error)
+  const filterDeleted = (data: Doc[]) => data.filter(({ deleted }) => !deleted)
 
-  const getCollection = () =>
-    collection.get().then(handleSuccess).catch(handleError)
+  const getList$ = () =>
+    collectionData<Doc>(collection).pipe(map(filterDeleted))
 
-  const getCollection$ = () =>
-    collectionData<T>(collection).pipe(
-      // Only Show Collections that Haven't been 'deleted'
-      map((data) => data.filter((data) => !data.deleted)),
-    )
+  const getSingle$ = (id: string) => docData<T>(collection.doc(id))
 
-  const getDocument = (id: string): Promise<T> =>
-    collection.doc(id).get().then(handleSuccess).catch(handleError)
+  const create = async (data: Omit<T, 'id'>) => {
+    const { id } = await collection.add(data)
+    return await collection.doc(id).update({ id: id, createdAt: new Date() })
+  }
 
-  const getDocument$ = (id: string) => docData<T>(collection.doc(id))
+  const createWithId = (id: string, data: T) => collection.doc(id).set(data)
 
-  const createDocument = (data: T) =>
-    collection
-      .add(data)
-      .then(({id}) => {
-        // Add the ID and a CreatedAt to the documents data
-        updateDocument(id, {
-          id: id,
-          createdAt: new Date(),
-        } as Partial<T>)
-      })
-      .catch(handleError)
+  const update = async (id: string, data: Partial<T>) =>
+    await collection.doc(id).update({ ...data, updatedAt: new Date() })
 
-  const createDocumentWithId = (id: string, data: T) =>
-    collection.doc(id).set(data).then(handleSuccess).catch(handleError)
-
-  const updateDocument = (id: string, data: Partial<T>): Promise<T> =>
-    collection
-      .doc(id)
-      .update({...data, updatedAt: new Date()})
-      .then(handleSuccess)
-      .catch(handleError)
-
-  const deleteDocument = (id: string) =>
-    collection.doc(id).update({deleted: true, updatedAt: new Date()})
+  const remove = (id: string) =>
+    collection.doc(id).update({ deleted: true, updatedAt: new Date() })
 
   return {
     collection,
-    getCollection,
-    getCollection$,
-    getDocument,
-    getDocument$,
-    createDocument,
-    createDocumentWithId,
-    updateDocument,
-    deleteDocument,
+    getList$,
+    getSingle$,
+    create,
+    createWithId,
+    update,
+    remove,
   }
 }
 
 /** Grab Document from the specified collection whos id is equal to the id in route params*/
 export const useDocumentFromRouteParams = (collection: CollectionNames) => {
-  const {getDocument$} = useFirestore(collection)
-  const {id} = useParams<any>()
+  const { getSingle$ } = useFirestore(collection)
+  const { id } = useParams<any>()
 
-  const document = useObservable(() => getDocument$(id))
+  const document = useObservable(() => getSingle$(id))
 
   return document
 }

@@ -1,16 +1,16 @@
 import React from 'react'
-import {BrowserRouter as Router} from 'react-router-dom'
-import {CssBaseline, ThemeProvider} from '@material-ui/core'
-import {SnackbarProvider} from 'notistack'
-import {DesktopNav, MobileNav} from './main/components'
+import { BrowserRouter as Router } from 'react-router-dom'
+import { CssBaseline, ThemeProvider } from '@material-ui/core'
+import { SnackbarProvider } from 'notistack'
+import { DesktopNav, MobileNav } from './main/components'
 
-import {useUI} from './shared/hooks/ui.hooks'
+import { useUI } from './shared/hooks/'
 import AppRoutes from './App.routes'
 import AppProvider from './App.context'
 import theme from '../styles/theme'
 
 const App = () => {
-  const {isMobile} = useUI()
+  const { isMobile } = useUI()
 
   return (
     <>
@@ -31,3 +31,5 @@ const App = () => {
     </>
   )
 }
+
+export default App

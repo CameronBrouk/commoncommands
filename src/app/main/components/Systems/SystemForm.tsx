@@ -1,69 +1,59 @@
 import React from 'react'
-import {Form} from 'react-final-form'
-import {TextField} from 'mui-rff'
-import {Button, IconButton} from '@material-ui/core'
+import { Button, IconButton } from '@material-ui/core'
 import CloseOutlinedIcon from '@material-ui/icons/Close'
-import {useSystems} from '../../hooks'
-import {useObservable} from 'rxjs-hooks'
-import {of} from 'rxjs'
+import { useObservable } from 'rxjs-hooks'
+import { of } from 'rxjs'
 
 import * as Model from '../../models'
+import { useFirestore } from 'app/shared/hooks'
 
 interface Props {
-  className?: any
   systemId?: string
 }
 
-type FormData = {name: string}
-
-const SystemForm = ({systemId, className}: Props) => {
-  const {createSystem, getSystem$, updateSystem, deleteSystem} = useSystems()
+const SystemForm = ({ systemId }: Props) => {
+  const {
+    create: createSystem,
+    getSingle$: getSystem$,
+    update: updateSystem,
+    remove: deleteSystem,
+  } = useFirestore<Model.System>('systems')
 
   const system: Model.System | null = useObservable(() =>
-    !!systemId ? getSystem$<Model.System>(systemId) : of(),
+    !!systemId ? getSystem$(systemId) : of(),
   )
 
   const defaultInputLabel = system ? system.name : 'System Name'
   const defaultValue = system ? system.name : ''
   const defaultButtonLabel = system ? 'Update' : 'Create'
 
-  const handleSubmit = (formData: FormData) => {
+  const handleSubmit = (formData: any) => {
     if (system) {
-      updateSystem(system.id, {name: formData.name})
+      updateSystem(system.id, { name: formData.name })
     } else {
-      createSystem({name: formData.name})
+      createSystem({ name: formData.name })
     }
   }
 
   return (
-    <div className={className}>
-      <Form
-        onSubmit={handleSubmit}
-        initialValues={{name: defaultValue}}
-        render={({handleSubmit, submitting, pristine, valid}) => (
-          <form onSubmit={handleSubmit} className='create-system-form'>
-            <TextField label={defaultInputLabel} name='name' required={true} />
-
-            <Button
-              className='create-system-button'
-              disabled={submitting || pristine || !valid}
-              type='submit'
-              color='primary'
-              variant='contained'>
-              {defaultButtonLabel}
-            </Button>
-          </form>
-        )}
-      />
+    <div>
+      <form>
+        <Button
+          // disabled={submitting || pristine || !valid}
+          type='submit'
+          color='primary'
+          variant='contained'>
+          {defaultButtonLabel}
+        </Button>
+      </form>
 
       {system && (
-        <IconButton
-          className='remove-system-button'
-          type='button'
-          onClick={() => deleteSystem(system.id)}>
+        <IconButton type='button' onClick={() => deleteSystem(system.id)}>
           <CloseOutlinedIcon />
         </IconButton>
       )}
     </div>
   )
 }
+
+export default SystemForm

@@ -1,3 +1,1 @@
-import Meta from './HTML/Meta/Meta'
-
-export { Meta }
+export * from './Meta'
