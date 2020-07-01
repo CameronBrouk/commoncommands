@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from '../Link'
 
 export const ProfileDropdown = () => {
+  const [isOpen, setIsOpen] = useState(false)
+  const toggleOpen = () => setIsOpen(v => !v)
   return (
     <div className='ml-4 flex items-center md:ml-6'>
       {/* <!-- Profile dropdown --> */}
@@ -11,6 +13,7 @@ export const ProfileDropdown = () => {
             className='max-w-xs flex items-center text-sm rounded-full focus:outline-none focus:shadow-outline'
             id='user-menu'
             aria-label='User menu'
+            onClick={toggleOpen}
             aria-haspopup='true'>
             <img
               className='h-8 w-8 rounded-full'
@@ -29,17 +32,19 @@ export const ProfileDropdown = () => {
                 From: "transform opacity-100 scale-100"
                 To: "transform opacity-0 scale-95"
             --> */}
-        <div className='origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg'>
-          <div
-            className='py-1 rounded-md bg-white shadow-xs'
-            role='menu'
-            aria-orientation='vertical'
-            aria-labelledby='user-menu'>
-            <Link to='#' title='Your Profile' role='menuitem' />
-            <Link to='#' title='Settings' role='menuitem' />
-            <Link to='#' title='Sign Out' role='menuitem' />
+        {isOpen && (
+          <div className='origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg'>
+            <div
+              className='py-1 rounded-md bg-white shadow-xs'
+              role='menu'
+              aria-orientation='vertical'
+              aria-labelledby='user-menu'>
+              <Link to='#' title='Your Profile' role='menuitem' />
+              <Link to='#' title='Settings' role='menuitem' />
+              <Link to='#' title='Sign Out' role='menuitem' />
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   )
