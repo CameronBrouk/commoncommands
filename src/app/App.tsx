@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 
-import { DesktopSidebar, MobileSidebar, Search } from './tailwind-ui'
-import { Main } from './components'
+import { DesktopSidebar, MobileSidebar } from './main/components/Sidebar'
+import { Main, Header } from './main/components'
 
 import { useUI } from './shared/hooks/'
 import AppRoutes from './App.routes'
@@ -11,7 +11,6 @@ import AppProvider from './App.context'
 const App = () => {
   const { isMobile } = useUI()
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
-  // console.log(isSidebarOpen)
 
   return (
     <>
@@ -48,7 +47,7 @@ const App = () => {
                   </svg>
                 </button>
 
-                <Search />
+                <Header />
               </div>
 
               <Main />

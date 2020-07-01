@@ -1,5 +1,6 @@
 import React from 'react'
 import { HomeIcon } from './HomeIcon'
+import { SearchIcon } from './SearchIcon'
 import { PeopleIcon } from './PeopleIcon'
 import { FolderIcon } from './FolderIcon'
 import { CalendarIcon } from './CalendarIcon'
@@ -14,6 +15,7 @@ export type IconNames =
   | 'reports'
   | 'document'
   | 'bell'
+  | 'search'
 
 type Props = {
   iconName: IconNames
@@ -28,6 +30,7 @@ export const Icon = ({ iconName }: Props) => {
       {iconName === 'calendar' && <CalendarIcon />}
       {iconName === 'reports' && <ReportsIcon />}
       {iconName === 'document' && <DocumentIcon />}
+      {iconName === 'search' && <SearchIcon />}
     </>
   )
 }

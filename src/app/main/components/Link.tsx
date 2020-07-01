@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link as RouterLink } from 'react-router-dom'
-import { Icon, IconNames } from '../../icons/Icon'
+import { Icon, IconNames } from './Icons/Icon'
 
 type Props = {
   to: string

@@ -1,5 +1,4 @@
 import React from 'react'
-import { Content } from '../tailwind-ui'
 
 export const Main = () => {
   return (
@@ -12,7 +11,7 @@ export const Main = () => {
       <div className='max-w-7xl mx-auto px-4 sm:px-6 md:px-8'>
         <div className='py-4'>
           <div className='border-4 border-dashed border-gray-200 rounded-lg h-96'>
-            <Content />
+            {/* <Content /> */}
           </div>
         </div>
       </div>

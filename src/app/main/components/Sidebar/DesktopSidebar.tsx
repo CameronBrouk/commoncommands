@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from './Link'
+import { Link } from '../Link'
 
 export const DesktopSidebar = () => (
   <div className='hidden md:flex md:flex-shrink-0'>

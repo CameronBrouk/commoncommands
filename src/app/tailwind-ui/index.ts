@@ -1,6 +1,0 @@
-export * from './sidebars/DarkSidebarLightHeader/Link'
-export * from './sidebars/DarkSidebarLightHeader/Content'
-export * from './sidebars/DarkSidebarLightHeader/DesktopSidebar'
-export * from './sidebars/DarkSidebarLightHeader/MobileSidebar'
-export * from './icons/Icon'
-export * from './fields'
