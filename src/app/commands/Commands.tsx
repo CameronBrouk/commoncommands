@@ -2,10 +2,10 @@ import React from 'react'
 import { useObservable } from 'rxjs-hooks'
 import { combineLatest } from 'rxjs'
 
-import { useFirestore } from '../../shared/hooks'
-import { System, Command } from '../models'
+import { useFirestore } from '../shared/hooks'
+import { System, Command } from './models'
 
-const Home = () => {
+export const Commands = () => {
   const { getList$: getSystems$ } = useFirestore<System>('systems')
   const { getList$: getCommands$ } = useFirestore<Command>('commands')
 
@@ -23,5 +23,3 @@ const Home = () => {
     </div>
   )
 }
-
-export default Home

@@ -3,9 +3,9 @@ import { BrowserRouter as Router } from 'react-router-dom'
 
 import { DesktopSidebar, MobileSidebar } from './main/components/Sidebar'
 import { Main, Header } from './main/components'
+import { Commands } from './commands/Commands'
 
 import { useUI } from './shared/hooks/'
-import AppRoutes from './App.routes'
 import AppProvider from './App.context'
 
 const App = () => {
@@ -28,7 +28,9 @@ const App = () => {
             <div className='flex flex-col w-0 flex-1 overflow-hidden'>
               <Header openSidebar={() => setIsSidebarOpen(true)} />
 
-              <Main />
+              <Main>
+                <Commands />
+              </Main>
             </div>
           </div>
         </Router>
