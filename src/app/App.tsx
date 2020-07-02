@@ -4,6 +4,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 import { DesktopSidebar, MobileSidebar } from './main/components/Sidebar'
 import { Main, Header } from './main/components'
 import { Commands } from './commands/Commands'
+import { CommandsProvider } from './commands/Commands.context'
 
 import { useUI } from './shared/hooks/'
 import AppProvider from './App.context'
@@ -15,8 +16,7 @@ const App = () => {
   return (
     <>
       <AppProvider>
-        <Router>
-          {/* <AppRoutes /> */}
+        <CommandsProvider>
           <div className='h-screen flex overflow-hidden bg-gray-100'>
             <MobileSidebar
               isOpen={isSidebarOpen}
@@ -33,7 +33,7 @@ const App = () => {
               </Main>
             </div>
           </div>
-        </Router>
+        </CommandsProvider>
       </AppProvider>
     </>
   )
