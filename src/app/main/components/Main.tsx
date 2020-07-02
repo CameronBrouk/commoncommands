@@ -12,7 +12,7 @@ export const Main: FC<{}> = ({ children }) => {
           {currentSystem} Keybinds
         </h1>
       </div>
-      <div className='max-w-7xl mx-auto px-4 sm:px-6 md:px-8'>
+      <div className='max-w-7xl mx-auto md:px-4 sm:px-6 md:px-8'>
         <div className='py-4'>{children}</div>
       </div>
     </main>
