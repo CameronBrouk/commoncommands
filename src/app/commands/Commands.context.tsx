@@ -2,7 +2,6 @@ import React, { createContext, useState } from 'react'
 import { Command, System } from '../commands/models'
 import { useObservable } from 'rxjs-hooks'
 import { combineLatest } from 'rxjs'
-import { map, filter, switchMap, pluck } from 'rxjs/operators'
 import { useFirestore } from '../shared/hooks'
 
 const defaultContext = {
