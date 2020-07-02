@@ -28,3 +28,9 @@ export const filterCommandsBySystem = (
   commands: Model.Command[],
   system: Model.System,
 ) => commands.filter(command => command.systemRef === system.id)
+
+export const getSystemByName = (name: String, systems: Model.System[]) =>
+  systems.reduce((system, curr) => {
+    if (curr.name === name) return curr
+    return system
+  }, {})
