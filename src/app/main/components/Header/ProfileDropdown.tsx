@@ -39,9 +39,9 @@ export const ProfileDropdown = () => {
               role='menu'
               aria-orientation='vertical'
               aria-labelledby='user-menu'>
-              <Link to='#' title='Your Profile' role='menuitem' />
-              <Link to='#' title='Settings' role='menuitem' />
-              <Link to='#' title='Sign Out' role='menuitem' />
+              <Link title='Your Profile' role='menuitem' />
+              <Link title='Settings' role='menuitem' />
+              <Link title='Sign Out' role='menuitem' />
             </div>
           </div>
         )}

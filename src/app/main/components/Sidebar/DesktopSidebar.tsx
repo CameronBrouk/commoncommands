@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from '../Link'
+import { Nav } from './Nav'
 
 export const DesktopSidebar = () => (
   <div className='hidden md:flex md:flex-shrink-0'>
@@ -11,13 +11,7 @@ export const DesktopSidebar = () => (
             A cheatsheet for commands and keybinds
           </p>
         </div>
-        <nav className='mt-5 flex-1 px-2 bg-gray-800'>
-          <Link to='#' iconName='home' title='Dashboard' />
-          <Link to='#' iconName='people' title='Vim' />
-          <Link to='#' iconName='calendar' title='VsCode' />
-          <Link to='#' iconName='folder' title='Windows' />
-          <Link to='#' iconName='reports' title='Bash' />
-        </nav>
+        <Nav />
       </div>
     </div>
   </div>

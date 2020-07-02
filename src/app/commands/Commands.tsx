@@ -1,25 +1,18 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { useObservable } from 'rxjs-hooks'
 import { combineLatest } from 'rxjs'
+import { filter } from 'rxjs/operators'
 
 import { useFirestore } from '../shared/hooks'
 import { System, Command } from './models'
+import { CommandsContext } from './Commands.context'
 
 export const Commands = () => {
-  const { getList$: getSystems$ } = useFirestore<System>('systems')
-  const { getList$: getCommands$ } = useFirestore<Command>('commands')
-
-  const [systems, commands] = useObservable(
-    () => combineLatest(getSystems$(), getCommands$()),
-    [[], []],
-  )
-
-  console.log('systems', systems)
-  console.log('commands', commands)
+  const { commands } = useContext(CommandsContext)
 
   return (
     <div className='text-xl'>
-      <h1>hello</h1>
+      <div></div>
     </div>
   )
 }

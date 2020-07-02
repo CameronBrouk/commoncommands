@@ -1,14 +1,15 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import { CommandsContext } from '../../../commands/Commands.context'
 import { Link } from '../Link'
 
 export const Nav = () => {
+  const { systems } = useContext(CommandsContext)
+
   return (
-    <>
-      <Link to='#' iconName='home' title='Dashboard' />
-      <Link to='#' iconName='people' title='Vim' />
-      <Link to='#' iconName='calendar' title='VsCode' />
-      <Link to='#' iconName='folder' title='Windows' />
-      <Link to='#' iconName='reports' title='Bash' />
-    </>
+    <nav className='mt-5 flex-1 px-2 bg-gray-800'>
+      {systems.map(system => (
+        <Link iconName='home' title={system.name} key={system.id} />
+      ))}
+    </nav>
   )
 }
