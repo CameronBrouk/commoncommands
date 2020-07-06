@@ -54,7 +54,7 @@ export const Searchable = ({ commands, searchTerm }: Props) => {
 }
 
 const CommandLineItem = ({ command }: { command: Command }) => {
-  const [formOpen, setFormOpen] = useState(true)
+  const [formOpen, setFormOpen] = useState(false)
 
   return (
     <div className='flex p-4 md:m-1 bg-white border-b text-xs' key={command.id}>
