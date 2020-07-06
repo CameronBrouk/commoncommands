@@ -12,6 +12,10 @@ import AppProvider from './App.context'
 const App = () => {
   const { isMobile } = useUI()
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const [searchTerm, setSearchTerm] = useState('')
+
+  const onSearch = (event: React.ChangeEvent<HTMLInputElement>) =>
+    setSearchTerm(event.target.value)
 
   return (
     <>
@@ -26,10 +30,13 @@ const App = () => {
             {!isMobile && <DesktopSidebar />}
 
             <div className='flex flex-col w-0 flex-1 overflow-hidden'>
-              <Header openSidebar={() => setIsSidebarOpen(true)} />
+              <Header
+                openSidebar={() => setIsSidebarOpen(true)}
+                onSearch={onSearch}
+              />
 
               <Main>
-                <Commands />
+                <Commands searchTerm={searchTerm} />
               </Main>
             </div>
           </div>

@@ -18,33 +18,66 @@ export const Menu = ({
 }: MenuProps) => {
   const menuRef = useClickOutside(isVisible, onClose)
 
-  useEffect(() => {
-    const divElement = menuRef?.current
-    if (divElement) setPosition(divElement)
-  })
+  // useEffect(() => {
+  //   const divElement = menuRef?.current
+  //   if (divElement) setPosition(divElement)
+  // })
 
   useKeybind(['Escape'], onClose)
 
-  const transitions = useTransition(isVisible, null, slideDownTransition)
+  // const transitions = useTransition(isVisible, null, slideDownTransition)
+
+  //  background: ${getStyle('menu-background')};
+  //   border-radius: ${metric('largeBorderRadius')};
+  //   border: 1px solid ${getStyle('menu-border-color')};
+  //   box-shadow: 0 3px 10px -2px rgba(0, 0, 0, 0.05), 0 1px 1px 1px rgba(0, 0, 0, 0.05),
+  //     0 2px 3px -1px rgba(0, 0, 0, 0.075);
+  //   position: absolute;
+  //   z-index: ${zIndex('menu')};
+  //   min-width: fit-content;
+
+  //   &:after {
+  //     bottom: -2em;
+  //     content: '';
+  //     left: -2em;
+  //     position: absolute;
+  //     right: -2em;
+  //     top: -2em;
+  //     pointer-events: none;
+  //   }
 
   return (
     <>
-      {isVisible &&
-        transitions.map(
-          ({ item: showAnimation, props: animation, key }) =>
-            showAnimation && (
-              <animated.dialog
-                aria-expanded={isVisible}
-                className={props.className}
-                key={key}
-                style={{ ...animation, ...props.style }}
-                ref={menuRef}>
-                {props.children}
-              </animated.dialog>
-            ),
-        )}
+      {isVisible && (
+        <animated.dialog
+          aria-expanded={isVisible}
+          open={isVisible}
+          ref={menuRef}
+          // style={transitions}
+          className='absolute w-100 bg-white rounded-md border border-gray-400'>
+          {props.children}
+        </animated.dialog>
+      )}
     </>
   )
+
+  // return (
+  //   <>
+  //     {isVisible &&
+  //       transitions.map(
+  //         ({ item: showAnimation, props: animation, key }) =>
+  //           showAnimation && (
+  //             <animated.dialog
+  //               aria-expanded={isVisible}
+  //               className={props.className}
+  //               key={key}
+  //               ref={menuRef}>
+  //               {props.children}
+  //             </animated.dialog>
+  //           ),
+  //       )}
+  //   </>
+  // )
 }
 
 const slideDownTransition = {

@@ -11,7 +11,9 @@ describe('getCategoriesFromCommands', () => {
 
 describe('sortCommandByCategory', () => {
   test('It Returns Dictionary', () => {
-    const sortedDictionary = Helper.sortCommandByCategory(MOCK_DATA.VimCommands)
+    const sortedDictionary = Helper.sortCommandsByCategory(
+      MOCK_DATA.VimCommands,
+    )
 
     expect(sortedDictionary).toEqual(MOCK_DATA.SortedVimDictionary)
   })

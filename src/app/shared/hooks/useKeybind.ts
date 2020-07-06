@@ -6,7 +6,7 @@ import { useObservable } from 'rxjs-hooks'
 // This List is Not Exhaustive, but Native Keyboard Event
 // does not display a specific type
 // prettier-ignore
-type key = 'Escape' | 'Enter' | 'Control' | 'Alt' | 'Option' | 'Command' | 'ArrowLeft' | 'ArrowRight' | 'ArrowDown' | 'ArrowUp' | 'Tab' | 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' | 'y' | 'z'
+type key = '/'| 'Escape' | 'Enter' | 'Control' | 'Alt' | 'Option' | 'Command' | 'ArrowLeft' | 'ArrowRight' | 'ArrowDown' | 'ArrowUp' | 'Tab' | 'a' | 'b' | 'c' | 'd' | 'e' | 'f' | 'g' | 'h' | 'i' | 'j' | 'k' | 'l' | 'm' | 'n' | 'o' | 'p' | 'q' | 'r' | 's' | 't' | 'u' | 'v' | 'w' | 'x' | 'y' | 'z'
 
 /**
  * Calls a Function when a key or series of keys are pressed - Optionally scoped to a single component
@@ -29,9 +29,9 @@ export const useKeybind = (
     fromEvent(ref?.current || document, 'keydown').pipe(
       pluck<Event, key>('key'),
       filter(isHotkeyKey(hotkey)),
-      scan(reduceToArray),
-      map(getLatestHotkeyEvent(hotkey.length)),
-      filter(matchesHotkey(hotkey)),
+      // scan(reduceToArray),
+      // map(getLatestHotkeyEvent(hotkey.length)),
+      // filter(matchesHotkey(hotkey)),
       tap(onPress),
     ),
   )
@@ -47,9 +47,9 @@ export const useKeybind = (
   const getLatestHotkeyEvent = (hotkeyLength: number) => (keyEvents: key[]) =>
     keyEvents.slice(-hotkeyLength)
 
-  const matchesHotkey = (hotKey: key[]) => (keyEvents: key[]) =>
+  const matchesHotkey = (key: key[]) => (keyEvents: key[]) =>
     keyEvents.reduce((allMatch: boolean, key, index) => {
-      const isMatch = hotkey[index] === key
+      const isMatch = key[index] === key
       return isMatch && allMatch
     }, true)
 }

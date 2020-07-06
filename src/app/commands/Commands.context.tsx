@@ -1,8 +1,10 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useState, useEffect } from 'react'
+import * as H from './helpers'
+import { from, combineLatest } from 'rxjs'
+import { map, switchMap } from 'rxjs/operators'
 import { Command, System } from '../commands/models'
 import { useObservable } from 'rxjs-hooks'
-import { combineLatest } from 'rxjs'
-import { useFirestore } from '../shared/hooks'
+import { useFirestore, useFirestoreQuery } from '../shared/hooks'
 
 const defaultContext = {
   commands: [],
@@ -12,7 +14,7 @@ const defaultContext = {
 }
 
 type Context = {
-  commands: Command[]
+  commands: any[]
   systems: System[]
   currentSystem: string
   switchSystem: (system: string) => void
@@ -23,12 +25,25 @@ export const CommandsContext = createContext<Context>(defaultContext)
 export const CommandsProvider = ({ children }: any) => {
   const [currentSystem, setCurrentSystem] = useState('Vscode')
 
-  const { getList$: getSystems$ } = useFirestore<System>('systems')
-  const { getList$: getCommands$ } = useFirestore<Command>('commands')
+  const { list$: systems$ } = useFirestore<System>('systems')
+  const { query$: commandQuery$ } = useFirestoreQuery<Command>('commands')
 
   const [systems, commands] = useObservable(
-    () => combineLatest(getSystems$(), getCommands$()),
+    () => {
+      const commands$ = systems$.pipe(
+        map(H.getSystemId(currentSystem)),
+        switchMap(id =>
+          commandQuery$({
+            limit: 5,
+            where: [['systemRef', '==', id]],
+          }),
+        ),
+      )
+
+      return combineLatest(systems$, commands$)
+    },
     [[], []],
+    [currentSystem],
   )
 
   const switchSystem = (system: string) => setCurrentSystem(system)
@@ -36,9 +51,9 @@ export const CommandsProvider = ({ children }: any) => {
   return (
     <CommandsContext.Provider
       value={{
+        commands,
         currentSystem,
         systems,
-        commands,
         switchSystem,
       }}>
       {children}

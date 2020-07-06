@@ -5,9 +5,7 @@ import { useHistory } from 'react-router'
 import { useFirestore } from 'app/shared/hooks'
 
 const Register = ({ ...props }: any) => {
-  const { createWithId: createPermissions } = useFirestore<Permissions>(
-    'permissions',
-  )
+  const { create: createPermissions } = useFirestore<Permissions>('permissions')
   const history = useHistory()
   const auth = firebase.auth()
 
