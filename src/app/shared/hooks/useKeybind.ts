@@ -2,6 +2,7 @@ import { RefObject } from 'react'
 import { filter, tap, scan, map, pluck } from 'rxjs/operators'
 import { fromEvent } from 'rxjs'
 import { useObservable } from 'rxjs-hooks'
+import { onlyKeys } from '../utils/rxjs'
 
 // This List is Not Exhaustive, but Native Keyboard Event
 // does not display a specific type
@@ -26,9 +27,9 @@ export const useKeybind = (
   ref?: RefObject<HTMLElement>,
 ) => {
   useObservable(() =>
-    fromEvent(ref?.current || document, 'keydown').pipe(
-      pluck<Event, key>('key'),
+    fromEvent<KeyboardEvent>(ref?.current || document, 'keydown').pipe(
       filter(isHotkeyKey(hotkey)),
+      tap(e => e.preventDefault()),
       // scan(reduceToArray),
       // map(getLatestHotkeyEvent(hotkey.length)),
       // filter(matchesHotkey(hotkey)),
@@ -36,8 +37,8 @@ export const useKeybind = (
     ),
   )
 
-  const isHotkeyKey = (hotkey: key[]) => (keyEvent: key) =>
-    hotkey.includes(keyEvent)
+  const isHotkeyKey = (hotkey: key[]) => ({ key }: KeyboardEvent) =>
+    hotkey.includes(key as key)
 
   const reduceToArray = (previousEmissions: key[], currentEmission: key) => [
     ...previousEmissions,
