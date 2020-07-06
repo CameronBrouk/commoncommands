@@ -22,7 +22,7 @@ export const fromRefEvent = (ref: RefObject<HTMLElement>, event: string) =>
 
 // Operators
 export const filterNil = <T>() =>
-  filter<T>(value => value !== undefined && value !== null)
+  filter<NonNullable<T>>(value => value !== undefined && value !== null)
 
 export const log = (tag = 'DEBUG') =>
   tap({

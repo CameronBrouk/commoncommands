@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { Command } from '../models'
 import { Search } from '../../shared/hooks'
-import { Menu } from 'app/shared/components/Popup/Menu/Menu'
+import { Menu } from 'app/shared/components/Popup/components/Menu'
+import { Modal } from 'app/shared/components/Popup/components/Modal'
+import { Popup } from 'app/shared/components/Popup/components/Popup'
 
 type Props = {
   commands: Command[]
@@ -63,19 +65,19 @@ const CommandLineItem = ({ command }: { command: Command }) => {
       <span className='flex-grow' />
 
       <button
-        className='text-indigo-600 hover:text-indigo-900  text-right'
+        className='text-indigo-600 hover:text-indigo-900 text-right relative'
         onClick={() => setFormOpen(true)}>
         Edit
       </button>
 
-      <Menu onClose={() => setFormOpen(false)} isVisible={formOpen}>
+      <Modal onClose={() => setFormOpen(false)} isVisible={formOpen}>
         <div>test test</div>
         <div>test test</div>
         <div>test test</div>
         <div>test test</div>
         <div>test test</div>
         <div>test test</div>
-      </Menu>
+      </Modal>
     </div>
   )
 }
