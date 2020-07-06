@@ -1,4 +1,2 @@
-import DesktopNav from './DesktopNav'
-import MobileNav from './MobileNav'
-
-export { DesktopNav, MobileNav }
+export * from './Main'
+export * from './Header/Header'
