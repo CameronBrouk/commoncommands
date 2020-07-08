@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 
 import { useClickOutside } from '../useClickOutside'
-import { setPosition } from '../../../utils/viewport'
+import { setPosition } from '../helpers/popup.helpers'
 
 import { useKeybind } from '../../../hooks/useKeybind'
 
