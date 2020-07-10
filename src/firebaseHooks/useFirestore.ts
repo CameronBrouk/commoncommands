@@ -4,7 +4,7 @@ import { map } from 'rxjs/operators'
 import { useObservable } from 'rxjs-hooks'
 import { useParams } from 'react-router'
 import firebase from 'firebase'
-import { CollectionNames, Document } from './api.types'
+import { CollectionNames, Document } from './firebase.types'
 
 /**
  * This hook is the single source of truth for API requests to the firestore database in this application, and is meant to be extended
