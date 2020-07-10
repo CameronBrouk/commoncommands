@@ -22,15 +22,15 @@ export const Commands = ({ searchTerm }: Props) => {
 
   const { query$: commandsQuery$ } = useFirestoreQuery<Command>('commands')
 
-  useEffect(() => {
-    const systemId = getSystemId(currentSystem)(systems)
-    if (systemId) {
-      commandsQuery$({
-        limit: 2,
-        where: [['systemRef', '==', systemId]],
-      }).subscribe(setCommands)
-    }
-  }, [currentSystem, systems])
+  // useEffect(() => {
+  //   const systemId = getSystemId(currentSystem)(systems)
+  //   if (systemId) {
+  //     commandsQuery$({
+  //       limit: 2,
+  //       where: [['systemRef', '==', systemId]],
+  //     }).subscribe(setCommands)
+  //   }
+  // }, [currentSystem, systems])
 
   return (
     <div>
