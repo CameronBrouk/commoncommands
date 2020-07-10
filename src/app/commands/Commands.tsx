@@ -34,14 +34,18 @@ export const Commands = ({ searchTerm }: Props) => {
 
   return (
     <div>
-      {Object.entries(sortCommandsByCategory(commands)).map(
-        ([category, commands]) => (
-          <ExpansionPanel title={category} key={category}>
-            <Searchable commands={commands} searchTerm={searchTerm} />
-          </ExpansionPanel>
-        ),
+      {searchTerm === '' &&
+        Object.entries(sortCommandsByCategory(commands)).map(
+          ([category, commands]) => (
+            <ExpansionPanel title={category} key={category}>
+              <Searchable commands={commands} searchTerm={searchTerm} />
+            </ExpansionPanel>
+          ),
+        )}
+
+      {searchTerm.length > 0 && (
+        <Searchable commands={commands} searchTerm={searchTerm} />
       )}
-      {/* <Searchable commands={commands} searchTerm={searchTerm} /> */}
     </div>
   )
 }
