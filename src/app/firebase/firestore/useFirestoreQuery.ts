@@ -1,7 +1,7 @@
 import pipe from 'lodash/fp/flow'
 import { from } from 'rxjs'
 import firebase from 'firebase'
-import { Document, CollectionNames } from './firebase.types'
+import { Document, CollectionNames } from './firestore.types'
 
 type FirestoreWhere<T> = [keyof T, firebase.firestore.WhereFilterOp, any]
 type QueryParams<T> = {

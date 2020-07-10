@@ -1,6 +1,6 @@
 import { useObservable } from 'rxjs-hooks'
 import { useParams } from 'react-router'
-import { CollectionNames } from './firebase.types'
+import { CollectionNames } from './firestore.types'
 import { useFirestore } from './useFirestore'
 
 /** Grab Document from the specified collection whos id is equal to the id in route params*/

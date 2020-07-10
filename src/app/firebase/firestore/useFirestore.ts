@@ -2,7 +2,7 @@ import firebase from 'firebase'
 import { docData, collectionData } from 'rxfire/firestore'
 import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
-import { CollectionNames, Document } from './firebase.types'
+import { CollectionNames, Document } from './firestore.types'
 
 /**
  * This hook is the single source of truth for API requests to the firestore database in this application, and is meant to be extended
