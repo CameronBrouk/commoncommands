@@ -1,9 +1,7 @@
+import firebase from 'firebase'
 import { docData, collectionData } from 'rxfire/firestore'
 import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
-import { useObservable } from 'rxjs-hooks'
-import { useParams } from 'react-router'
-import firebase from 'firebase'
 import { CollectionNames, Document } from './firebase.types'
 
 /**
@@ -49,14 +47,4 @@ export function useFirestore<T>(firestoreCollection: CollectionNames) {
     remove,
     hardDelete,
   }
-}
-
-/** Grab Document from the specified collection whos id is equal to the id in route params*/
-export const useDocumentFromRouteParams = (collection: CollectionNames) => {
-  const { getSingle$ } = useFirestore(collection)
-  const { id } = useParams<any>()
-
-  const document = useObservable(() => getSingle$(id))
-
-  return document
 }
