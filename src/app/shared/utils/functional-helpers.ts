@@ -12,3 +12,12 @@ export const maybe = <T extends Function, K>(
     return fn(param)
   }, curriedFn as any)
 }
+
+export const ifParam = (fn: Function) => (param: any) =>
+  !!fn(param) ? fn(param) : param
+
+export const maybePipe = (...fns: any[]) => (param: any) => {
+  const maybes = fns.map(fn => ifParam(fn))
+  // @ts-ignore
+  return R.pipe(...maybes)(param)
+}
