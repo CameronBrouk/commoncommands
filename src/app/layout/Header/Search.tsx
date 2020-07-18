@@ -1,20 +1,19 @@
-import React, { useRef, useEffect } from 'react'
+import React, { useRef, ChangeEvent } from 'react'
+import { isNil } from '../../shared/utils'
 import { Icon } from '../../shared/components/Icons/Icon'
-import { useKeybind } from 'app/shared/hooks'
+import { useKeybind, useUI } from 'app/shared/hooks'
 
 type Props = {
-  onSearch: (event: React.ChangeEvent<HTMLInputElement>) => void
+  onSearch: (event: ChangeEvent<HTMLInputElement>) => void
+  placeholder?: string
 }
-export const Search = ({ onSearch }: Props) => {
-  const ref = useRef(null)
-  useKeybind(['/'], () => focusInput())
 
-  const focusInput = () => {
-    const inputElement = ref?.current as any
-    if (!inputElement) return
-    if (inputElement === null) return
-    inputElement.focus()
-  }
+export const Search = ({ onSearch, ...props }: C<Props>) => {
+  const ref = useRef<HTMLInputElement>(null)
+  useKeybind(['/'], () => !isNil(ref?.current) && ref.current.focus())
+  const { isMobile } = useUI()
+
+  const placeholder = props.placeholder ? props.placeholder : 'Search'
 
   return (
     <div className='flex-1 flex'>
@@ -31,7 +30,9 @@ export const Search = ({ onSearch }: Props) => {
             id='search_field'
             onChange={onSearch}
             className='block w-full h-full pl-8 pr-3 py-2 rounded-md text-gray-900 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 sm:text-sm'
-            placeholder='Search Keybinds (Press the "/" to focus)'
+            placeholder={`${placeholder} ${
+              !isMobile ? '(Press the "/" to focus)' : ''
+            }`}
             type='search'
           />
         </div>
