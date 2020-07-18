@@ -1,3 +1,4 @@
+// @ts-nocheck
 import pipe from 'lodash/fp/flow'
 import firebase from 'firebase'
 import {
