@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { CommandsContext } from '../../../commands/Commands.context'
+import { CommandsContext } from '../../commands/Commands.context'
 import { Link } from '../Link'
 
 export const Nav = () => {

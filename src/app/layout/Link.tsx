@@ -1,5 +1,5 @@
 import React, { useContext } from 'react'
-import { IconNames } from './Icons/Icon'
+import { IconNames } from '../shared/components/Icons/Icon'
 import { CommandsContext } from 'app/commands/Commands.context'
 
 type Props = {

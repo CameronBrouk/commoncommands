@@ -1,7 +1,6 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
-import { Login, Register } from './user/routes'
-// import { Home } from './main/routes'
+import { Login, Register } from './auth'
 
 export default function AppRoutes() {
   return (

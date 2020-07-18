@@ -3,7 +3,7 @@ import firebase from 'firebase'
 import { useHistory } from 'react-router'
 // import { email, min } from '../../shared/utils/form-validators'
 
-const Login = ({ ...props }: any) => {
+export const Login = ({ ...props }: any) => {
   const history = useHistory()
   const auth = firebase.auth()
 
@@ -29,5 +29,3 @@ const Login = ({ ...props }: any) => {
     </div>
   )
 }
-
-export default Login

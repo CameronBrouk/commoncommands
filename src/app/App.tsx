@@ -1,13 +1,11 @@
 import React, { useState } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 
-import { DesktopSidebar, MobileSidebar } from './main/components/Sidebar'
-import { Main, Header } from './main/components'
+import { DesktopSidebar, MobileSidebar, Main, Header } from './layout'
 import { Commands } from './commands/Commands'
 import { CommandsProvider } from './commands/Commands.context'
 
-import { useUI } from './shared/hooks/'
-import AppProvider from './App.context'
+import { useUI, CurrentUserProvider } from './shared/hooks/'
 
 const App = () => {
   const { isMobile } = useUI()
@@ -18,31 +16,29 @@ const App = () => {
     setSearchTerm(event.target.value)
 
   return (
-    <>
-      <AppProvider>
-        <CommandsProvider>
-          <div className='h-screen flex overflow-hidden bg-gray-100'>
-            <MobileSidebar
-              isOpen={isSidebarOpen}
-              closeSidebar={() => setIsSidebarOpen(false)}
+    <CurrentUserProvider>
+      <CommandsProvider>
+        <div className='h-screen flex overflow-hidden bg-gray-100'>
+          <MobileSidebar
+            isOpen={isSidebarOpen}
+            closeSidebar={() => setIsSidebarOpen(false)}
+          />
+
+          {!isMobile && <DesktopSidebar />}
+
+          <div className='flex flex-col w-0 flex-1 overflow-hidden'>
+            <Header
+              openSidebar={() => setIsSidebarOpen(true)}
+              onSearch={onSearch}
             />
 
-            {!isMobile && <DesktopSidebar />}
-
-            <div className='flex flex-col w-0 flex-1 overflow-hidden'>
-              <Header
-                openSidebar={() => setIsSidebarOpen(true)}
-                onSearch={onSearch}
-              />
-
-              <Main>
-                <Commands searchTerm={searchTerm} />
-              </Main>
-            </div>
+            <Main>
+              <Commands searchTerm={searchTerm} />
+            </Main>
           </div>
-        </CommandsProvider>
-      </AppProvider>
-    </>
+        </div>
+      </CommandsProvider>
+    </CurrentUserProvider>
   )
 }
 
