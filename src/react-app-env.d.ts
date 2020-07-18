@@ -1,6 +1,13 @@
 /// <reference types="react-scripts" />
 
-type FC<T> = React.FC<T>
+type DefaultProps = {
+  className?: string
+  children?: ReactElement
+}
+
+type C<P> = DefaultProps & P
+
+type FC<P = {}> = React.FC<P & DefaultProps>
 
 type ID = string
 

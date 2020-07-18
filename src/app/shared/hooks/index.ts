@@ -1,4 +1,4 @@
 export * from './useUi'
 export * from './useKeybind'
-export * from './api'
+export * from '../../firebase'
 export * from './useSearch'

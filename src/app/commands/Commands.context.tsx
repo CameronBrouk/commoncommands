@@ -7,14 +7,12 @@ import { useObservable } from 'rxjs-hooks'
 import { useFirestore, useFirestoreQuery } from '../shared/hooks'
 
 const defaultContext = {
-  commands: [],
   systems: [],
   currentSystem: 'Vscode',
   switchSystem: () => '',
 }
 
 type Context = {
-  commands: any[]
   systems: System[]
   currentSystem: string
   switchSystem: (system: string) => void
@@ -26,23 +24,12 @@ export const CommandsProvider = ({ children }: any) => {
   const [currentSystem, setCurrentSystem] = useState('Vscode')
 
   const { list$: systems$ } = useFirestore<System>('systems')
-  const { query$: commandQuery$ } = useFirestoreQuery<Command>('commands')
 
-  const [systems, commands] = useObservable(
+  const [systems] = useObservable(
     () => {
-      const commands$ = systems$.pipe(
-        map(H.getSystemId(currentSystem)),
-        switchMap(id =>
-          commandQuery$({
-            limit: 5,
-            where: [['systemRef', '==', id]],
-          }),
-        ),
-      )
-
-      return combineLatest(systems$, commands$)
+      return combineLatest(systems$)
     },
-    [[], []],
+    [[]],
     [currentSystem],
   )
 
@@ -51,10 +38,9 @@ export const CommandsProvider = ({ children }: any) => {
   return (
     <CommandsContext.Provider
       value={{
-        commands,
         currentSystem,
-        systems,
         switchSystem,
+        systems,
       }}>
       {children}
     </CommandsContext.Provider>

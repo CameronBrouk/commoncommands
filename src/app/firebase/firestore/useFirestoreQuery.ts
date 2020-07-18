@@ -1,8 +1,7 @@
-// @ts-nocheck
 import pipe from 'lodash/fp/flow'
 import { from } from 'rxjs'
 import firebase from 'firebase'
-import { Document, CollectionNames } from './api.types'
+import { Document, CollectionNames } from './firestore.types'
 
 type FirestoreWhere<T> = [keyof T, firebase.firestore.WhereFilterOp, any]
 type QueryParams<T> = {
@@ -44,6 +43,7 @@ export function useFirestoreQuery<T>(collectionName: CollectionNames) {
   const orderBy: OrderBy = attribute => query => query.orderBy(attribute)
 
   const where: Where = filters => query =>
+    // @ts-ignore // firestore native types don't work with generics
     filters.reduce((newQuery, filter) => newQuery.where(...filter), query)
 
   const maybe: Maybe = (fn, param) => query =>

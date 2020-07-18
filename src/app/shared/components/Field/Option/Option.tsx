@@ -1,4 +1,4 @@
-import React, {useRef} from 'react'
+import React, { useRef } from 'react'
 
 import useOption from './useOption'
 
@@ -10,9 +10,9 @@ export interface OptionProps extends ButtonElement {
   onSelect: (value: any) => void
 }
 
-const Option: FC<OptionProps> = (props) => {
+export const Option: FC<OptionProps> = props => {
   const buttonRef = useRef<HTMLButtonElement>(null)
-  const {checkbox = false, onSelect = () => {}} = props
+  const { checkbox = false, onSelect = () => {} } = props
 
   useOption(buttonRef, () => handleSelect())
 

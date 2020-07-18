@@ -1,22 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useObservable } from 'rxjs-hooks'
 import { useFirestoreQuery } from '../shared/hooks'
 import { CommandsContext } from './Commands.context'
-import { Searchable } from './components'
 
-import {
-  filterCommandsBySystem,
-  getSystemId,
-  getSystemByName,
-  sortCommandsByCategory,
-} from './helpers'
-import { System, Command } from './models'
-import { ExpansionPanel } from 'app/shared/components/Layout/ExpansionPanel/ExpansionPanel'
+import { getSystemId, sortCommandsByCategory } from './helpers'
+import { Command } from './models'
+import { ExpansionPanel, Modal } from 'app/shared/components'
+import { fuzzySearch } from 'app/shared/utils/fuzzy-search'
 
-type Props = {
-  searchTerm: string
-}
-export const Commands = ({ searchTerm }: Props) => {
+export const Commands = ({ searchTerm }: { searchTerm: string }) => {
   const [commands, setCommands] = useState<any[]>([])
   const { currentSystem, systems } = useContext(CommandsContext)
 
@@ -34,14 +25,48 @@ export const Commands = ({ searchTerm }: Props) => {
 
   return (
     <div>
-      {Object.entries(sortCommandsByCategory(commands)).map(
-        ([category, commands]) => (
-          <ExpansionPanel title={category} key={category}>
-            <Searchable commands={commands} searchTerm={searchTerm} />
-          </ExpansionPanel>
-        ),
-      )}
-      {/* <Searchable commands={commands} searchTerm={searchTerm} /> */}
+      {searchTerm === '' &&
+        Object.entries(sortCommandsByCategory(commands)).map(
+          ([category, commands]) => (
+            <ExpansionPanel title={category} key={category}>
+              {commands.map(command => (
+                <CommandListItem command={command} key={command.id} />
+              ))}
+            </ExpansionPanel>
+          ),
+        )}
+
+      {searchTerm.length > 0 &&
+        fuzzySearch(commands, searchTerm).map(command => (
+          <CommandListItem command={command} key={command.id} />
+        ))}
+    </div>
+  )
+}
+
+const CommandListItem = ({ command }: { command: Command }) => {
+  const [formOpen, setFormOpen] = useState(false)
+
+  return (
+    <div className='flex p-4 md:m-1 bg-white border-b text-xs' key={command.id}>
+      <span className='md:w-64 font-bold pl-1 pr-5'>{command.name}</span>
+      <span className='text-left'>{command.description}</span>
+      <span className='flex-grow' />
+
+      <button
+        className='text-indigo-600 hover:text-indigo-900 text-right relative'
+        onClick={() => setFormOpen(true)}>
+        Edit
+      </button>
+
+      <Modal onClose={() => setFormOpen(false)} isVisible={formOpen}>
+        <div>test test</div>
+        <div>test test</div>
+        <div>test test</div>
+        <div>test test</div>
+        <div>test test</div>
+        <div>test test</div>
+      </Modal>
     </div>
   )
 }

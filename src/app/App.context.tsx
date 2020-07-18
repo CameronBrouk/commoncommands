@@ -2,18 +2,24 @@ import React, { createContext } from 'react'
 import { useObservable } from 'rxjs-hooks'
 import { combineLatest } from 'rxjs'
 import { map, filter, switchMap, pluck } from 'rxjs/operators'
-import { Permissions, defaultPermissions } from './user/models'
+import { Permissions, defaultPermissions, Profile } from './user/models'
 import { authState } from 'rxfire/auth'
-import firebase from 'firebase'
+import firebase, { User } from 'firebase'
 import { useFirestore } from './shared/hooks'
 
-const defaultContext = {
+type TAppContext = {
+  uid: string
+  currentUser: any
+  permissions: any
+}
+
+const defaultContext: TAppContext = {
   uid: '',
   currentUser: {},
   permissions: defaultPermissions,
 }
 
-export const AppContext = createContext<typeof defaultContext>(defaultContext)
+export const AppContext = createContext<TAppContext>(defaultContext)
 
 export const AppProvider = ({ children }: any) => {
   const { getSingle$: getPermissions$ } = useFirestore<Permissions>(

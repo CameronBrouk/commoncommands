@@ -3,6 +3,7 @@ import { Link } from '../Link'
 
 export const ProfileDropdown = () => {
   const [isOpen, setIsOpen] = useState(false)
+  // const ref = useClickOutside(isOpen, () => toggleOpen())
   const toggleOpen = () => setIsOpen(v => !v)
   return (
     <div className='ml-4 flex items-center md:ml-6'>

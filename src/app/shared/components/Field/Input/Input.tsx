@@ -1,33 +1,53 @@
 import React from 'react'
+import { UseFormMethods, ValidationRules } from 'react-hook-form'
+import { InputTypes } from './types'
+import { InputError } from './InputError'
 
 type InputProps = {
+  form: UseFormMethods<Record<string, any>>
   label: string
-  type: any
-  required: boolean
-  error?: string
-  hint?: string
+  name: string
+  type?: InputTypes
+  autoFocus?: boolean
+  autoComplete?: boolean
 }
 
-type Props = InputProps & InputElement
+type Props = C<InputProps & ValidationRules>
 
-export const Input = ({ label, hint, error, type, ...rest }: Props) => {
+export const Input = ({ form, label, name, ...props }: Props) => {
+  const { register, watch, errors } = form
+  const { type, autoFocus, autoComplete, ...validators } = props
+  const { min, max, minLength, maxLength, required, pattern } = validators
+
   return (
-    <>
-      <label htmlFor={label}>
-        <span className='label-text'>
-          <span className='is-required'>{rest.required && '*'}</span>
-          {label}
-          <span className='is-optional'>{!rest.required && '(optional)'}</span>
-        </span>
+    <label>
+      <span>
+        <span>{validators.required && '*'}</span>
+        {label}
+        <span>{!validators.required && '(optional)'}</span>
+      </span>
 
-        {/* a33y - error is nested in label tag */}
-        {error && <p>{error}</p>}
+      <input
+        id={label}
+        ref={register({
+          ...(min ? { min } : {}),
+          ...(max ? { max } : {}),
+          ...(maxLength ? { maxLength } : {}),
+          ...(minLength ? { minLength } : {}),
+          ...(required ? { required } : {}),
+          ...(pattern ? { pattern } : {}),
+        })}
+        type={type ? type : 'text'}
+        name={name}
+        autoFocus={autoFocus}
+        autoComplete={autoComplete ? 'on' : 'off'}
+      />
 
-        {/* a33y - hint is nested in label tag */}
-        {hint && <p>{hint}</p>}
-      </label>
-
-      <input name={label} id={label} type={type} {...rest} />
-    </>
+      <InputError
+        fieldValue={watch(name)}
+        error={errors[name]}
+        validators={validators}
+      />
+    </label>
   )
 }
