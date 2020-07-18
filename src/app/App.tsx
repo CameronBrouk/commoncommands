@@ -2,8 +2,6 @@ import React, { useState } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 
 import { DesktopSidebar, MobileSidebar, Main, Header } from './layout'
-import { Commands } from './commands/Commands'
-import { CommandsProvider } from './commands/Commands.context'
 
 import { useUI, CurrentUserProvider } from './shared/hooks/'
 
@@ -17,27 +15,27 @@ const App = () => {
 
   return (
     <CurrentUserProvider>
-      <CommandsProvider>
-        <div className='h-screen flex overflow-hidden bg-gray-100'>
-          <MobileSidebar
-            isOpen={isSidebarOpen}
-            closeSidebar={() => setIsSidebarOpen(false)}
+      <div className='h-screen flex overflow-hidden bg-gray-100'>
+        <MobileSidebar
+          isOpen={isSidebarOpen}
+          closeSidebar={() => setIsSidebarOpen(false)}
+        />
+
+        {!isMobile && <DesktopSidebar />}
+
+        <div className='flex flex-col w-0 flex-1 overflow-hidden'>
+          <Header
+            openSidebar={() => setIsSidebarOpen(true)}
+            onSearch={onSearch}
           />
 
-          {!isMobile && <DesktopSidebar />}
-
-          <div className='flex flex-col w-0 flex-1 overflow-hidden'>
-            <Header
-              openSidebar={() => setIsSidebarOpen(true)}
-              onSearch={onSearch}
-            />
-
-            <Main>
-              <Commands searchTerm={searchTerm} />
-            </Main>
-          </div>
+          <Main>
+            <div></div>
+            <div></div>
+            <div></div>
+          </Main>
         </div>
-      </CommandsProvider>
+      </div>
     </CurrentUserProvider>
   )
 }
