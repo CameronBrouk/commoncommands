@@ -1,5 +1,5 @@
 import React from 'react'
-import { Search } from './Search'
+import { Search } from '../../shared/components'
 import { ProfileDropdown } from './ProfileDropdown'
 import { OpenSidebarButton } from './OpenSidebarButton'
 

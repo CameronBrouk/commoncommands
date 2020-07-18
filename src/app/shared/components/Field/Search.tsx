@@ -1,6 +1,6 @@
 import React, { useRef, ChangeEvent } from 'react'
-import { isNil } from '../../shared/utils'
-import { Icon } from '../../shared/components/Icons/Icon'
+import { isNil } from '../../utils'
+import { Icon } from '../../components/Icons/Icon'
 import { useKeybind, useUI } from 'app/shared/hooks'
 
 type Props = {
