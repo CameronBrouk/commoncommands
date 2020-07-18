@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react'
-import { Icon } from '../Icons/Icon'
+import { Icon } from '../../shared/components/Icons/Icon'
 import { useKeybind } from 'app/shared/hooks'
 
 type Props = {

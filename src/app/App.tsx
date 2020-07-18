@@ -1,8 +1,7 @@
 import React, { useState } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 
-import { DesktopSidebar, MobileSidebar } from './main/components/Sidebar'
-import { Main, Header } from './main/components'
+import { DesktopSidebar, MobileSidebar, Main, Header } from './layout'
 import { Commands } from './commands/Commands'
 import { CommandsProvider } from './commands/Commands.context'
 
