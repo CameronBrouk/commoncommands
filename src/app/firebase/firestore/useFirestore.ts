@@ -1,4 +1,3 @@
-import * as R from 'ramda'
 import firebase from 'firebase'
 import { docData, collectionData } from 'rxfire/firestore'
 import { Observable } from 'rxjs'
@@ -11,22 +10,23 @@ import { CollectionNames, Document } from './firestore.types'
  * @param firestoreCollection name of the collection in firebase firestore
  */
 export function useFirestore<T>(firestoreCollection: CollectionNames) {
+  // Type Declarations
   type Doc = Document<T>
-  type List$ = Observable<Omit<Doc, 'deleted'>[]>
-
-  const collection = firebase.firestore().collection(firestoreCollection)
-  const getDocument = (id: string) => collection.doc(id)
-
   let remove: (id: string) => Promise<void>
   let update: (id: string, data: Partial<Doc>) => Promise<void>
   let create: (id: string, data: T) => Promise<void>
   let getSingle$: (id: string) => Observable<Doc>
   let hardDelete: (id: string) => Promise<void>
+  let list$: Observable<Omit<Doc, 'deleted'>[]>
 
+  // shared / single use functions
+  const collection = firebase.firestore().collection(firestoreCollection)
+  const getDocument = (id: string) => collection.doc(id)
   const filterDeleted = (data: Doc[]) => data.filter(({ deleted }) => !deleted)
   const date = () => new Date().toDateString()
 
-  const list$: List$ = collectionData<Doc>(collection).pipe(map(filterDeleted))
+  // Exports
+  list$ = collectionData<Doc>(collection).pipe(map(filterDeleted))
 
   getSingle$ = id => docData<Doc>(collection.doc(id))
 
