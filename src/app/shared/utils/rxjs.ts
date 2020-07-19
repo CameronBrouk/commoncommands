@@ -33,27 +33,13 @@ export const fromRefEvent = (ref: RefObject<HTMLElement>, event: string) =>
 export const filterNil = <T>() =>
   filter<T>(value => value !== undefined && value !== null)
 
-// const b = [
-//   test: 'test',
-// ]
-// const a = (a: typeof b | null) =>
-//   of(a).pipe(
-//     // filterNil(isNil),
-//     mapArray(a => ),
-//   )
+type mapFn = (el: any, i?: number, arr?: any[]) => any
 
-// let mapArray: <T extends any[]>(
-//   source: Observable<T>,
-// ) => <F extends Function>(fn: F) => Observable<T>
+export const mapArray = <T extends any[], K extends mapFn>(fn: K) =>
+  map<T, ReturnType<K>[]>(array => array.map(fn))
 
-// export const mapArray = <T extends array[]>(srouce: Observable<T>)
-
-// let mapArray: (array: T, fn: K) => ReturnType<K>
-// let mapArray: <T extends any[]>(
-//   array: T,
-// ) => <T extends any[]>(fn: Fn) => MonoTypeOperatorFunction<T>
-
-// const mapArray = array => fn => map(array => array.map(fn))
+export const filterArray = <T extends any[], K extends mapFn>(fn: K) =>
+  map<T, ReturnType<K>[]>(array => array.filter(fn))
 
 export const log = (tag = 'DEBUG') =>
   tap({
