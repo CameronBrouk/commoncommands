@@ -8,10 +8,6 @@ import { useUI, CurrentUserProvider } from './shared/hooks/'
 const App = () => {
   const { isMobile } = useUI()
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
-  const [searchTerm, setSearchTerm] = useState('')
-
-  const onSearch = (event: React.ChangeEvent<HTMLInputElement>) =>
-    setSearchTerm(event.target.value)
 
   return (
     <CurrentUserProvider>
@@ -24,10 +20,7 @@ const App = () => {
         {!isMobile && <DesktopSidebar />}
 
         <div className='flex flex-col w-0 flex-1 overflow-hidden'>
-          <Header
-            openSidebar={() => setIsSidebarOpen(true)}
-            onSearch={onSearch}
-          />
+          <Header openSidebar={() => setIsSidebarOpen(true)} />
 
           <Main>
             <div></div>
