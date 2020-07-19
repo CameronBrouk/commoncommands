@@ -1,3 +1,4 @@
+import * as R from 'ramda'
 import firebase from 'firebase'
 import { docData, collectionData } from 'rxfire/firestore'
 import { Observable } from 'rxjs'
@@ -11,33 +12,34 @@ import { CollectionNames, Document } from './firestore.types'
  */
 export function useFirestore<T>(firestoreCollection: CollectionNames) {
   type Doc = Document<T>
-  type Remove = (id: string) => Promise<void>
-  type HardDelete = (id: string) => Promise<void>
-  type Update = (id: string, data: Partial<Doc>) => Promise<void>
-  type Create = (id: string, data: T) => Promise<void>
-  type GetSingle$ = (id: string) => Observable<Doc>
   type List$ = Observable<Omit<Doc, 'deleted'>[]>
 
   const collection = firebase.firestore().collection(firestoreCollection)
   const getDocument = (id: string) => collection.doc(id)
+
+  let remove: (id: string) => Promise<void>
+  let update: (id: string, data: Partial<Doc>) => Promise<void>
+  let create: (id: string, data: T) => Promise<void>
+  let getSingle$: (id: string) => Observable<Doc>
+  let hardDelete: (id: string) => Promise<void>
 
   const filterDeleted = (data: Doc[]) => data.filter(({ deleted }) => !deleted)
   const date = () => new Date().toDateString()
 
   const list$: List$ = collectionData<Doc>(collection).pipe(map(filterDeleted))
 
-  const getSingle$: GetSingle$ = id => docData<Doc>(collection.doc(id))
+  getSingle$ = id => docData<Doc>(collection.doc(id))
 
-  const create: Create = async (id, data) =>
+  create = async (id, data) =>
     await getDocument(id).set({ ...data, createdAt: date(), updatedAt: date() })
 
-  const update: Update = async (id, data) =>
+  update = async (id, data) =>
     await getDocument(id).update({ ...data, updatedAt: date() })
 
-  const remove: Remove = async id =>
+  remove = async id =>
     await getDocument(id).update({ deleted: true, updatedAt: date() })
 
-  const hardDelete: HardDelete = async id => await getDocument(id).delete()
+  hardDelete = async id => await getDocument(id).delete()
 
   return {
     list$,
