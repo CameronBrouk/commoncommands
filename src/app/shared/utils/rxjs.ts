@@ -38,9 +38,6 @@ type mapFn = (el: any, i?: number, arr?: any[]) => any
 export const mapArray = <T extends any[], K extends mapFn>(fn: K) =>
   map<T, ReturnType<K>[]>(array => array.map(fn))
 
-export const filterArray = <T extends any[], K extends mapFn>(fn: K) =>
-  map<T, ReturnType<K>[]>(array => array.filter(fn))
-
 export const log = (tag = 'DEBUG') =>
   tap({
     next(value) {
