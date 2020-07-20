@@ -18,7 +18,7 @@ export interface Props {
  * @param onClose function that sets the openState to false
  * @param children the components you want to display inside the popover
  */
-export const Popup: FC<Props> = ({ isVisible, onClose, ...props }) => {
+export const Popup = ({ isVisible, onClose, ...props }: C<Props>) => {
   const ref = useClickOutside(isVisible, onClose)
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export const Popup: FC<Props> = ({ isVisible, onClose, ...props }) => {
           aria-expanded={isVisible}
           open={isVisible}
           ref={ref}
-          className={`fixed w-full max-w-md z-50 shadow-sm bg-white rounded-md border border-gray-300 ${props.className}`}>
+          className={`fixed z-50 shadow-sm bg-white rounded-md border border-gray-300 ${props.className}`}>
           {props.children}
         </dialog>
       )}

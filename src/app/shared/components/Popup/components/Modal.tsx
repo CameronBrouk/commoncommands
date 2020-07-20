@@ -9,10 +9,10 @@ import { Mask } from './Mask'
  * @param onClose function that sets the openState to false
  * @param children the components you want to display inside the popover
  */
-export const Modal: FC<Props> = props => {
+export const Modal = (props: C<Props>) => {
   return (
     <>
-      <Popup {...props} />
+      <Popup {...props} className={`w-full max-w-md ${props.className}`} />
       <Mask isShowing={props.isVisible} />
     </>
   )
