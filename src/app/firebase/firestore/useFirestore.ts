@@ -1,6 +1,5 @@
 import firebase from 'firebase'
 import { docData, collectionData } from 'rxfire/firestore'
-import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { CollectionNames, Document } from './firestore.types'
 import { useRouter } from 'app/shared/hooks'
@@ -14,13 +13,6 @@ export function useFirestore<T>(firestoreCollection: CollectionNames) {
   const { routeParams } = useRouter<{ id: string }>()
   // Type Declarations
   type Doc = Document<T>
-  let remove: (id: string) => Promise<void>
-  let update: (id: string, data: Partial<Doc>) => Promise<void>
-  let create: (id: string, data: T) => Promise<void>
-  let getSingle$: (id: string) => Observable<Doc>
-  let hardDelete: (id: string) => Promise<void>
-  let getFromRouteParams$: () => Observable<Document<T>>
-  let list$: Observable<Omit<Doc, 'deleted'>[]>
 
   // shared / single use functions
   const { id: routeParamId } = routeParams
@@ -30,24 +22,31 @@ export function useFirestore<T>(firestoreCollection: CollectionNames) {
   const date = () => new Date().toDateString()
 
   // Exports
-  list$ = collectionData<Doc>(collection).pipe(map(filterDeleted))
+  const list$ = collectionData<Doc>(collection).pipe(map(filterDeleted))
 
-  getSingle$ = id => docData<Doc>(collection.doc(id))
+  /** Get a Single Document from Firestore */
+  const getSingle$ = (id: string) => docData<Doc>(collection.doc(id))
 
-  getFromRouteParams$ = () => docData<Doc>(collection.doc(routeParamId))
+  /** Get Id from route params and use it to get a document with that id*/
+  const getFromRouteParams$ = () => docData<Doc>(collection.doc(routeParamId))
 
-  create = async (id, data) =>
+  /** Create a new record */
+  const create = async (id: string, data: T) =>
     await getDocument(id).set({ ...data, createdAt: date(), updatedAt: date() })
 
-  update = async (id, data) =>
+  /** Update an existing record */
+  const update = async (id: string, data: Partial<T>) =>
     await getDocument(id).update({ ...data, updatedAt: date() })
 
-  remove = async id =>
+  /** Add the deleted flag to a record */
+  const remove = async (id: string) =>
     await getDocument(id).update({ deleted: true, updatedAt: date() })
 
-  hardDelete = async id => await getDocument(id).delete()
+  /** delete the record from the database */
+  const hardDelete = async (id: string) => await getDocument(id).delete()
 
   return {
+    collection,
     list$,
     getSingle$,
     getFromRouteParams$,
