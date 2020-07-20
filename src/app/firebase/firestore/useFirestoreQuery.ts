@@ -1,5 +1,6 @@
 // @ts-nocheck
 import pipe from 'lodash/fp/flow'
+import { from } from 'rxjs'
 import firebase from 'firebase'
 import {
   Document,
@@ -19,32 +20,31 @@ export function useFirestoreQuery<T>(collectionName: CollectionNames) {
 
   const collection = firebase.firestore().collection(collectionName)
 
-  // Type Declarations
-  let orderBy: (attribute: Keys<Doc>) => (query: Query) => Query
-  let limit: (limit: number) => (query: Query) => Query
-  let where: (filters: FirestoreWhere<Doc>[]) => (query: Query) => Query
-  let ifParam: (param: any | undefined, fn: Function) => (query: Query) => Query
-  let buildQuery: (queryParams: QueryParams<Doc>) => (query: Query) => Query
-
   // Functions
-  buildQuery = queryParams =>
+  const buildQuery = (queryParams: QueryParams<Doc>) =>
     pipe(
       ifParam(queryParams.where, where),
       ifParam(queryParams.orderBy, orderBy),
       ifParam(queryParams.limit, limit),
     )
 
-  limit = limit => query => query.limit(limit)
+  const limit = (limit: number) => (query: Query) => query.limit(limit)
 
-  orderBy = attribute => query => query.orderBy(attribute)
+  const orderBy = (attribute: Keys<Doc>) => (query: Query) =>
+    query.orderBy(attribute)
 
-  where = filters => query =>
+  const where = (filters: FirestoreWhere<Doc>[]) => (query: Query) =>
     filters.reduce((newQuery, filter) => newQuery.where(...filter), query)
 
-  ifParam = (param, fn) => query => (!!param ? fn(param)(query) : query)
+  const ifParam = (param: any | undefined, fn: Function) => (query: Query) =>
+    !!param ? fn(param)(query) : query
 
-  return async (queryParams: QueryParams<Doc>) =>
+  const query = async (queryParams: QueryParams<Doc>) =>
     await buildQuery(queryParams)(collection)
       .get()
       .then(({ docs }) => docs.map(doc => doc.data() as Doc))
+
+  const query$ = from(query)
+
+  return { query, query$ }
 }
