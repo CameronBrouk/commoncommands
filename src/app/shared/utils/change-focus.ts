@@ -42,5 +42,13 @@ export const focusPreviousElement = (ref: RefObject<HTMLElement>) => {
   if (previousSibling) previousSibling.focus()
 }
 
-export const focusElement = (ref: RefObject<HTMLElement>) =>
-  ref.current?.focus()
+/**
+ * focuses the given element.
+ * @param ref useRef object OR an html element ID
+ */
+export const focusElement = (ref: RefObject<HTMLElement> | string) => {
+  if (typeof ref === 'string') document.getElementById(ref)?.focus()
+  else {
+    ref.current?.focus()
+  }
+}
