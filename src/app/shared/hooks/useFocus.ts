@@ -1,4 +1,4 @@
-import { useRef, useState, useCallback, RefObject } from 'react'
+import { RefObject } from 'react'
 
 /**
  * This hook takes a ref as a parameter and exposes a set of focus related functions
