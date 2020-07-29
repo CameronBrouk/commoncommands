@@ -5,3 +5,5 @@ const environment =
   process.env.NODE_ENV !== 'production' ? devEnvironment : prodEnvironment
 
 export default environment
+
+// fuck
