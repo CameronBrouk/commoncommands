@@ -17,7 +17,6 @@ export const Commands = ({ searchTerm }: { searchTerm: string }) => {
     const systemId = getSystemId(currentSystem)(systems)
     if (systemId) {
       commandsQuery$({
-        limit: 2,
         where: [['systemRef', '==', systemId]],
       }).subscribe(setCommands)
     }
