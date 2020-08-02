@@ -7,7 +7,7 @@ interface Props {
   image?: string
   url?: string
 }
-const Meta = (props: Props) => {
+export const Meta = (props: Props) => {
   const description = props.description
     ? props.description
     : 'Website Description'
@@ -37,5 +37,3 @@ const Meta = (props: Props) => {
     </Helmet>
   )
 }
-
-export default Meta

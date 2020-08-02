@@ -1,11 +1,11 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './app/App'
-import './styles/global.scss'
+import './tailwind.generated.css'
 import * as serviceWorker from './serviceWorker'
 
 // Firebase
-import firebase from 'firebase/app'
+import firebase from 'firebase'
 import 'firebase/analytics'
 
 import environment from './environments'
