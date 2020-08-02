@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 type Props = { title: string }
 
 export const PanelContent: FC<Props> = ({ children, title }) => {
-  const [isOpen, setIsOpen] = useState(true)
+  const [isOpen, setIsOpen] = useState(false)
 
   const svgClasses = isOpen ? 'rotate-180' : 'rotate-0'
 
