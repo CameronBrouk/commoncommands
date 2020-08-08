@@ -1,16 +1,21 @@
-import React from 'react'
+import React, { useState } from 'react'
 import firebase from 'firebase'
-import { useHistory } from 'react-router'
-// import { email, min } from '../../shared/utils/form-validators'
+import { useFirestore, User } from '../firebase'
+import { useForm } from 'react-hook-form'
 
 export const Login = ({ ...props }: any) => {
-  const history = useHistory()
-  const auth = firebase.auth()
+  const [error, setError] = useState('')
+  const { create, update } = useFirestore<User>('users')
 
-  const handleSubmit = (formData: any) => {
-    auth.signInWithEmailAndPassword(formData.email, formData.password)
-    // .then(user => enqueueSnackbar('Logged In!', { variant: 'success' }))
-    // .catch(error => enqueueSnackbar(error.message, { variant: 'error' }))
+  type FormData = {
+    email: string
+    password: string
+  }
+  const handleSubmit = (formData: FormData) => {
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(formData.email, formData.password)
+      .catch(({ message }) => setError(message))
   }
 
   return (
