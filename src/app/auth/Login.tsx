@@ -42,6 +42,8 @@ export const Login = ({ ...props }: any) => {
           name='password'
         />
 
+        {error && <p className='text-red-400'>{error}</p>}
+
         <div className='buttons'>
           <button className='btn-blue' type='submit'>
             Login
