@@ -11,12 +11,12 @@ export const Button = ({ variant, children, className, ...props }: Props) => {
 
   const raised =
     variant === 'raised'
-      ? 'px-4 py-2 font-bold text-white bg-blue-500 rounded'
+      ? 'px-4 py-2 font-bold text-white bg-blue-500 rounded focus:shadow-outline'
       : ''
 
   const warn =
     variant === 'raised'
-      ? 'px-4 py-2 font-bold text-white bg-red-500 rounded'
+      ? 'px-4 py-2 font-bold text-white bg-red-500 rounded focus:shadow-outline'
       : ''
 
   return (
