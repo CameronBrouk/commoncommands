@@ -10,6 +10,7 @@ type InputProps = {
   type?: InputTypes
   autoFocus?: boolean
   autoComplete?: boolean
+  className?: string
 }
 
 type Props = C<InputProps & ValidationRules>
@@ -20,7 +21,7 @@ export const Input = ({ form, label, name, ...props }: Props) => {
   const { min, max, minLength, maxLength, required, pattern } = validators
 
   return (
-    <label>
+    <label className={props.className || '' + 'flex flex-col'}>
       <span>
         <span>{validators.required && '*'}</span>
         {label}
