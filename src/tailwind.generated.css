@@ -36674,38 +36674,6 @@ video {
   transition-delay: 1000ms;
 }
 
-.btn {
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
-  --text-opacity: 1;
-  color: #6b7280;
-  color: rgba(107, 114, 128, var(--text-opacity));
-  font-weight: 600;
-}
-
-.btn-blue {
-  padding-left: 1rem;
-  padding-right: 1rem;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  font-weight: 700;
-  --text-opacity: 1;
-  color: #ffffff;
-  color: rgba(255, 255, 255, var(--text-opacity));
-  --bg-opacity: 1;
-  background-color: #3f83f8;
-  background-color: rgba(63, 131, 248, var(--bg-opacity));
-  border-radius: 0.25rem;
-}
-
-.btn-blue:hover {
-  --bg-opacity: 1;
-  background-color: #1a56db;
-  background-color: rgba(26, 86, 219, var(--bg-opacity));
-}
-
 @media (min-width: 640px) {
   .sm\:space-y-0 > :not(template) ~ :not(template) {
     --space-y-reverse: 0;
