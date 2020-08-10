@@ -3,9 +3,11 @@ import { usePermissions, CurrentUserContext } from 'app/firebase'
 import { Button } from 'app/shared/components'
 import { useKeybind } from '../../shared/hooks'
 import { useClickOutside } from 'app/shared/components/Popup/useClickOutside'
+import { SignInModal } from 'app/auth/SignInModal'
 
 export const ProfileDropdown = () => {
   const [isOpen, setIsOpen] = useState(false)
+  const [signInModalOpen, setSignInModalOpen] = useState(false)
 
   const { isLoggedIn } = usePermissions()
   const { user, logout } = useContext(CurrentUserContext)
@@ -21,6 +23,11 @@ export const ProfileDropdown = () => {
   }, [isOpen])
 
   const toggleOpen = () => setIsOpen(v => !v)
+
+  const openSignInModal = () => {
+    setIsOpen(false)
+    setSignInModalOpen(true)
+  }
 
   return (
     <div className='flex items-center ml-4 md:ml-6'>
@@ -60,13 +67,17 @@ export const ProfileDropdown = () => {
               </>
             )}
             {!isLoggedIn() && (
-              <>
-                <Button role='menu-item'>Login</Button>
-                <Button role='menu-item'>Register</Button>
-              </>
+              <Button role='menu-item' onClick={openSignInModal}>
+                Sign In
+              </Button>
             )}
           </dialog>
         )}
+
+        <SignInModal
+          isVisible={signInModalOpen}
+          onClose={() => setSignInModalOpen(false)}
+        />
       </div>
     </div>
   )
