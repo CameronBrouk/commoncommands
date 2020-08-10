@@ -1,14 +1,26 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useRef, useEffect } from 'react'
 import firebase from 'firebase'
 import { Link } from '../Link'
 import { usePermissions, CurrentUserContext } from 'app/firebase'
 import { Button } from 'app/shared/components'
+import { useKeybind } from '../../shared/hooks'
+import { useClickOutside } from 'app/shared/components/Popup/useClickOutside'
 
 export const ProfileDropdown = () => {
-  const { isLoggedIn } = usePermissions()
   const { user } = useContext(CurrentUserContext)
   const [isOpen, setIsOpen] = useState(false)
-  // const ref = useClickOutside(isOpen, () => toggleOpen())
+  const firstButtonRef = useRef<HTMLButtonElement>(null)
+  useKeybind(['Escape'], () => setIsOpen(false))
+  const ref = useClickOutside(isOpen, () => toggleOpen())
+  const { isLoggedIn } = usePermissions()
+
+  useEffect(() => {
+    if (ref?.current?.firstChild) {
+      const firstButtonRef = ref.current.firstChild as HTMLElement
+      firstButtonRef.focus()
+    }
+  }, [isOpen])
+
   const toggleOpen = () => setIsOpen(v => !v)
 
   const logout = () => {
@@ -37,28 +49,28 @@ export const ProfileDropdown = () => {
         </div>
 
         {isOpen && (
-          <div className='absolute right-0 mt-2 origin-top-right rounded-md shadow-lg w-36'>
-            <div
-              className='flex flex-col items-start justify-start px-3 py-2 bg-white rounded-md shadow-xs'
-              role='menu'
-              aria-orientation='vertical'
-              aria-labelledby='user-menu'>
-              {isLoggedIn() && (
-                <>
-                  <Button role='menu-item'>Your Profile</Button>
-                  <Button role='menu-item' onClick={logout}>
-                    Logout
-                  </Button>
-                </>
-              )}
-              {!isLoggedIn() && (
-                <>
-                  <Button role='menu-item'>Login</Button>
-                  <Button role='menu-item'>Register</Button>
-                </>
-              )}
-            </div>
-          </div>
+          <dialog
+            ref={ref}
+            open={isOpen}
+            className='absolute left-auto mt-2 origin-top-left rounded-md shadow-lg w-36'
+            role='menu'
+            aria-orientation='vertical'
+            aria-labelledby='user-menu'>
+            {isLoggedIn() && (
+              <>
+                <Button role='menu-item'>Your Profile</Button>
+                <Button role='menu-item' onClick={logout}>
+                  Logout
+                </Button>
+              </>
+            )}
+            {!isLoggedIn() && (
+              <>
+                <Button role='menu-item'>Login</Button>
+                <Button role='menu-item'>Register</Button>
+              </>
+            )}
+          </dialog>
         )}
       </div>
     </div>

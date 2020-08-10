@@ -6,7 +6,7 @@ type Props = {
 } & ButtonElement
 export const Button = ({ variant, children, className, ...props }: Props) => {
   const base = !variant
-    ? 'px-2 py-1 text-gray-500 font-medium focused:bg-gray-100 hover:bg-gray-100 rounded'
+    ? 'px-2 py-1 text-gray-500 font-medium focus:bg-gray-100 hover:bg-gray-100 rounded'
     : ''
 
   const raised =
@@ -21,7 +21,9 @@ export const Button = ({ variant, children, className, ...props }: Props) => {
 
   return (
     <button
-      className={`${className || ''} ${base} ${raised} ${warn}`}
+      className={`${
+        className || ''
+      } ${base} ${raised} ${warn} focus:outline-none`}
       {...props}>
       {children}
     </button>

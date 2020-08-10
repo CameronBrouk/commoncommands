@@ -40,11 +40,9 @@ export const setPosition = (element: HTMLElement) => {
     width: parentWidth,
   } = parentElement.getBoundingClientRect()
 
-  const exceeds = isOutOfViewport(bounding)
+  if (exceedsBottom(bounding)) style.marginTop = `-${height + parentHeight}px`
+  if (exceedsRight(bounding)) style.marginLeft = `-${width - parentWidth}px`
 
-  if (exceeds.bottom) style.marginTop = `-${height + parentHeight}px`
-  if (exceeds.right) style.marginLeft = `-${width - parentWidth}px`
-
-  if (isOutOfViewport(element.getBoundingClientRect()).top)
-    adjustPosition(element)
+  // if (isOutOfViewport(element.getBoundingClientRect()).top)
+  //   adjustPosition(element)
 }
