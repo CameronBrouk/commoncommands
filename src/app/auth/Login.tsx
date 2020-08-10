@@ -1,17 +1,19 @@
 import React, { useState } from 'react'
 import firebase from 'firebase'
-import { useFirestore, User } from '../firebase'
 import { useForm } from 'react-hook-form'
+import { useRouter } from '../shared/hooks'
+import { Input } from '../shared/components'
 
 export const Login = ({ ...props }: any) => {
   const [error, setError] = useState('')
-  const { create, update } = useFirestore<User>('users')
+  const { navigateTo } = useRouter()
+  const formProps = useForm()
 
   type FormData = {
     email: string
     password: string
   }
-  const handleSubmit = (formData: FormData) => {
+  const onSubmit = (formData: FormData) => {
     firebase
       .auth()
       .signInWithEmailAndPassword(formData.email, formData.password)
@@ -21,14 +23,32 @@ export const Login = ({ ...props }: any) => {
   return (
     <div className={props.className}>
       <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={formProps.handleSubmit<FormData>(onSubmit)}>
+        <Input
+          form={formProps}
+          label='Email'
+          type='email'
+          name='email'
+          pattern={{
+            value: /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}/,
+            message: 'Invalid Email',
+          }}
+        />
+
+        <Input
+          form={formProps}
+          label='Password'
+          type='password'
+          name='password'
+        />
+
         <div className='buttons'>
-          {/* <Button type='submit' color='primary' variant='contained'>
+          <button className='btn-blue' type='submit'>
             Login
-          </Button> */}
-          {/* <Button type='button' onClick={() => history.push('/register')}>
+          </button>
+          <button className='btn-blue' onClick={() => navigateTo('/register')}>
             Register
-          </Button> */}
+          </button>
         </div>
       </form>
     </div>
