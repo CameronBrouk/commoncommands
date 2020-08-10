@@ -1,48 +1,62 @@
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
+import firebase from 'firebase'
 import { Link } from '../Link'
+import { usePermissions, CurrentUserContext } from 'app/firebase'
+import { Button } from 'app/shared/components'
 
 export const ProfileDropdown = () => {
+  const { isLoggedIn } = usePermissions()
+  const { user } = useContext(CurrentUserContext)
   const [isOpen, setIsOpen] = useState(false)
   // const ref = useClickOutside(isOpen, () => toggleOpen())
   const toggleOpen = () => setIsOpen(v => !v)
+
+  const logout = () => {
+    firebase.auth().signOut()
+  }
+
   return (
-    <div className='ml-4 flex items-center md:ml-6'>
-      {/* <!-- Profile dropdown --> */}
-      <div className='ml-3 relative'>
+    <div className='flex items-center ml-4 md:ml-6'>
+      <div className='relative ml-3'>
         <div>
           <button
-            className='max-w-xs flex items-center text-sm rounded-full focus:outline-none focus:shadow-outline'
+            className='flex items-center max-w-xs text-sm rounded-full focus:outline-none focus:shadow-outline'
             id='user-menu'
             aria-label='User menu'
             onClick={toggleOpen}
             aria-haspopup='true'>
             <img
-              className='h-8 w-8 rounded-full'
-              src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80'
+              className='w-8 h-8 border border-gray-500 rounded-full'
+              src={
+                user.photoURL ??
+                'https://urbaned.tcnj.edu/wp-content/uploads/sites/85/2019/10/placeholder-profile-1.png'
+              }
               alt=''
             />
           </button>
         </div>
-        {/* <!--
-              Profile dropdown panel, show/hide based on dropdown state.
 
-              Entering: "transition ease-out duration-100"
-                From: "transform opacity-0 scale-95"
-                To: "transform opacity-100 scale-100"
-              Leaving: "transition ease-in duration-75"
-                From: "transform opacity-100 scale-100"
-                To: "transform opacity-0 scale-95"
-            --> */}
         {isOpen && (
-          <div className='origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg'>
+          <div className='absolute right-0 mt-2 origin-top-right rounded-md shadow-lg w-36'>
             <div
-              className='py-1 rounded-md bg-white shadow-xs'
+              className='flex flex-col items-start justify-start px-3 py-2 bg-white rounded-md shadow-xs'
               role='menu'
               aria-orientation='vertical'
               aria-labelledby='user-menu'>
-              <Link title='Your Profile' role='menuitem' />
-              <Link title='Settings' role='menuitem' />
-              <Link title='Sign Out' role='menuitem' />
+              {isLoggedIn() && (
+                <>
+                  <Button role='menu-item'>Your Profile</Button>
+                  <Button role='menu-item' onClick={logout}>
+                    Logout
+                  </Button>
+                </>
+              )}
+              {!isLoggedIn() && (
+                <>
+                  <Button role='menu-item'>Login</Button>
+                  <Button role='menu-item'>Register</Button>
+                </>
+              )}
             </div>
           </div>
         )}
