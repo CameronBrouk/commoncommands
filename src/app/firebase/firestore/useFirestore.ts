@@ -26,7 +26,12 @@ export function useFirestore<T>(firestoreCollection: CollectionNames) {
 
   /** Create a new record */
   const create = async (id: string, data: T) =>
-    await getDocument(id).set({ ...data, createdAt: date(), updatedAt: date() })
+    await getDocument(id).set({
+      ...data,
+      createdAt: date(),
+      updatedAt: date(),
+      id: id,
+    })
 
   /** Update an existing record */
   const update = async (id: string, data: Partial<T>) =>
