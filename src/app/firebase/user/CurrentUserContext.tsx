@@ -21,7 +21,8 @@ const defaultPermissions: Permissions = {
 const defaultUser: Partial<firebase.User> = {
   uid: '',
   displayName: 'Unnamed User',
-  photoURL: '',
+  photoURL:
+    'https://urbaned.tcnj.edu/wp-content/uploads/sites/85/2019/10/placeholder-profile-1.png',
   phoneNumber: '',
   email: '',
   emailVerified: false,
