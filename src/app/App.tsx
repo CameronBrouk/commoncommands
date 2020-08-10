@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { BrowserRouter as Router } from 'react-router-dom'
+import { BrowserRouter } from 'react-router-dom'
 
 import { DesktopSidebar, MobileSidebar, Main, Header } from './layout'
 
@@ -11,24 +11,26 @@ const App = () => {
 
   return (
     <CurrentUserProvider>
-      <div className='h-screen flex overflow-hidden bg-gray-100'>
-        <MobileSidebar
-          isOpen={isSidebarOpen}
-          closeSidebar={() => setIsSidebarOpen(false)}
-        />
+      <BrowserRouter>
+        <div className='flex h-screen overflow-hidden bg-gray-100'>
+          <MobileSidebar
+            isOpen={isSidebarOpen}
+            closeSidebar={() => setIsSidebarOpen(false)}
+          />
 
-        {!isMobile && <DesktopSidebar />}
+          {!isMobile && <DesktopSidebar />}
 
-        <div className='flex flex-col w-0 flex-1 overflow-hidden'>
-          <Header openSidebar={() => setIsSidebarOpen(true)} />
+          <div className='flex flex-col flex-1 w-0 overflow-hidden'>
+            <Header openSidebar={() => setIsSidebarOpen(true)} />
 
-          <Main>
-            <div></div>
-            <div></div>
-            <div></div>
-          </Main>
+            <Main>
+              <div></div>
+              <div></div>
+              <div></div>
+            </Main>
+          </div>
         </div>
-      </div>
+      </BrowserRouter>
     </CurrentUserProvider>
   )
 }
