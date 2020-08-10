@@ -3,16 +3,3 @@
 @tailwind components;
 
 @tailwind utilities;
-
-.btn-blue {
-  @apply px-4;
-  @apply py-2;
-  @apply font-bold;
-  @apply text-white;
-  @apply bg-blue-500;
-  @apply rounded;
-}
-
-.btn-blue:hover {
-  @apply bg-blue-700;
-}

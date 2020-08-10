@@ -36674,6 +36674,17 @@ video {
   transition-delay: 1000ms;
 }
 
+.btn {
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  --text-opacity: 1;
+  color: #6b7280;
+  color: rgba(107, 114, 128, var(--text-opacity));
+  font-weight: 600;
+}
+
 .btn-blue {
   padding-left: 1rem;
   padding-right: 1rem;
