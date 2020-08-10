@@ -1,18 +1,17 @@
 import React, { useState, useContext, useRef, useEffect } from 'react'
-import firebase from 'firebase'
-import { Link } from '../Link'
 import { usePermissions, CurrentUserContext } from 'app/firebase'
 import { Button } from 'app/shared/components'
 import { useKeybind } from '../../shared/hooks'
 import { useClickOutside } from 'app/shared/components/Popup/useClickOutside'
 
 export const ProfileDropdown = () => {
-  const { user } = useContext(CurrentUserContext)
   const [isOpen, setIsOpen] = useState(false)
-  const firstButtonRef = useRef<HTMLButtonElement>(null)
-  useKeybind(['Escape'], () => setIsOpen(false))
-  const ref = useClickOutside(isOpen, () => toggleOpen())
+
   const { isLoggedIn } = usePermissions()
+  const { user, logout } = useContext(CurrentUserContext)
+
+  const ref = useClickOutside(isOpen, () => toggleOpen())
+  useKeybind(['Escape'], () => setIsOpen(false))
 
   useEffect(() => {
     if (ref?.current?.firstChild) {
@@ -22,10 +21,6 @@ export const ProfileDropdown = () => {
   }, [isOpen])
 
   const toggleOpen = () => setIsOpen(v => !v)
-
-  const logout = () => {
-    firebase.auth().signOut()
-  }
 
   return (
     <div className='flex items-center ml-4 md:ml-6'>
