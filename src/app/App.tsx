@@ -3,7 +3,8 @@ import { BrowserRouter } from 'react-router-dom'
 
 import { DesktopSidebar, MobileSidebar, Main, Header } from './layout'
 
-import { useUI, CurrentUserProvider } from './shared/hooks/'
+import { useUI } from './shared/hooks/'
+import { CurrentUserProvider } from './firebase'
 
 const App = () => {
   const { isMobile } = useUI()
