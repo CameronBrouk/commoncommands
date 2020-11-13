@@ -1,6 +1,8 @@
 import firebase from 'firebase'
+import { useContext } from 'react'
 import { docData, collectionData } from 'rxfire/firestore'
 import { map } from 'rxjs/operators'
+import { CurrentUserContext } from '../user'
 import { CollectionNames, Document } from './firestore.types'
 
 /**
@@ -11,6 +13,7 @@ import { CollectionNames, Document } from './firestore.types'
 export function useFirestore<T>(firestoreCollection: CollectionNames) {
   // Type Declarations
   type Doc = Document<T>
+  const { user } = useContext(CurrentUserContext)
 
   // shared / single use functions
   const collection = firebase.firestore().collection(firestoreCollection)
@@ -19,7 +22,7 @@ export function useFirestore<T>(firestoreCollection: CollectionNames) {
   const date = () => new Date().toDateString()
 
   // Exports
-  const list$ = collectionData<Doc>(collection).pipe(map(filterDeleted))
+  const list$ = collectionData<Document<T>>(collection).pipe(map(filterDeleted))
 
   /** Get a Single Document from Firestore */
   const getSingle$ = (id: string) => docData<Doc>(collection.doc(id))
@@ -32,6 +35,17 @@ export function useFirestore<T>(firestoreCollection: CollectionNames) {
       updatedAt: date(),
       id: id,
     })
+
+  const createWithId = async (data: T) => {
+    const doc = await collection.add({
+      ...data,
+      createdAt: date(),
+      updatedAt: date(),
+    })
+
+    getDocument(doc.id).update({ ...data, id: doc.id, owner: user.uid || '' })
+    return doc.id
+  }
 
   /** Update an existing record */
   const update = async (id: string, data: Partial<T>) =>
@@ -49,6 +63,7 @@ export function useFirestore<T>(firestoreCollection: CollectionNames) {
     list$,
     getSingle$,
     create,
+    createWithId,
     update,
     remove,
     hardDelete,
