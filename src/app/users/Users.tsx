@@ -12,10 +12,6 @@ export const Users = () => {
       {users.map((user, i) => (
         <UserCard user={user} index={i} />
       ))}
-      {/* <div></div> */}
-      {/* <div></div> */}
-      {/* <div></div> */}
-      {/* <div></div> */}
     </div>
   )
 }
