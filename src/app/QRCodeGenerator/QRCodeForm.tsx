@@ -82,14 +82,14 @@ export const QRCodeForm = () => {
 
           <Input form={form} label='Size' name='size' defaultValue='200' />
 
-          <Input
+          {/* <Input
             form={form}
             label='Level(M, Q, L, H)'
             maxLength={1}
             pattern={/[M|Q|L|H]/}
             name='level'
             defaultValue='L'
-          />
+          /> */}
 
           <Button variant='raised' type='submit' className='m-5'>
             Generate QR Code
@@ -104,7 +104,7 @@ export const QRCodeForm = () => {
                 bgColor={example.bgColor || '#eee'}
                 fgColor={example.fgColor || '#000'}
                 size={example.size}
-                level={example.level}
+                // level={example.level}
                 // renderAs={'svg'}
                 id='svg'
               />
