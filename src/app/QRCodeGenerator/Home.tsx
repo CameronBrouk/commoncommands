@@ -1,8 +1,9 @@
 import { Login, Register } from 'app/auth'
-import { usePermissions, useRouter } from 'app/shared/hooks'
+import { usePermissions, useRouter, useUI } from 'app/shared/hooks'
 import React, { useEffect, useState } from 'react'
 
 export const Home = () => {
+  const { isMobile } = useUI()
   const { navigateTo } = useRouter()
   const { isLoggedIn } = usePermissions()
   const [loggingIn, setLoggingIn] = useState(true)
@@ -12,7 +13,7 @@ export const Home = () => {
   })
 
   return (
-    <div className='mx-auto px-60'>
+    <div className={`${!isMobile ? 'mx-auto px-60' : 'px-2'}`}>
       <h1 className='flex justify-center py-4 text-3xl font-medium leading-6 text-cool-gray-900'>
         {loggingIn ? 'QRCadia Sign In' : 'Create An Account with QRCadia'}
       </h1>
