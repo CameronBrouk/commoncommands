@@ -1,7 +1,7 @@
 {
   "projects": {
-    "default": "common-commands",
-    "dev": "common-commands",
-    "prod": "common-commands"
+    "default": "alexander-qr",
+    "dev": "alexander-qr",
+    "prod": "alexander-qr"
   }
 }
