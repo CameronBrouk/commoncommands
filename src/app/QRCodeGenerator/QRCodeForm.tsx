@@ -7,7 +7,7 @@ import * as C from '../shared/components'
 import { useForm } from 'react-hook-form'
 import { Button, Input } from '../shared/components'
 import { useFirestore, Document, CurrentUserContext } from 'app/firebase'
-import { useRouter } from 'app/shared/hooks'
+import { useRouter, useUI } from 'app/shared/hooks'
 import { useObservable } from 'rxjs-hooks'
 
 export const QRCodeForm = () => {
@@ -16,6 +16,7 @@ export const QRCodeForm = () => {
   const [example, setExample] = useState<any>()
   const [svgURI, setSvgURI] = useState<string>()
   const { user } = useContext(CurrentUserContext)
+  const { isMobile } = useUI()
 
   useEffect(() => {
     const svg = document.getElementById('svg') as HTMLCanvasElement
@@ -49,13 +50,13 @@ export const QRCodeForm = () => {
   const validURL = /^(?:http(s)?:\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
 
   return (
-    <form onSubmit={form.handleSubmit(onSubmit)} className='mx-auto'>
+    <form onSubmit={form.handleSubmit(onSubmit)} className='mx-auto '>
       <h1 className='p-5 pl-0 text-xl font-semibold text-gray-900'>
         Generate QR Code
       </h1>
 
-      <div className='flex'>
-        <div className='w-1/2'>
+      <div className={`${isMobile ? '' : 'flex'}`}>
+        <div className={isMobile ? 'p-2' : 'w-1/2'}>
           <Input form={form} required label='Title' name='title' autoFocus />
 
           <Input
@@ -96,7 +97,17 @@ export const QRCodeForm = () => {
           </Button>
         </div>
 
-        <div className='m-10'>
+        <div className={isMobile ? 'm-2' : 'm-10'}>
+          <div className='mb-5'>
+            {svgURI && (
+              <a
+                href={svgURI}
+                download={`${example.title}`}
+                className='px-4 py-2 font-bold text-white bg-blue-500 rounded focus:shadow-outline'>
+                Download
+              </a>
+            )}
+          </div>
           {example && (
             <>
               <QRCode
@@ -109,14 +120,6 @@ export const QRCodeForm = () => {
                 id='svg'
               />
             </>
-          )}
-          {svgURI && (
-            <a
-              href={svgURI}
-              download={`${example.title}`}
-              className='px-4 py-2 font-bold text-white bg-blue-500 rounded focus:shadow-outline'>
-              Download
-            </a>
           )}
         </div>
       </div>
