@@ -5,7 +5,7 @@ import React, { useContext, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useObservable } from 'rxjs-hooks'
 import { Code } from './QRCode.types'
-import { tap } from 'rxjs/operators'
+import { tap, map } from 'rxjs/operators'
 import { DashboardCard } from './components'
 import { DashboardPanel } from './components/DashboardPanel'
 
@@ -25,13 +25,12 @@ export const Dashboard = () => {
   })
 
   const codes = useObservable<Document<Code>[]>(
-    () =>
-      list$.pipe(
-        tap(setTotalImpressions),
-        tap(impressions => {}),
-      ),
+    () => list$.pipe(map(filterCodesByUser), tap(setTotalImpressions)),
     [],
   )
+
+  const filterCodesByUser = (codes: Document<Code>[]) =>
+    codes.filter(code => code.owner === user.uid)
 
   const setTotalImpressions = (impressions: Document<Code>[]) =>
     setImpressionsInfo(info => ({
