@@ -2,7 +2,12 @@ import React, { useContext } from 'react'
 import { ProfileDropdown } from './ProfileDropdown'
 import { OpenSidebarButton } from './OpenSidebarButton'
 import { Button } from 'app/shared/components'
-import { CurrentUserContext, usePermissions, useRouter } from 'app/shared/hooks'
+import {
+  CurrentUserContext,
+  usePermissions,
+  useRouter,
+  useUI,
+} from 'app/shared/hooks'
 
 type Props = {
   openSidebar: () => void
@@ -12,6 +17,7 @@ export const Header = ({ openSidebar }: Props) => {
   const { logout } = useContext(CurrentUserContext)
   const { navigateTo } = useRouter()
   const { isLoggedIn, hasRole, hasClearance } = usePermissions()
+  const { isMobile } = useUI()
 
   const onSignout = () => {
     logout()
@@ -22,21 +28,23 @@ export const Header = ({ openSidebar }: Props) => {
 
   return (
     <div className='relative z-10 flex flex-shrink-0 h-16 bg-white shadow'>
-      <h1 className='flex items-center flex-1 p-5 text-xl font-bold'>
-        QRCadia
-      </h1>
+      {!isMobile && (
+        <h1 className='flex items-center flex-1 p-5 text-xl font-bold'>
+          QRCadia
+        </h1>
+      )}
 
       {hasClearance(1) && !hasRole('awaiting-approval') && (
         <div className='flex justify-center px-4'>
           <Button onClick={() => navigateTo('/create-qr')}>
-            Create a QR Code
+            {!isMobile ? 'Create a QR Code' : 'Create Code'}
           </Button>
           <Button onClick={() => navigateTo('/dashboard')}>
-            View Your Dashboard
+            {!isMobile ? 'View Your Dashboard' : 'Dashboard'}
           </Button>
           {hasRole('admin') && (
             <Button onClick={() => navigateTo('/users')}>
-              Edit Users From List
+              {!isMobile ? 'Edit Users From List' : 'Users'}
             </Button>
           )}
         </div>
@@ -45,7 +53,7 @@ export const Header = ({ openSidebar }: Props) => {
       {isLoggedIn() && (
         <div className='flex justify-end flex-1 px-4'>
           <Button onClick={onSignout} variant='raised' className='m-3'>
-            Sign Out
+            Logout
           </Button>
         </div>
       )}
