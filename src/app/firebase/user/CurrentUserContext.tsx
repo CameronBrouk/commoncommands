@@ -54,7 +54,7 @@ export const CurrentUserProvider: FC<{}> = ({ children }) => {
     return () => {
       permissions$.unsubscribe()
     }
-  }, [permissions])
+  }, [])
 
   useEffect(() => {
     const user$ = firebaseUser$
