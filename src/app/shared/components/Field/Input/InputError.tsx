@@ -17,7 +17,7 @@ export const InputError: FC<Props> = ({ error, fieldValue, validators }) => {
 
   const message = (type: keyof T.Validators) => {
     // @ts-ignore
-    if (U.isObj(validators[type])) return validators[type].message
+    // if (U.isObj(validators[type])) return validators[type].message
 
     if (type === 'required') return 'please fill out this field'
 
