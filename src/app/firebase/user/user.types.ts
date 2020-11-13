@@ -15,6 +15,7 @@ export type Permissions = {
 
 // Role is the most commonly used, but least specific Permission.
 // A 'visitor' is someone who has not logged in
+// a 'awaiting-approval' is a user who is logged in
 // a 'customer' is a user who is logged in
 // an 'employee' is a user who adds content to the site that 'customers' can use / see
 // an 'admin' is a user with full permissions
@@ -22,7 +23,7 @@ export type Permissions = {
 //          a doctor is an 'employee', they add their available times
 //          a patient is a 'customer', they sign up for apointment times that the doctors create
 //          an 'admin' is a manager, who views the schedules of all doctors and analytics/financial info
-export type Role = 'visitor' | 'customer' | 'employee' | 'admin'
+export type Role = 'visitor' | 'awaiting-approval' | 'approved' | 'admin'
 
 // Clearance is a simply way to show/hide elements that fit outside the 'role' heirarchy
 // EXAMPLE:  You have a button that lets you 'view as <role>'.
