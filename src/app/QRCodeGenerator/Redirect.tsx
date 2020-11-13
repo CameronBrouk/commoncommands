@@ -12,7 +12,7 @@ export const Redirect = () => {
     getSingle$(routeParams.id).pipe(
       tap(({ impressions, url }) =>
         update(routeParams.id, { impressions: impressions + 1 }).then(() => {
-          document.location.replace('https://' + url)
+          document.location.replace(url)
         }),
       ),
       first(),
