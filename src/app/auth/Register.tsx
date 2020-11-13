@@ -18,6 +18,7 @@ export const Register = ({ afterRegister, switchToSignin }: Props) => {
   type FormData = {
     email: string
     password: string
+    displayName: string
   }
   const onSubmit = (formData: FormData) => {
     auth
@@ -26,7 +27,7 @@ export const Register = ({ afterRegister, switchToSignin }: Props) => {
         if (user) {
           createPermissions(user.uid, {
             clearance: 1,
-            role: 'customer',
+            role: 'awaiting-approval',
             groups: ['user'],
           })
 
@@ -34,7 +35,7 @@ export const Register = ({ afterRegister, switchToSignin }: Props) => {
             email: user.email || '',
             emailVerified: user.emailVerified,
             uid: user.uid,
-            displayName: user.displayName || '',
+            displayName: user.displayName || formData.displayName || '',
             phone: user.phoneNumber || '',
             photoUrl: user.photoURL || '',
           })
@@ -49,11 +50,18 @@ export const Register = ({ afterRegister, switchToSignin }: Props) => {
     <form onSubmit={formProps.handleSubmit<FormData>(onSubmit)}>
       <Input
         form={formProps}
+        label='Display Name'
+        autoFocus
+        required
+        name='displayName'
+      />
+
+      <Input
+        form={formProps}
         label='Email'
         type='email'
         name='email'
         required
-        autoFocus
         pattern={{
           value: /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}/,
           message: 'Invalid Email',
@@ -72,7 +80,7 @@ export const Register = ({ afterRegister, switchToSignin }: Props) => {
       {error && <p className='text-red-400'>{error}</p>}
 
       <Button type='submit' variant='raised' className='mt-6'>
-        Login
+        Create an Account
       </Button>
 
       <Button type='button' onClick={switchToSignin} className='ml-2'>
