@@ -1,7 +1,8 @@
-export type CollectionNames = 'users' | 'permissions'
+export type CollectionNames = 'users' | 'permissions' | 'codes'
 
 export type Document<T> = T & {
   id: string
+  owner: string
   deleted?: boolean
   createdAt: string
   updatedAt: string
