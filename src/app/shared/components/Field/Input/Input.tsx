@@ -11,6 +11,7 @@ type InputProps = {
   autoFocus?: boolean
   autoComplete?: boolean
   className?: string
+  defaultValue?: string
 }
 
 type Props = C<InputProps & ValidationRules>
@@ -25,14 +26,14 @@ export const Input = ({ form, label, name, ...props }: Props) => {
       <label
         className='text-sm font-medium leading-5 text-gray-700 lock'
         htmlFor={label}>
-        <span>
-          <span>{validators.required && '*'}</span>
+        <span className='pl-2 m-0 text-gray-500 text-md'>
+          {/* <span>{validators.required && '*'}</span> */}
           {label}
           <span>{!validators.required && '(optional)'}</span>
         </span>
       </label>
 
-      <div className='mt-1 rounded-md shadow-sm'>
+      <div className='rounded-md shadow-sm'>
         <input
           className='block w-full px-3 py-2 placeholder-gray-400 transition duration-150 ease-in-out border border-gray-300 rounded-md appearance-none focus:outline-none focus:shadow-outline-blue focus:border-blue-300 sm:text-sm sm:leading-5'
           id={label}
@@ -46,8 +47,10 @@ export const Input = ({ form, label, name, ...props }: Props) => {
           })}
           type={type ? type : 'text'}
           name={name}
+          placeholder={label}
           autoFocus={autoFocus}
           autoComplete={autoComplete ? 'on' : 'off'}
+          defaultValue={props.defaultValue}
         />
       </div>
 
