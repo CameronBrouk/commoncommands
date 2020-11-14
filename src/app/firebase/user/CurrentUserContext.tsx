@@ -74,7 +74,7 @@ export const CurrentUserProvider: FC<{}> = ({ children }) => {
     return () => {
       user$.unsubscribe()
     }
-  }, [user])
+  }, [])
 
   const firebaseUser$ = authState(firebase.auth()).pipe(filter(user => !!user))
 
