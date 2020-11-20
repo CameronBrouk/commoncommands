@@ -96,7 +96,7 @@ export const DashboardCard = ({ qrCode, index }: Props) => {
             {...canvasSettings}
             value={`https://alexander-qr.web.app/redirect/${qrCode.id}`}
             id={`qrcode-${index}`}
-            // renderAs='svg'
+            renderAs='svg'
             size={200}
           />
         </div>
