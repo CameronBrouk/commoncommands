@@ -22,7 +22,7 @@ export const Search = ({ onSearch, ...props }: C<Props>) => {
           Search
         </label>
         <div className='relative w-full text-gray-400 focus-within:text-gray-600'>
-          <div className='absolute inset-y-0 left-0 flex items-center pointer-events-none'>
+          <div className='absolute inset-y-0 left-0 flex items-center ml-2 pointer-events-none'>
             <Icon iconName='search' />
           </div>
           <input
