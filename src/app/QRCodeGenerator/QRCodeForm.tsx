@@ -15,7 +15,6 @@ export const QRCodeForm = () => {
   const { createWithId, list$ } = useFirestore<Code>('codes')
   const [example, setExample] = useState<any>()
   const [svgURI, setSvgURI] = useState<string>()
-  const { user } = useContext(CurrentUserContext)
   const { isMobile } = useUI()
 
   useEffect(() => {
@@ -23,9 +22,6 @@ export const QRCodeForm = () => {
     if (!svg) return
     setSvgURI(getPngSrc(svg))
   })
-
-  const getCanvasSrc = (el: HTMLElement) =>
-    'data:image/svg+xml;base64,' + btoa(el.outerHTML)
 
   const getPngSrc = (el: HTMLCanvasElement) => el.toDataURL('image/png')
 
@@ -37,7 +33,6 @@ export const QRCodeForm = () => {
       impressions: 0,
       canvasSettings: canvasSettings,
     }
-    console.log(qrCode)
 
     const id = await createWithId(qrCode)
 
@@ -83,15 +78,6 @@ export const QRCodeForm = () => {
 
           <Input form={form} label='Size' name='size' defaultValue='200' />
 
-          {/* <Input
-            form={form}
-            label='Level(M, Q, L, H)'
-            maxLength={1}
-            pattern={/[M|Q|L|H]/}
-            name='level'
-            defaultValue='L'
-          /> */}
-
           <Button variant='raised' type='submit' className='m-5'>
             Generate QR Code
           </Button>
@@ -108,6 +94,7 @@ export const QRCodeForm = () => {
               </a>
             )}
           </div>
+
           {example && (
             <>
               <QRCode
@@ -115,8 +102,8 @@ export const QRCodeForm = () => {
                 bgColor={example.bgColor || '#eee'}
                 fgColor={example.fgColor || '#000'}
                 size={example.size}
-                // level={example.level}
-                // renderAs={'svg'}
+                level='H'
+                renderAs={'svg'}
                 id='svg'
               />
             </>
