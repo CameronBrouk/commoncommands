@@ -16,8 +16,8 @@ export const Search = ({ onSearch, ...props }: C<Props>) => {
   const placeholder = props.placeholder ? props.placeholder : 'Search'
 
   return (
-    <div className='flex-1 flex'>
-      <div className='w-full flex md:ml-0'>
+    <div className='flex flex-1'>
+      <div className='flex w-full md:ml-0'>
         <label htmlFor='search_field' className='sr-only'>
           Search
         </label>
@@ -29,7 +29,7 @@ export const Search = ({ onSearch, ...props }: C<Props>) => {
             ref={ref}
             id='search_field'
             onChange={onSearch}
-            className='block w-full h-full pl-8 pr-3 py-2 rounded-md text-gray-900 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 sm:text-sm'
+            className='block w-full h-full py-2 pl-8 pr-3 text-gray-900 placeholder-gray-500 rounded-md focus:outline-none focus:placeholder-gray-400 sm:text-sm'
             placeholder={`${placeholder} ${
               !isMobile ? '(Press the "/" to focus)' : ''
             }`}
