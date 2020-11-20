@@ -20,7 +20,7 @@ export const Home = () => {
       {loggingIn && (
         <Login
           switchToRegister={() => setLoggingIn(false)}
-          afterLogin={() => navigateTo('dashboard')}
+          afterLogin={() => navigateTo('/dashboard')}
         />
       )}
       {!loggingIn && (
