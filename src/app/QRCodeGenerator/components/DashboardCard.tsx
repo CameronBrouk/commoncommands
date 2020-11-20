@@ -75,7 +75,7 @@ export const DashboardCard = ({ qrCode, index }: Props) => {
               {title}
             </h3>
             <span className='flex-shrink-0 inline-block px-2 py-0.5 text-teal-800 text-xs leading-4 font-medium bg-teal-100 rounded-full'>
-              {impressions} impressions
+              {impressions} {`impression${impressions !== 1 ? 's' : ''}`}
             </span>
           </div>
           <p className='mt-1 text-sm leading-5 text-gray-500 truncate'>{url}</p>
@@ -85,7 +85,7 @@ export const DashboardCard = ({ qrCode, index }: Props) => {
           {...canvasSettings}
           value={`https://alexander-qr.web.app/redirect/${qrCode.id}`}
           size={50}
-          level='M'
+          level='H'
         />
 
         <div className='hidden'>
@@ -93,6 +93,7 @@ export const DashboardCard = ({ qrCode, index }: Props) => {
             {...canvasSettings}
             value={`https://alexander-qr.web.app/redirect/${qrCode.id}`}
             id={`qrcode-${index}`}
+            // renderAs='svg'
             size={200}
           />
         </div>
