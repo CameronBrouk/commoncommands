@@ -9,6 +9,8 @@ import { tap, map, filter } from 'rxjs/operators'
 import { DashboardCard } from './components'
 import { DashboardPanel } from './components/DashboardPanel'
 import { searchObject } from '../shared/utils'
+import { getMonth, isSameDay } from 'date-fns'
+import { isSameMonth } from 'date-fns/esm'
 
 type ImpressionsInfo = {
   total: number
@@ -32,7 +34,7 @@ export const Dashboard = () => {
     () =>
       list$.pipe(
         map(filterCodesByUser),
-        tap(setTotalImpressions),
+        tap(setImpressions),
         tap(codes => setFilteredCodes(codes)),
       ),
     [],
@@ -46,17 +48,20 @@ export const Dashboard = () => {
     setTimeout(() => setSearching(false), 300)
   }, [searchTerm])
 
-  console.log('test')
-
   const filterCodesByUser = (codes: Document<Code>[]) =>
     codes.filter(code => code.owner === user.uid)
 
-  const setTotalImpressions = (impressions: Document<Code>[]) =>
+  const getTotalImpressions = (codes: Document<Code>[]) =>
+    codes.reduce((total, code) => code.impressions + total, 0)
+
+  const setImpressions = (codes: Document<Code>[]) =>
     setImpressionsInfo(info => ({
-      ...info,
-      total: impressions.reduce(
-        (total, currImpression) => currImpression.impressions + total,
-        0,
+      total: getTotalImpressions(codes),
+      thisDay: getTotalImpressions(
+        codes.filter(code => isSameDay(new Date(code.updatedAt), new Date())),
+      ),
+      thisMonth: getTotalImpressions(
+        codes.filter(code => isSameMonth(new Date(code.updatedAt), new Date())),
       ),
     }))
 
@@ -75,8 +80,11 @@ export const Dashboard = () => {
 
           <div className='grid grid-cols-1 gap-5 mt-5 sm:grid-cols-2 lg:grid-cols-3'>
             <DashboardPanel title='All Time' value={impressionsInfo.total} />
-            <DashboardPanel title='Last 30 Days' value={2432} />
-            <DashboardPanel title='Today' value={78} />
+            <DashboardPanel
+              title='This Month'
+              value={impressionsInfo.thisMonth}
+            />
+            <DashboardPanel title='Today' value={impressionsInfo.thisDay} />
           </div>
 
           <h3 className='my-10 text-lg font-medium leading-6 text-gray-900 '>
