@@ -22,8 +22,11 @@ export const DashboardCard = ({ qrCode, index }: Props) => {
       `qrcode-${index}`,
     ) as HTMLCanvasElement
     if (!canvasEl) return
-    setDownloadHref(canvasEl.toDataURL('image/png'))
+    setDownloadHref(getCanvasSrc(canvasEl))
   })
+
+  const getCanvasSrc = (el: HTMLElement) =>
+    'data:image/svg+xml;base64,' + btoa(el.outerHTML)
 
   type FormData = {
     title: string

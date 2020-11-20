@@ -20,8 +20,11 @@ export const QRCodeForm = () => {
   useEffect(() => {
     const svg = document.getElementById('svg') as HTMLCanvasElement
     if (!svg) return
-    setSvgURI(getPngSrc(svg))
+    setSvgURI(getCanvasSrc(svg))
   })
+
+  const getCanvasSrc = (el: HTMLElement) =>
+    'data:image/svg+xml;base64,' + btoa(el.outerHTML)
 
   const getPngSrc = (el: HTMLCanvasElement) => el.toDataURL('image/png')
 
