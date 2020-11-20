@@ -72,7 +72,6 @@ export const DashboardCard = ({ qrCode, index }: Props) => {
         <div className='flex-1 truncate'>
           <div className='flex items-center space-x-3'>
             <h3 className='text-sm font-medium leading-5 text-gray-900 truncate'>
-              {/* Dr. Pepper Can */}
               {title}
             </h3>
             <span className='flex-shrink-0 inline-block px-2 py-0.5 text-teal-800 text-xs leading-4 font-medium bg-teal-100 rounded-full'>
