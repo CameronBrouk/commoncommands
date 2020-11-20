@@ -71,7 +71,7 @@ export const Dashboard = () => {
 
   return (
     <div>
-      <h1 className='p-5 text-xl font-semibold text-gray-900'>Dashboard</h1>
+      {/* <h1 className='p-5 text-xl font-semibold text-gray-900'>Dashboard</h1> */}
       <div className='mt-8'>
         <div className='max-w-6xl px-4 mx-auto sm:px-6 lg:px-8'>
           <h2 className='text-lg font-medium leading-6 text-cool-gray-900'>
@@ -87,13 +87,13 @@ export const Dashboard = () => {
             <DashboardPanel title='Today' value={impressionsInfo.thisDay} />
           </div>
 
-          <h3 className='my-10 text-lg font-medium leading-6 text-gray-900 '>
+          <h3 className='mt-10 mb-5 text-lg font-medium leading-6 text-gray-900 '>
             My QR Codes
           </h3>
           <div>
             <Search onSearch={filterCodes} />
           </div>
-          <div className='flex justify-center'>
+          <div className='flex justify-center mt-3'>
             {searching && (
               <img src={require('../../assets/loading-spinner.svg')} />
             )}
