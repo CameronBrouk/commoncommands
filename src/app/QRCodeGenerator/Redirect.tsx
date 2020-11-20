@@ -1,6 +1,6 @@
 import { useFirestore, useRouter } from 'app/shared/hooks'
 import { tap, first } from 'rxjs/operators'
-import React from 'react'
+import React, { useState } from 'react'
 import { Code } from './QRCode.types'
 import { useObservable } from 'rxjs-hooks'
 
@@ -10,14 +10,20 @@ export const Redirect = () => {
 
   useObservable(() =>
     getSingle$(routeParams.id).pipe(
-      tap(({ impressions, url }) =>
-        update(routeParams.id, { impressions: impressions + 1 }).then(() => {
-          document.location.replace(url)
-        }),
-      ),
+      tap(async ({ impressions, url }) => {
+        await update(routeParams.id, { impressions: impressions + 1 })
+        document.location.replace(getUrl(url))
+      }),
       first(),
     ),
   )
+
+  const getUrl = (url: string) => {
+    if (url.includes('https://')) return url
+    if (url.includes('http://')) return url.replace('http://', 'https://')
+    if (url.includes('www.')) return url.replace('www.', 'https://')
+    return 'https://' + url
+  }
 
   return (
     <div className='flex justify-center'>
