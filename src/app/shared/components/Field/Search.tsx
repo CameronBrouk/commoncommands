@@ -29,7 +29,7 @@ export const Search = ({ onSearch, ...props }: C<Props>) => {
             ref={ref}
             id='search_field'
             onChange={onSearch}
-            className='block w-full h-full py-2 pl-8 pr-3 text-gray-900 placeholder-gray-500 rounded-md focus:outline-none focus:placeholder-gray-400 sm:text-sm'
+            className='block w-full h-full py-4 pl-8 pr-3 text-gray-900 placeholder-gray-500 rounded-md focus:outline-none focus:placeholder-gray-400 sm:text-sm'
             placeholder={`${placeholder} ${
               !isMobile ? '(Press the "/" to focus)' : ''
             }`}
