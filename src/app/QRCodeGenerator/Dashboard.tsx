@@ -25,6 +25,7 @@ export const Dashboard = () => {
     thisDay: 0,
   })
   const [searchTerm, setSearchTerm] = useState('')
+  const [searching, setSearching] = useState(true)
   const [filteredCodes, setFilteredCodes] = useState<Document<Code>[]>([])
 
   const codes = useObservable<Document<Code>[]>(
@@ -38,8 +39,11 @@ export const Dashboard = () => {
   )
 
   useEffect(() => {
+    setSearching(true)
     if (searchTerm !== '')
       setFilteredCodes(codes.filter(code => searchObject(code, searchTerm)))
+
+    setTimeout(() => setSearching(false), 300)
   }, [searchTerm])
 
   console.log('test')
@@ -81,12 +85,18 @@ export const Dashboard = () => {
           <div>
             <Search onSearch={filterCodes} />
           </div>
+          <div className='flex justify-center'>
+            {searching && (
+              <img src={require('../../assets/loading-spinner.svg')} />
+            )}
+          </div>
           <ul className='grid grid-cols-1 gap-6 mt-5 sm:grid-cols-2 lg:grid-cols-3'>
-            {filteredCodes.map((code, i) => (
-              <div key={i}>
-                <DashboardCard qrCode={code} index={i} />
-              </div>
-            ))}
+            {!searching &&
+              filteredCodes.map((code, i) => (
+                <div key={i}>
+                  <DashboardCard qrCode={code} index={i} />
+                </div>
+              ))}
           </ul>
         </div>
       </div>
