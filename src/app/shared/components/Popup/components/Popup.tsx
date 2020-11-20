@@ -20,6 +20,7 @@ export interface Props {
  */
 export const Popup = ({ isVisible, onClose, ...props }: C<Props>) => {
   const ref = useClickOutside(isVisible, onClose)
+  // console.log('test')
 
   useEffect(() => {
     const divElement = ref?.current
@@ -35,7 +36,7 @@ export const Popup = ({ isVisible, onClose, ...props }: C<Props>) => {
           aria-expanded={isVisible}
           open={isVisible}
           ref={ref}
-          className={`fixed z-50 shadow-sm bg-white rounded-md border border-gray-300 ${props.className}`}>
+          className={`absolute z-50 shadow-sm bg-white rounded-md border border-gray-300 w-full max-w-md  ${props.className}`}>
           {props.children}
         </dialog>
       )}

@@ -12,7 +12,10 @@ import { Mask } from './Mask'
 export const Modal = (props: C<Props>) => {
   return (
     <>
-      <Popup {...props} className={`w-full max-w-md ${props.className}`} />
+      <Popup
+        {...props}
+        className={`w-full max-w-md m-auto flex-col ${props.className}`}
+      />
       <Mask isShowing={props.isVisible} />
     </>
   )
