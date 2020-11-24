@@ -12,7 +12,7 @@ type Props = {
 
 export const DashboardCard = ({ qrCode, index }: Props) => {
   const { title, impressions, canvasSettings, url } = qrCode
-  const { update } = useFirestore<Code>('codes')
+  const { update, remove } = useFirestore<Code>('codes')
   const [visible, setVisible] = useState(false)
   const [downloadHref, setDownloadHref] = useState<string>()
   const form = useForm()
@@ -67,6 +67,14 @@ export const DashboardCard = ({ qrCode, index }: Props) => {
             <Button variant='raised' type='submit' className='mx-4 mt-4'>
               Submit
             </Button>
+
+            <Button
+              onClick={() => remove(qrCode.id)}
+              variant='warn'
+              type='submit'
+              className='mx-4 mt-4'>
+              Delete QRCode
+            </Button>
           </form>
         </div>
       </Modal>
@@ -86,20 +94,12 @@ export const DashboardCard = ({ qrCode, index }: Props) => {
 
         <QRCode
           {...canvasSettings}
-          value={`https://alexander-qr.web.app/redirect/${qrCode.id}`}
+          value={`https://qrcadia.com/r/${qrCode.id}`}
           size={50}
-          level='H'
+          renderAs='svg'
+          level='L'
+          id={`qrcode-${index}`}
         />
-
-        <div className='hidden'>
-          <QRCode
-            {...canvasSettings}
-            value={`https://alexander-qr.web.app/redirect/${qrCode.id}`}
-            id={`qrcode-${index}`}
-            renderAs='svg'
-            size={200}
-          />
-        </div>
       </div>
 
       <div className='border-t border-gray-200'>
