@@ -15,7 +15,7 @@ export const Button = ({ variant, children, className, ...props }: Props) => {
       : ''
 
   const warn =
-    variant === 'raised'
+    variant === 'warn'
       ? 'px-4 py-2 font-bold text-white bg-red-500 rounded focus:shadow-outline'
       : ''
 
