@@ -27,6 +27,8 @@ export function useFirestore<T>(firestoreCollection: CollectionNames) {
   /** Get a Single Document from Firestore */
   const getSingle$ = (id: string) => docData<Doc>(collection.doc(id))
 
+  const createId = () => collection.doc().id
+
   /** Create a new record */
   const create = async (id: string, data: T) =>
     await getDocument(id).set({
@@ -67,5 +69,6 @@ export function useFirestore<T>(firestoreCollection: CollectionNames) {
     update,
     remove,
     hardDelete,
+    createId,
   }
 }
