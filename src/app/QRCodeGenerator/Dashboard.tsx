@@ -56,6 +56,7 @@ export const Dashboard = () => {
 
   const setImpressions = (codes: Document<Code>[]) =>
     setImpressionsInfo(info => ({
+      ...info,
       total: getTotalImpressions(codes),
       thisDay: getTotalImpressions(
         codes.filter(code => isSameDay(new Date(code.updatedAt), new Date())),
@@ -71,7 +72,6 @@ export const Dashboard = () => {
 
   return (
     <div>
-      {/* <h1 className='p-5 text-xl font-semibold text-gray-900'>Dashboard</h1> */}
       <div className='mt-8'>
         <div className='max-w-6xl px-4 mx-auto sm:px-6 lg:px-8'>
           <h2 className='text-lg font-medium leading-6 text-cool-gray-900'>
