@@ -23,7 +23,7 @@ export default function AppRoutes() {
         {hasRole('admin') ? <Users /> : <Dashboard />}
       </Route>
 
-      <Route path='/redirect/:id'>
+      <Route path='/r/:id'>
         <Redirect />
       </Route>
 
