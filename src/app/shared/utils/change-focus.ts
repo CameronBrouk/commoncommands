@@ -21,23 +21,27 @@ const getSiblingsFromRef = (ref: RefObject<HTMLElement>) => {
 }
 
 export const focusNextElementInList = (ref: RefObject<HTMLElement>) => {
+  // if (ref?.current !== document.activeElement) return
   const { nextSibling, firstElementInList } = getSiblingsFromRef(ref)
   if (nextSibling) nextSibling.focus()
   if (!nextSibling) firstElementInList.focus()
 }
 
 export const focusPreviousElementInList = (ref: RefObject<HTMLElement>) => {
-  const { nextSibling, firstElementInList } = getSiblingsFromRef(ref)
-  if (nextSibling) nextSibling.focus()
-  if (!nextSibling) firstElementInList.focus()
+  if (ref?.current !== document.activeElement) return
+  const { previousSibling, lastElementInList } = getSiblingsFromRef(ref)
+  if (previousSibling) previousSibling.focus()
+  if (!previousSibling) lastElementInList.focus()
 }
 
 export const focusNextElement = (ref: RefObject<HTMLElement>) => {
+  if (ref?.current !== document.activeElement) return
   const { nextSibling } = getSiblingsFromRef(ref)
   if (nextSibling) nextSibling.focus()
 }
 
 export const focusPreviousElement = (ref: RefObject<HTMLElement>) => {
+  if (ref?.current !== document.activeElement) return
   const { previousSibling } = getSiblingsFromRef(ref)
   if (previousSibling) previousSibling.focus()
 }
