@@ -12,25 +12,15 @@ interface Props {
 
 export const Menu: FC<Props> = ({ isVisible, onClose, children }) => {
   const menuRef = useClickOutside(isVisible, onClose)
-
-  useEffect(() => {
-    const divElement = menuRef?.current
-    if (divElement) setPosition(divElement)
-  })
-
   useKeybind(['Escape'], onClose)
 
   return (
-    <>
-      {isVisible && (
-        <dialog
-          aria-expanded={isVisible}
-          open={isVisible}
-          ref={menuRef}
-          className='absolute w-100 bg-white rounded-md border border-gray-200'>
-          {children}
-        </dialog>
-      )}
-    </>
+    <dialog
+      aria-expanded={isVisible}
+      open={isVisible}
+      ref={menuRef}
+      className='absolute w-full bg-white border border-t-0 border-gray-500 rounded-md focus-within:border-blue-300'>
+      {children}
+    </dialog>
   )
 }

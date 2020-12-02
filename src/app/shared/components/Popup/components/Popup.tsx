@@ -20,7 +20,6 @@ export interface Props {
  */
 export const Popup = ({ isVisible, onClose, ...props }: C<Props>) => {
   const ref = useClickOutside(isVisible, onClose)
-  // console.log('test')
 
   useEffect(() => {
     const divElement = ref?.current
