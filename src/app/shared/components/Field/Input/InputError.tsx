@@ -9,15 +9,15 @@ type Props = {
   validators: ValidationRules
 }
 
-export const InputError: FC<Props> = ({ error, fieldValue, validators }) => {
+export const InputError = ({ error, fieldValue, validators }: Props) => {
   const { minLength, maxLength, max, min, required, pattern } = validators
 
-  const hasError = (validatorType: keyof T.Validators) =>
+  const hasError = (validatorType: keyof ValidationRules) =>
     error && error.type && error.type === validatorType
 
-  const message = (type: keyof T.Validators) => {
+  const message = (type: keyof ValidationRules) => {
     // @ts-ignore
-    // if (U.isObj(validators[type])) return validators[type].message
+    if (validators[type].message) return validators[type].message
 
     if (type === 'required') return 'please fill out this field'
 
@@ -38,7 +38,9 @@ export const InputError: FC<Props> = ({ error, fieldValue, validators }) => {
       return `please enter ${fieldValue.length - maxLength} less characters`
   }
 
-  const E: FC = ({ children }) => <p className='text-red-400'>{children}</p>
+  const E: FC = ({ children }) => (
+    <p className='pl-2 text-red-400'>{children}</p>
+  )
 
   return (
     <>
@@ -48,6 +50,11 @@ export const InputError: FC<Props> = ({ error, fieldValue, validators }) => {
       {hasError('maxLength') && <E>{message('maxLength')}</E>}
       {hasError('minLength') && <E>{message('minLength')}</E>}
       {hasError('pattern') && <E>{message('pattern')}</E>}
+
+      {Object.entries(validators['validate'] || []).map(
+        ([message, validator]) =>
+          fieldValue && validator(fieldValue) && <E>{message}</E>,
+      )}
     </>
   )
 }
