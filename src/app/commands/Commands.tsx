@@ -18,7 +18,7 @@ export const Commands = ({ searchTerm }: { searchTerm: string }) => {
     if (systemId) {
       commandsQuery({
         where: [['systemRef', '==', systemId]],
-        limit: 10,
+        limit: 30,
       }).then(setCommands)
     }
   }, [currentSystem, systems])
