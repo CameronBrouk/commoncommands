@@ -38,7 +38,7 @@ export function useFirestore<T>(firestoreCollection: CollectionNames) {
       id: id,
     })
 
-  const createWithId = async (data: T) => {
+  const createWithId = async (data: Omit<T, 'id'>) => {
     const doc = await collection.add({
       ...data,
       createdAt: date(),
