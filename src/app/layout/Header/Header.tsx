@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { OpenSidebarButton } from './OpenSidebarButton'
 import { Button, Search } from 'app/shared/components'
 import { SignInModal } from 'app/auth'
+import { CurrentUserContext, usePermissions } from 'app/firebase'
 
 type Props = {
   openSidebar: () => void
@@ -10,6 +11,10 @@ type Props = {
 
 export const Header = ({ openSidebar, onSearch }: Props) => {
   const [loginVisible, setLoginVisible] = useState(false)
+  const [profileVisible, setProfileVisible] = useState(false)
+  const { hasRole, isLoggedIn } = usePermissions()
+  const { logout } = useContext(CurrentUserContext)
+
   return (
     <div className='relative z-10 flex flex-shrink-0 h-16 bg-white shadow'>
       <OpenSidebarButton openSidebar={openSidebar} />
@@ -18,8 +23,8 @@ export const Header = ({ openSidebar, onSearch }: Props) => {
         <Button
           variant='raised'
           className='m-3'
-          onClick={() => setLoginVisible(v => !v)}>
-          Login
+          onClick={() => (!isLoggedIn() ? setLoginVisible(v => !v) : logout())}>
+          {!isLoggedIn() ? 'Login' : 'Logout'}
         </Button>
       </div>
       <SignInModal
