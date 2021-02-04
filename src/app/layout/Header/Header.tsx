@@ -28,7 +28,8 @@ export const Header = ({ openSidebar, onSearch }: Props) => {
         </Button>
       </div>
       <SignInModal
-        isVisible={loginVisible}
+        title='Sign In / Register'
+        isOpen={loginVisible}
         onClose={() => setLoginVisible(false)}
       />
     </div>

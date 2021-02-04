@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
-import { Modal, Button } from 'app/shared/components'
+import { Modal } from 'app/shared/components/Modal/components/Modal'
 import { Login } from './Login'
 import { Register } from './Register'
 
 type Props = {
-  isVisible: boolean
+  isOpen: boolean
+  title: string
   onClose: () => void
 }
 export const SignInModal = (props: Props) => {
@@ -12,10 +13,10 @@ export const SignInModal = (props: Props) => {
 
   return (
     <Modal {...props}>
-      <h2 className='mt-6 text-3xl font-extrabold leading-9 text-center text-gray-900'>
+      {/* <h2 className='mt-6 text-3xl font-extrabold leading-9 text-center text-gray-900'>
         {modalState === 'login' && 'Sign in to your account'}
         {modalState === 'register' && 'Create an Account'}
-      </h2>
+      </h2> */}
 
       {modalState === 'login' && (
         <Login
