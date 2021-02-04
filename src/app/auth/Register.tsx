@@ -27,7 +27,7 @@ export const Register = ({ afterRegister, switchToSignin }: Props) => {
         if (user) {
           createPermissions(user.uid, {
             clearance: 1,
-            role: 'awaiting-approval',
+            role: 'customer',
             groups: ['user'],
           })
 

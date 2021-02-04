@@ -44,7 +44,7 @@ export function useFirestoreQuery<T>(collectionName: CollectionNames) {
       .get()
       .then(({ docs }) => docs.map(doc => doc.data() as Doc))
 
-  const query$ = from(query)
+  // const query$ = from(query)
 
-  return { query, query$ }
+  return { query }
 }

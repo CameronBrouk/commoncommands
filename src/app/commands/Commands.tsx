@@ -11,14 +11,14 @@ export const Commands = ({ searchTerm }: { searchTerm: string }) => {
   const [commands, setCommands] = useState<any[]>([])
   const { currentSystem, systems } = useContext(CommandsContext)
 
-  const { query$: commandsQuery$ } = useFirestoreQuery<Command>('commands')
+  const { query: commandsQuery } = useFirestoreQuery<Command>('commands')
 
   useEffect(() => {
     const systemId = getSystemId(currentSystem)(systems)
     if (systemId) {
-      commandsQuery$({
+      commandsQuery({
         where: [['systemRef', '==', systemId]],
-      }).subscribe(setCommands)
+      }).then(setCommands)
     }
   }, [currentSystem, systems])
 
@@ -47,13 +47,13 @@ const CommandListItem = ({ command }: { command: Command }) => {
   const [formOpen, setFormOpen] = useState(false)
 
   return (
-    <div className='flex p-4 md:m-1 bg-white border-b text-xs' key={command.id}>
-      <span className='md:w-64 font-bold pl-1 pr-5'>{command.name}</span>
+    <div className='flex p-4 text-xs bg-white border-b md:m-1' key={command.id}>
+      <span className='pl-1 pr-5 font-bold md:w-64'>{command.name}</span>
       <span className='text-left'>{command.description}</span>
       <span className='flex-grow' />
 
       <button
-        className='text-indigo-600 hover:text-indigo-900 text-right relative'
+        className='relative text-right text-indigo-600 hover:text-indigo-900'
         onClick={() => setFormOpen(true)}>
         Edit
       </button>

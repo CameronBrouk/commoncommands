@@ -1,7 +1,7 @@
 import React from 'react'
-import { Search } from './Search'
 import { ProfileDropdown } from './ProfileDropdown'
 import { OpenSidebarButton } from './OpenSidebarButton'
+import { Search } from 'app/shared/components'
 
 type Props = {
   openSidebar: () => void
@@ -9,9 +9,9 @@ type Props = {
 }
 export const Header = ({ openSidebar, onSearch }: Props) => {
   return (
-    <div className='relative z-10 flex-shrink-0 flex h-16 bg-white shadow'>
+    <div className='relative z-10 flex flex-shrink-0 h-16 bg-white shadow'>
       <OpenSidebarButton openSidebar={openSidebar} />
-      <div className='flex-1 px-4 flex justify-between'>
+      <div className='flex justify-between flex-1 px-4'>
         <Search onSearch={onSearch} />
         <ProfileDropdown />
       </div>

@@ -21,7 +21,7 @@ export const UserCard = ({ user }: Props) => {
   }
 
   const approveUser = () => {
-    update(user.id, { role: 'approved' })
+    update(user.id, { role: 'employee' })
   }
 
   const updatePermissions = (formData: FormData) => {
@@ -31,8 +31,8 @@ export const UserCard = ({ user }: Props) => {
 
   const getRoleColor = (role: Role) => {
     if (role === 'admin') return 'bg-blue-200'
-    if (role === 'approved') return 'bg-green-200'
-    if (role === 'awaiting-approval') return 'bg-yellow-200'
+    if (role === 'employee') return 'bg-green-200'
+    if (role === 'customer') return 'bg-yellow-200'
     return 'bg-teal-200'
   }
 
@@ -49,8 +49,8 @@ export const UserCard = ({ user }: Props) => {
               form={form}
               name='role'
               required
-              pattern={/approved|admin|awaiting-approval/}
-              label='Role(admin, approved, awaiting-approval)'
+              pattern={/employee|admin|customer/}
+              label='Role(admin, employee, customer)'
             />
             <Button variant='raised' type='submit' className='mx-4 mt-4'>
               Submit
@@ -67,7 +67,7 @@ export const UserCard = ({ user }: Props) => {
             </h3>
             <span
               className={`flex-shrink-0 inline-block px-2 py-0.5 text-teal-800 ${getRoleColor(
-                permissions?.role || 'approved',
+                permissions?.role || 'visitor',
               )} text-xs leading-4 font-medium rounded-full`}>
               {permissions?.role}
             </span>
@@ -80,22 +80,22 @@ export const UserCard = ({ user }: Props) => {
 
       <div
         className={`${
-          permissions?.role === 'awaiting-approval' && 'bg-green-500'
+          permissions?.role === 'customer' && 'bg-green-500'
         } border-t border-gray-200`}>
         <div className='flex -mt-px'>
           <div className='flex flex-1 w-0 border-r border-gray-200'>
             <button
               onClick={() =>
-                permissions?.role === 'awaiting-approval'
+                permissions?.role === 'customer'
                   ? approveUser()
                   : setVisible(true)
               }
               className='relative inline-flex items-center justify-center flex-1 w-0 py-4 -mr-px text-sm font-medium leading-5 text-gray-700 transition duration-150 ease-in-out border border-transparent rounded-bl-lg hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 focus:z-10'>
               <span
                 className={`ml-3 ${
-                  permissions?.role === 'awaiting-approval' && 'text-white'
+                  permissions?.role === 'customer' && 'text-white'
                 }`}>
-                {permissions?.role === 'awaiting-approval'
+                {permissions?.role === 'customer'
                   ? 'Approve User'
                   : 'Edit Permissions'}
               </span>
