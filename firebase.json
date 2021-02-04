@@ -13,7 +13,4 @@
       }
     ]
   }
-  // "storage": {
-  //   "rules": "firebase/storage.rules"
-  // }
 }

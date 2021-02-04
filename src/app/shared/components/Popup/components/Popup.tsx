@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 
 import { useClickOutside } from '../useClickOutside'
 import { setPosition } from '../helpers/popup.helpers'
-import { useTransition } from 'react-spring'
 
 import { useKeybind } from '../../../hooks/useKeybind'
 
@@ -13,7 +12,13 @@ export interface Props {
   transition?: any // this would be the paramaters for the 'useTransition' react spring hook
 }
 
-export const Popup: FC<Props> = ({ isVisible, onClose, ...props }) => {
+/**
+ * Shows a Generic Popup component if isVisible is set to true
+ * @param isVisible boolean value representing whether the popup is visible
+ * @param onClose function that sets the openState to false
+ * @param children the components you want to display inside the popover
+ */
+export const Popup = ({ isVisible, onClose, ...props }: C<Props>) => {
   const ref = useClickOutside(isVisible, onClose)
 
   useEffect(() => {
@@ -30,7 +35,7 @@ export const Popup: FC<Props> = ({ isVisible, onClose, ...props }) => {
           aria-expanded={isVisible}
           open={isVisible}
           ref={ref}
-          className={`absolute z-50 shadow-sm bg-white rounded-md border border-gray-300 ${props.className}`}>
+          className={`absolute z-50 shadow-sm bg-white rounded-md border border-gray-300 w-full max-w-md  ${props.className}`}>
           {props.children}
         </dialog>
       )}

@@ -1,47 +1,91 @@
-import React from 'react'
+import React, { useState } from 'react'
 import firebase from 'firebase'
 import { useForm } from 'react-hook-form'
-import { Permissions, useFirestore } from '../firebase'
+import { Permissions, useFirestore, User } from '../firebase'
+import { Input, Button } from 'app/shared/components'
 
 type Props = {
   afterRegister?: (user: any) => void
+  switchToSignin: () => void
 }
-
-export const Register: FC<Props> = props => {
+export const Register = ({ afterRegister, switchToSignin }: Props) => {
+  const [error, setError] = useState('')
   const { create: createPermissions } = useFirestore<Permissions>('permissions')
-  const { register, handleSubmit, watch, errors } = useForm()
+  const { create: createUser } = useFirestore<User>('users')
+  const formProps = useForm()
   const auth = firebase.auth()
 
-  const onSubmit = (formData: any) => {
+  type FormData = {
+    email: string
+    password: string
+    displayName: string
+  }
+  const onSubmit = (formData: FormData) => {
     auth
       .createUserWithEmailAndPassword(formData.email, formData.password)
       .then(({ user }) => {
         if (user) {
           createPermissions(user.uid, {
             clearance: 1,
-            role: 'customer',
+            role: 'awaiting-approval',
             groups: ['user'],
           })
 
-          !!props.afterRegister && props.afterRegister(user)
+          createUser(user.uid, {
+            email: user.email || '',
+            emailVerified: user.emailVerified,
+            uid: user.uid,
+            displayName: user.displayName || formData.displayName || '',
+            phone: user.phoneNumber || '',
+            photoUrl: user.photoURL || '',
+          })
+
+          if (!!afterRegister) afterRegister(user)
         }
       })
-      .catch(console.log)
+      .catch(({ message }) => setError(message))
   }
 
   return (
-    <div className={props.className}>
-      <h1>Register</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className='buttons'>
-          {/* <Button type='submit' color='primary' variant='contained'>
-            Register
-          </Button> */}
-          {/* <Button type='button' onClick={() => history.push('/login')}>
-            Login
-          </Button> */}
-        </div>
-      </form>
-    </div>
+    <form onSubmit={formProps.handleSubmit<FormData>(onSubmit)}>
+      <Input
+        form={formProps}
+        label='Display Name'
+        autoFocus
+        required
+        name='displayName'
+      />
+
+      <Input
+        form={formProps}
+        label='Email'
+        type='email'
+        name='email'
+        required
+        pattern={{
+          value: /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}/,
+          message: 'Invalid Email',
+        }}
+      />
+
+      <Input
+        form={formProps}
+        label='Password'
+        required
+        type='password'
+        name='password'
+        minLength={8}
+      />
+
+      {error && <p className='text-red-400'>{error}</p>}
+
+      <Button type='submit' variant='raised' className='mt-6'>
+        Create an Account
+      </Button>
+
+      <Button type='button' onClick={switchToSignin} className='ml-2'>
+        Sign In
+      </Button>
+    </form>
   )
 }

@@ -1,7 +1,7 @@
 {
   "projects": {
-    "default": "common-commands",
-    "dev": "common-commands",
-    "prod": "common-commands"
+    "default": "",
+    "dev": "",
+    "prod": ""
   }
 }

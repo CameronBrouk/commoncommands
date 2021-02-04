@@ -11,6 +11,8 @@ type FC<P = {}> = React.FC<P & DefaultProps>
 
 type ID = string
 
+type Fn = <T extends (...args) => any>(...args: T[]) => ReturnType<T>
+
 type ButtonElement = React.DetailedHTMLProps<
   React.ButtonHTMLAttributes<HTMLButtonElement>,
   HTMLButtonElement

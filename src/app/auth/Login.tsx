@@ -1,31 +1,61 @@
-import React from 'react'
+import React, { useState } from 'react'
 import firebase from 'firebase'
-import { useHistory } from 'react-router'
-// import { email, min } from '../../shared/utils/form-validators'
+import { useForm } from 'react-hook-form'
+import { Input, Button } from '../shared/components'
 
-export const Login = ({ ...props }: any) => {
-  const history = useHistory()
-  const auth = firebase.auth()
+type Props = {
+  afterLogin?: () => void
+  switchToRegister: () => void
+}
+export const Login = ({ switchToRegister, afterLogin = () => {} }: Props) => {
+  const [error, setError] = useState('')
+  const formProps = useForm()
 
-  const handleSubmit = (formData: any) => {
-    auth.signInWithEmailAndPassword(formData.email, formData.password)
-    // .then(user => enqueueSnackbar('Logged In!', { variant: 'success' }))
-    // .catch(error => enqueueSnackbar(error.message, { variant: 'error' }))
+  type FormData = {
+    email: string
+    password: string
+  }
+  const onSubmit = (formData: FormData) => {
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(formData.email, formData.password)
+      .then(afterLogin)
+      .catch(({ message }) => setError(message))
   }
 
   return (
-    <div className={props.className}>
-      <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
-        <div className='buttons'>
-          {/* <Button type='submit' color='primary' variant='contained'>
-            Login
-          </Button> */}
-          {/* <Button type='button' onClick={() => history.push('/register')}>
-            Register
-          </Button> */}
-        </div>
-      </form>
-    </div>
+    <form onSubmit={formProps.handleSubmit<FormData>(onSubmit)}>
+      <Input
+        form={formProps}
+        label='Email'
+        type='email'
+        name='email'
+        autoFocus
+        required
+        pattern={{
+          value: /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}/,
+          message: 'Invalid Email',
+        }}
+      />
+
+      <Input
+        form={formProps}
+        label='Password'
+        required
+        type='password'
+        name='password'
+        minLength={8}
+      />
+
+      {error && <p className='text-red-400'>{error}</p>}
+
+      <Button type='submit' variant='raised' className='mt-6'>
+        Login
+      </Button>
+
+      <Button type='button' className='ml-2' onClick={switchToRegister}>
+        Create an Account
+      </Button>
+    </form>
   )
 }

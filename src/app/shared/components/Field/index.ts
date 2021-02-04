@@ -1,2 +1,5 @@
 export * from './Input/Input'
 export * from './Option/Option'
+export * from './Search'
+export * from './Select/Select'
+export * from './Option/Option'

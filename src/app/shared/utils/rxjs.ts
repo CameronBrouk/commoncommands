@@ -1,4 +1,13 @@
-import { fromEvent, of, iif, Observable, empty, pipe } from 'rxjs'
+import { isNil } from './common-functions'
+import {
+  fromEvent,
+  of,
+  iif,
+  Observable,
+  empty,
+  pipe,
+  MonoTypeOperatorFunction,
+} from 'rxjs'
 import {
   map,
   tap,
@@ -22,7 +31,12 @@ export const fromRefEvent = (ref: RefObject<HTMLElement>, event: string) =>
 
 // Operators
 export const filterNil = <T>() =>
-  filter<NonNullable<T>>(value => value !== undefined && value !== null)
+  filter<T>(value => value !== undefined && value !== null)
+
+type mapFn = (el: any, i?: number, arr?: any[]) => any
+
+export const mapArray = <T extends any[], K extends mapFn>(fn: K) =>
+  map<T, ReturnType<K>[]>(array => array.map(fn))
 
 export const log = (tag = 'DEBUG') =>
   tap({

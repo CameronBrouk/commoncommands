@@ -31,7 +31,7 @@ export type Validators = {
   max?: number | [number, string]
   maxLength?: number | [number, string]
   required?: boolean | [boolean, string]
-  pattern?: RegExp | [string, string]
+  pattern?: RegExp | [RegExp, string]
   validate?: CustomValidator | [CustomValidator, string]
 }
 

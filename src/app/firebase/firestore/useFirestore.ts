@@ -1,7 +1,8 @@
 import firebase from 'firebase'
+import { useContext } from 'react'
 import { docData, collectionData } from 'rxfire/firestore'
-import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
+import { CurrentUserContext } from '../user'
 import { CollectionNames, Document } from './firestore.types'
 
 /**
@@ -10,41 +11,64 @@ import { CollectionNames, Document } from './firestore.types'
  * @param firestoreCollection name of the collection in firebase firestore
  */
 export function useFirestore<T>(firestoreCollection: CollectionNames) {
+  // Type Declarations
   type Doc = Document<T>
-  type Remove = (id: string) => Promise<void>
-  type HardDelete = (id: string) => Promise<void>
-  type Update = (id: string, data: Partial<Doc>) => Promise<void>
-  type Create = (id: string, data: T) => Promise<void>
-  type GetSingle$ = (id: string) => Observable<Doc>
-  type List$ = Observable<Omit<Doc, 'deleted'>[]>
+  const { user } = useContext(CurrentUserContext)
 
+  // shared / single use functions
   const collection = firebase.firestore().collection(firestoreCollection)
   const getDocument = (id: string) => collection.doc(id)
-
   const filterDeleted = (data: Doc[]) => data.filter(({ deleted }) => !deleted)
   const date = () => new Date().toDateString()
 
-  const list$: List$ = collectionData<Doc>(collection).pipe(map(filterDeleted))
+  // Exports
+  const list$ = collectionData<Document<T>>(collection).pipe(map(filterDeleted))
 
-  const getSingle$: GetSingle$ = id => docData<Doc>(collection.doc(id))
+  /** Get a Single Document from Firestore */
+  const getSingle$ = (id: string) => docData<Doc>(collection.doc(id))
 
-  const create: Create = async (id, data) =>
-    await getDocument(id).set({ ...data, createdAt: date(), updatedAt: date() })
+  const createId = () => collection.doc().id
 
-  const update: Update = async (id, data) =>
+  /** Create a new record */
+  const create = async (id: string, data: T) =>
+    await getDocument(id).set({
+      ...data,
+      createdAt: date(),
+      updatedAt: date(),
+      id: id,
+    })
+
+  const createWithId = async (data: T) => {
+    const doc = await collection.add({
+      ...data,
+      createdAt: date(),
+      updatedAt: date(),
+    })
+
+    getDocument(doc.id).update({ ...data, id: doc.id, owner: user.uid || '' })
+    return doc.id
+  }
+
+  /** Update an existing record */
+  const update = async (id: string, data: Partial<T>) =>
     await getDocument(id).update({ ...data, updatedAt: date() })
 
-  const remove: Remove = async id =>
+  /** Add the deleted flag to a record */
+  const remove = async (id: string) =>
     await getDocument(id).update({ deleted: true, updatedAt: date() })
 
-  const hardDelete: HardDelete = async id => await getDocument(id).delete()
+  /** delete the record from the database */
+  const hardDelete = async (id: string) => await getDocument(id).delete()
 
   return {
+    collection,
     list$,
     getSingle$,
     create,
+    createWithId,
     update,
     remove,
     hardDelete,
+    createId,
   }
 }

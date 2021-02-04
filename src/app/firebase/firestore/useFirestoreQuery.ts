@@ -1,18 +1,15 @@
+// @ts-nocheck
 import pipe from 'lodash/fp/flow'
 import { from } from 'rxjs'
 import firebase from 'firebase'
-import { Document, CollectionNames } from './firestore.types'
-
-type FirestoreWhere<T> = [keyof T, firebase.firestore.WhereFilterOp, any]
-type QueryParams<T> = {
-  where?: FirestoreWhere<T>[]
-  orderBy?: keyof T
-  limit?: number
-}
-
-type DocData = firebase.firestore.DocumentData
-type CollectionRef = firebase.firestore.CollectionReference<DocData>
-type FirestoreQuery = firebase.firestore.Query<DocData>
+import {
+  Document,
+  CollectionNames,
+  Keys,
+  FirestoreWhere,
+  QueryParams,
+  Query,
+} from './firestore.types'
 
 /**
  * Builds a filtered firestore query
@@ -20,41 +17,34 @@ type FirestoreQuery = firebase.firestore.Query<DocData>
  */
 export function useFirestoreQuery<T>(collectionName: CollectionNames) {
   type Doc = Document<T>
-  type Query = FirestoreQuery | CollectionRef
-
-  type BuildQuery = (queryParams: QueryParams<Doc>) => (query: Query) => Query
-  type Maybe = (fn: Function, param: any | undefined) => (query: Query) => Query
-  type Limit = (limit: number) => (query: Query) => Query
-  type Where = (filters: FirestoreWhere<Doc>[]) => (query: Query) => Query
-  type OrderBy = (attribute: keyof Doc) => (query: Query) => Query
 
   const collection = firebase.firestore().collection(collectionName)
 
-  const buildQuery: BuildQuery = queryParams =>
+  // Functions
+  const buildQuery = (queryParams: QueryParams<Doc>) =>
     pipe(
-      maybe(where, queryParams.where),
-      maybe(orderBy, queryParams.orderBy),
-      maybe(limit, queryParams.limit),
+      ifParam(queryParams.where, where),
+      ifParam(queryParams.orderBy, orderBy),
+      ifParam(queryParams.limit, limit),
     )
 
-  const limit: Limit = limit => query => query.limit(limit)
+  const limit = (limit: number) => (query: Query) => query.limit(limit)
 
-  // @ts-ignore // firestore native types don't work with generics
-  const orderBy: OrderBy = attribute => query => query.orderBy(attribute)
+  const orderBy = (attribute: Keys<Doc>) => (query: Query) =>
+    query.orderBy(attribute)
 
-  const where: Where = filters => query =>
-    // @ts-ignore // firestore native types don't work with generics
+  const where = (filters: FirestoreWhere<Doc>[]) => (query: Query) =>
     filters.reduce((newQuery, filter) => newQuery.where(...filter), query)
 
-  const maybe: Maybe = (fn, param) => query =>
+  const ifParam = (param: any | undefined, fn: Function) => (query: Query) =>
     !!param ? fn(param)(query) : query
 
-  const query$ = (queryParams: QueryParams<Doc>) =>
-    from(
-      buildQuery(queryParams)(collection)
-        .get()
-        .then(({ docs }) => docs.map(doc => doc.data())),
-    )
+  const query = async (queryParams: QueryParams<Doc>) =>
+    await buildQuery(queryParams)(collection)
+      .get()
+      .then(({ docs }) => docs.map(doc => doc.data() as Doc))
 
-  return { query$ }
+  const query$ = from(query)
+
+  return { query, query$ }
 }

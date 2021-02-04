@@ -23,3 +23,6 @@ yarn-debug.log*
 yarn-error.log*
 
 hosting*
+
+# Tailwind Generated CSS file
+src/tailwind.generated.css

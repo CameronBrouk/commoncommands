@@ -1,6 +1,11 @@
 import { useEffect } from 'react'
-import { tap, pluck } from 'rxjs/operators'
+import { fromEvent } from 'rxjs'
+import { tap, pluck, filter } from 'rxjs/operators'
 import { fromRefEvent, onlyKeys } from '../../../utils/rxjs'
+import {
+  focusNextElementInList,
+  focusPreviousElementInList,
+} from '../../../utils/change-focus'
 /**
  *  This Hook Gives a button element the same functionality
  *  as the HTML Native <option> element
@@ -19,18 +24,19 @@ const useOption = (
   handleSelect: Function,
 ) => {
   useEffect(() => {
-    const keyEvents$ = fromRefEvent(buttonRef, 'keydown')
+    // @ts-ignore
+    const keyEvents$ = fromEvent(buttonRef.current, 'keydown')
       .pipe(
         pluck('key'),
         onlyKeys('Enter', 'Space', 'ArrowUp', 'Tab', 'ArrowDown'),
         tap(key => {
           const { current: buttonElement } = buttonRef
           if (!buttonElement) return
+          if (buttonElement !== document.activeElement) return
 
           if (key === 'Enter' || key === 'Space') handleSelect()
-          if (key === 'ArrowUp') focusPreviousOption(buttonElement)
-          if (key === 'Tab' || key === 'ArrowDown')
-            focusNextOption(buttonElement)
+          if (key === 'ArrowUp') focusPreviousElementInList(buttonRef)
+          if (key === 'ArrowDown') focusNextElementInList(buttonRef)
         }),
       )
       .subscribe()
@@ -39,22 +45,6 @@ const useOption = (
       keyEvents$.unsubscribe()
     }
   }, [buttonRef, handleSelect])
-
-  const focusNextOption = (option: HTMLButtonElement) => {
-    const nextOption = option.nextSibling as HTMLElement
-    const listContainer = option.parentElement as HTMLElement
-    const firstOption = listContainer.firstChild as HTMLElement
-    if (nextOption) nextOption.focus()
-    if (!nextOption) firstOption.focus()
-  }
-
-  const focusPreviousOption = (option: HTMLButtonElement) => {
-    const previousOption = option.previousSibling as HTMLElement
-    const listContainer = option.parentElement as HTMLElement
-    const lastOption = listContainer.lastChild as HTMLElement
-    if (previousOption) previousOption.focus()
-    if (!previousOption) lastOption.focus()
-  }
 }
 
 export default useOption
