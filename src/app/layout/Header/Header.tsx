@@ -24,20 +24,18 @@ export const Header = ({ openSidebar }: Props) => {
     navigateTo('/')
   }
 
-  if (!isLoggedIn()) return null
+  // if (!isLoggedIn()) return null
 
   return (
     <div className='relative z-10 flex flex-shrink-0 h-16 bg-white shadow'>
       {!isMobile && (
-        <h1 className='flex items-center flex-1 p-5 text-xl font-bold'>
-          QRCadia
-        </h1>
+        <h1 className='flex items-center flex-1 p-5 text-xl font-bold'>Home</h1>
       )}
 
       {hasClearance(1) && !hasRole('awaiting-approval') && (
         <div className='flex justify-center px-4'>
           <Button onClick={() => navigateTo('/create-qr')}>
-            {!isMobile ? 'Create a QR Code' : 'Create Code'}
+            {!isMobile ? 'Create a Something' : 'Create Something'}
           </Button>
           <Button onClick={() => navigateTo('/dashboard')}>
             {!isMobile ? 'View Your Dashboard' : 'Dashboard'}

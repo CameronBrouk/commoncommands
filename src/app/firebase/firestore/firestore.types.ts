@@ -1,4 +1,4 @@
-export type CollectionNames = 'users' | 'permissions' | 'codes'
+export type CollectionNames = 'users' | 'permissions'
 
 export type Document<T> = T & {
   id: string

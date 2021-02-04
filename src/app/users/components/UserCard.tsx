@@ -1,7 +1,6 @@
 import { Button, Input, Modal } from 'app/shared/components'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import QRCode from 'qrcode.react'
 import { Document, useFirestore, User, Permissions, Role } from '../../firebase'
 import { useObservable } from 'rxjs-hooks'
 
@@ -10,7 +9,7 @@ type Props = {
   index: number
 }
 
-export const UserCard = ({ user, index }: Props) => {
+export const UserCard = ({ user }: Props) => {
   const { update, getSingle$ } = useFirestore<Permissions>('permissions')
   const [visible, setVisible] = useState(false)
   const form = useForm()
@@ -25,7 +24,7 @@ export const UserCard = ({ user, index }: Props) => {
     update(user.id, { role: 'approved' })
   }
 
-  const updateCode = (formData: FormData) => {
+  const updatePermissions = (formData: FormData) => {
     update(user.id, formData)
     setVisible(false)
   }
@@ -45,7 +44,7 @@ export const UserCard = ({ user, index }: Props) => {
         </h2>
 
         <div className='mt-5'>
-          <form onSubmit={form.handleSubmit<FormData>(updateCode)}>
+          <form onSubmit={form.handleSubmit<FormData>(updatePermissions)}>
             <Input
               form={form}
               name='role'

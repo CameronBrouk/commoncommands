@@ -1,11 +1,7 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
+import App from './App'
 import { usePermissions } from './firebase'
-import { AwaitingApproval } from './QRCodeGenerator/AwaitingApproval'
-import { Dashboard } from './QRCodeGenerator/Dashboard'
-import { Home } from './QRCodeGenerator/Home'
-import { QRCodeForm } from './QRCodeGenerator/QRCodeForm'
-import { Redirect } from './QRCodeGenerator/Redirect'
 import { Users } from './users/Users'
 
 export default function AppRoutes() {
@@ -13,26 +9,16 @@ export default function AppRoutes() {
 
   return (
     <Switch>
-      <Route path='/create-qr'>
-        {isLoggedIn() ? <QRCodeForm /> : <Home />}
-      </Route>
+      <Route path='/dashboard'>{isLoggedIn() ? <App /> : <App />}</Route>
 
-      <Route path='/dashboard'>{isLoggedIn() ? <Dashboard /> : <Home />}</Route>
-
-      <Route path='/users'>
-        {hasRole('admin') ? <Users /> : <Dashboard />}
-      </Route>
-
-      <Route path='/r/:id'>
-        <Redirect />
-      </Route>
-
-      <Route path='/awaiting-approval'>
-        <AwaitingApproval />
-      </Route>
+      <Route path='/users'>{hasRole('admin') ? <Users /> : <App />}</Route>
 
       <Route path='/'>
-        <Home />
+        <App />
+      </Route>
+
+      <Route path='/home'>
+        <App />
       </Route>
     </Switch>
   )

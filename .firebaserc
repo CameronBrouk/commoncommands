@@ -1,7 +1,7 @@
 {
   "projects": {
-    "default": "alexander-qr",
-    "dev": "alexander-qr",
-    "prod": "alexander-qr"
+    "default": "",
+    "dev": "",
+    "prod": ""
   }
 }

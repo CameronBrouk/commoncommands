@@ -1,11 +1,10 @@
 import React, { useState } from 'react'
 import { BrowserRouter } from 'react-router-dom'
 
-import { Main, Header } from './layout'
+import { Main, Header, DesktopSidebar } from './layout'
 
 import { useUI } from './shared/hooks/'
 import { CurrentUserProvider } from './firebase'
-import AppRoutes from './Routes'
 
 const App = () => {
   const { isMobile } = useUI()
@@ -18,9 +17,9 @@ const App = () => {
           <div className='flex flex-col flex-1 w-0 overflow-hidden'>
             <Header openSidebar={() => setIsSidebarOpen(true)} />
 
-            <Main>
-              <AppRoutes />
-            </Main>
+            {/* {isSidebarOpen && <DesktopSidebar />} */}
+
+            <Main>{/* <AppRoutes /> */}</Main>
           </div>
         </div>
       </BrowserRouter>
