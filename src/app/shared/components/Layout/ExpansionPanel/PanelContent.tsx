@@ -11,14 +11,13 @@ export const PanelContent: FC<Props> = ({ children, title }) => {
 
   return (
     <dl>
-      <dt className='text-lg leading-7'>
-        {/* <!-- Expand/collapse question button --> */}
-        <div className='text-left w-full flex justify-between items-start text-gray-400 focus:outline-none focus:text-gray-900'>
-          <button className='font-medium text-gray-900' onClick={toggleOpen}>
-            {title}
-          </button>
-          <span className='ml-6 h-7 flex items-center'>
-            <button onClick={() => setIsOpen(visible => !visible)}>
+      <dt className='leading-7'>
+        <button
+          onClick={toggleOpen}
+          className='flex items-start justify-between w-full p-2 text-left text-gray-400 transition-all duration-500 cursor-pointer focus:outline-none focus:text-gray-900 hover:bg-gray-200'>
+          <h2 className='font-medium text-gray-900'>{title}</h2>
+          <span className='flex items-center ml-6 h-7'>
+            <div>
               <svg
                 className={`${svgClasses} h-6 w-6 transform`}
                 fill='none'
@@ -31,11 +30,11 @@ export const PanelContent: FC<Props> = ({ children, title }) => {
                   d='M19 9l-7 7-7-7'
                 />
               </svg>
-            </button>
+            </div>
           </span>
-        </div>
+        </button>
       </dt>
-      {isOpen && <dd className='mt-2 pr-12'>{children}</dd>}
+      {isOpen && <dd className='flex-auto mt-3'>{children}</dd>}
     </dl>
   )
 }

@@ -18,7 +18,7 @@ const App = () => {
   return (
     <CurrentUserProvider>
       <CommandsProvider>
-        <div className='h-screen flex overflow-hidden bg-gray-100'>
+        <div className='flex h-screen overflow-hidden'>
           <MobileSidebar
             isOpen={isSidebarOpen}
             closeSidebar={() => setIsSidebarOpen(false)}
@@ -26,7 +26,7 @@ const App = () => {
 
           {!isMobile && <DesktopSidebar />}
 
-          <div className='flex flex-col w-0 flex-1 overflow-hidden'>
+          <div className='flex flex-col flex-1 w-0 overflow-hidden'>
             <Header
               openSidebar={() => setIsSidebarOpen(true)}
               onSearch={onSearch}
